@@ -1,0 +1,43 @@
+<?xml version="1.0" enIDing="UTF-8"?>
+<riassunti xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="riassunti.xsd">
+	<riassunto condivisione="public">
+		<ID>928731</ID>
+		<titolo>Dimostrazione della conservatività del campo elettrostatico</titolo>
+		<emailStudente>mario@email.com</emailStudente>
+		<data>2017-04-01</data>
+		<orario>18:11:02</orario>
+		<contenuto>
+			<testo>Il campo elettrostatico si definisce conservativo se la circuitazione del campo...</testo>
+			<!--<immagine></immagine>-->
+		</contenuto>
+		<visualizzazioni>123</visualizzazioni>
+		<tags>
+			<nomeTag>Fisica 2</nomeTag>
+			<nomeTag>Campo elettrostatico</nomeTag>
+			<nomeTag>Conservatività del campo elettrostatico</nomeTag>
+		</tags>
+		<preferiti>
+			<emailPreferiti>carlo@email.com</emailPreferiti>
+			<emailPreferiti>gertrude@email.com</emailPreferiti>
+			<emailPreferiti>pippo@email.com</emailPreferiti>
+		</preferiti>
+	</riassunto>
+	
+	<riassunto condivisione="private">
+		<ID>123456</ID>
+		<titolo>Prova titolo</titolo>
+		<emailStudente>prova@email.com</emailStudente>
+		<data>2017-03-21</data>
+		<orario>21:34:22</orario>
+		<contenuto>
+			<immagine>http://www.imagedatabase.com/image209192929282.jpg</immagine>
+		</contenuto>
+		<visualizzazioni>0</visualizzazioni>
+		<tags>
+			<nomeTag>tag1</nomeTag>
+			<nomeTag>tag2</nomeTag>
+			<nomeTag>tag3</nomeTag>
+		</tags>
+		<preferiti></preferiti>
+	</riassunto>
+</riassunti>

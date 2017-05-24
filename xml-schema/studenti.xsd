@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<!-- definition of simple element -->
+	<xsd:element name="nome" type="xsd:string" />
+	<xsd:element name="cognome" type="xsd:string" />
+	<xsd:element name="email" type="xsd:string" />
+	<xsd:element name="nomeMateria" type="xsd:string" />
+	<xsd:element name="valoreStudio" type="xsd:float" />
+	<xsd:element name="oggettoStudio" type="xsd:string" />
+	<xsd:element name="dataScadenza" type="xsd:date" />
+	<xsd:element name="nGiorniRipasso" type="xsd:nonNegativeInteger" />
+	<xsd:element name="valoreStudiato" type="xsd:float" />
+	<xsd:element name="riassuntoIDVisualizzato" type="xsd:string" />
+	<xsd:element name="riassuntoIDPreferito" type="xsd:string" />
+	<xsd:element name="reputation" type="xsd:nonNegativeInteger" />
+	<xsd:element name="coins" type="xsd:nonNegativeInteger" />
+
+	<!-- definition of attributes -->
+	<xsd:attribute name="status">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string"> 
+				<xsd:enumeration value="planned" />
+				<xsd:enumeration value="unplanned" />
+				<xsd:enumeration value="archived" />
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:attribute>
+	
+	<xsd:attribute name="materiaRiassunto">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string" />
+		</xsd:simpleType>
+	</xsd:attribute>
+
+	<!-- definition of complex elements -->
+	<xsd:element name="materie">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="materia" minOccurs="0" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="materia">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="nomeMateria" />
+				<xsd:element ref="valoreStudio" minOccurs="0" maxOccurs="1" />
+				<xsd:element ref="oggettoStudio" minOccurs="0" maxOccurs="1" />
+				<xsd:element ref="dataScadenza" minOccurs="0" maxOccurs="1" />
+				<xsd:element ref="nGiorniRipasso" minOccurs="0" maxOccurs="1" />
+				<xsd:element ref="valoreStudiato" minOccurs="0" maxOccurs="1" />
+			</xsd:sequence>
+			<xsd:attribute ref="status" />
+		</xsd:complexType>
+	</xsd:element>
+	
+	
+	
+	<xsd:element name="riassunti">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="creati" />
+				<xsd:element ref="visualizzati" />
+				<xsd:element ref="preferiti" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="creati">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="riassuntoIDCreato" minOccurs="0" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	
+		<xsd:element name="riassuntoIDCreato">
+			<xsd:complexType>
+			    <xsd:simpleContent>
+					<xsd:extension base="xsd:string">
+						<xsd:attribute ref="materiaRiassunto" use="required"/>
+					</xsd:extension>
+				</xsd:simpleContent>
+			</xsd:complexType>
+	</xsd:element>
+	
+	
+	<xsd:element name="visualizzati">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="riassuntoIDVisualizzato" minOccurs="0" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="preferiti">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="riassuntoIDPreferito" minOccurs="0" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="studente">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="nome" />
+				<xsd:element ref="cognome" />
+				<xsd:element ref="email" />
+				<xsd:element ref="materie" />
+				<xsd:element ref="riassunti" />
+				<xsd:element ref="reputation" />
+				<xsd:element ref="coins" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="studenti">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="studente"  minOccurs="0" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>
+

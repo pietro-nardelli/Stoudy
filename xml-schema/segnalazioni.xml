@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<segnalazioni xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="segnalazioni.xsd">
+	<segnalazione>
+		<riassuntoID>123412</riassuntoID>
+		<emailStudente>marco@gmail.com</emailStudente>
+		<emailAdmin>admin2@gmail.com</emailAdmin>
+	</segnalazione>
+	<segnalazione>
+	<riassuntoID>123491</riassuntoID>
+		<emailStudente>mario@gmail.com</emailStudente>
+		<emailStudente>maria@gmail.com</emailStudente>
+		<emailAdmin>admin2@gmail.com</emailAdmin>
+	</segnalazione>
+	
+	<segnalazione>
+		<riassuntoID>123411</riassuntoID>
+		<emailStudente>pietro@gmail.com</emailStudente>
+		<emailStudente>filippo@gmail.com</emailStudente>
+		<emailStudente>gianna@gmail.com</emailStudente>
+		<emailAdmin>admin1@gmail.com</emailAdmin>
+	</segnalazione>
+</segnalazioni>

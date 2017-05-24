@@ -1,0 +1,27 @@
+<?xml version="1.0" enIDing="UTF-8" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<!-- definition of simple element -->
+	<xsd:element name="nome" type="xsd:string" />
+	<xsd:element name="riassuntoID" type="xsd:string" />
+
+	<!-- definition of attributes -->
+	<!-- definition of complex elements -->
+	<xsd:element name="tag">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="nome" />
+				<xsd:element ref="riassuntoID" minOccurs="1" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="tags">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="tag"  minOccurs="0" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>
+

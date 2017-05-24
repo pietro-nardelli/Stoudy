@@ -1,0 +1,84 @@
+<?xml version="1.0" enIDing="UTF-8" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<!-- definition of simple element -->
+	<xsd:element name="titolo" type="xsd:string" />
+	<xsd:element name="emailStudente" type="xsd:string" />
+	<xsd:element name="data" type="xsd:date" />
+	<xsd:element name="orario" type="xsd:time" />
+	<xsd:element name="testo" type="xsd:string" />
+	<xsd:element name="immagine" type="xsd:string" />
+	<xsd:element name="emailPreferiti" type="xsd:string" />
+	<xsd:element name="visualizzazioni" type="xsd:nonNegativeInteger" />
+	<xsd:element name="nomeTag" type="xsd:string" />
+
+	<!-- definition of attributes -->
+	<xsd:attribute name="condivisione">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:enumeration value="private" />
+				<xsd:enumeration value="public" />
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:attribute>
+
+	<!-- definition of complex elements -->
+		<xsd:element name="ID">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:pattern value="[0-9][0-9][0-9][0-9][0-9][0-9]"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+
+	<xsd:element name="contenuto">
+		<xsd:complexType>
+			<xsd:choice>
+				<xsd:element ref="testo" />
+				<xsd:element ref="immagine" />
+			</xsd:choice>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="tags">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="nomeTag" minOccurs="1" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="preferiti">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="emailPreferiti"  minOccurs="0" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="riassunto">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="ID" />
+				<xsd:element ref="titolo" />
+				<xsd:element ref="emailStudente" />
+				<xsd:element ref="data" />
+				<xsd:element ref="orario" />
+				<xsd:element ref="contenuto" />
+				<xsd:element ref="visualizzazioni" />
+				<xsd:element ref="tags" />
+				<xsd:element ref="preferiti" />
+			</xsd:sequence>
+			<xsd:attribute ref="condivisione" />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="riassunti">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="riassunto"  minOccurs="0" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>
+

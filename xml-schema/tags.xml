@@ -1,0 +1,21 @@
+<?xml version="1.0" enIDing="UTF-8"?>
+<tags xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="tags.xsd">
+	<tag>
+		<nome>Conservatività del campo elettrostatico</nome>
+		<riassuntoID>123412</riassuntoID>
+	</tag>
+	<tag>
+		<nome>Campo elettrostatico</nome>
+		<riassuntoID>123411</riassuntoID>
+		<riassuntoID>123423</riassuntoID>
+		<riassuntoID>123452</riassuntoID>
+	</tag>
+	<tag>
+		<nome>HTML5</nome>
+		<riassuntoID>198762</riassuntoID>
+		<riassuntoID>123987</riassuntoID>
+		<riassuntoID>123428</riassuntoID>
+		<riassuntoID>123222</riassuntoID>
+		<riassuntoID>123466</riassuntoID>
+	</tag>
+</tags>
