@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?php echo '<?xml version="1.0" encoding="UTF-8"?>'; ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
@@ -31,17 +31,17 @@
 	if (mysqli_connect_errno()) { 
 		?>
 		<h1>Impossibile collegarsi al server!
-			<div style="font-size: 75%; font-weight: normal;">Per favore riprovare più tardi.</div>
+			<div style="font-size: 75%; font-weight: normal;">Per favore riprovare piï¿½ tardi.</div>
 		</h1>
 		<?php
 		exit();
-		}
+	}
 
 	//Se non viene selezionato alcun database, allora forniamo un errore. 
 	if (!mysqli_select_db ($connection, $db_name)) { 
 		?>
 		<h1>Problemi nel selezionare il database!
-			<div style="font-size: 75%; font-weight: normal;">Per favore riprovare più tardi.</div>
+			<div style="font-size: 75%; font-weight: normal;">Per favore riprovare piï¿½ tardi.</div>
 		</h1>
 		<?php
 		exit();
@@ -58,14 +58,19 @@
 		<!-- placeholder : ci permette di rendere il valore del text semitrasparente e invisibile quando ci scriviamo sopra-->
 		<?php
 		if (isset($_POST['submit'])) {				
-			if (!empty($_POST['email']) && !empty($_POST['password'])) { /*Va utilizzato questo anzichè isset perchè il post è sempre set, anche se empty*/
+			if (!empty($_POST['email']) && !empty($_POST['password'])) { /*Va utilizzato questo anzichï¿½ isset perchï¿½ il post ï¿½ sempre set, anche se empty*/
 				//Con trim() togliamo gli spazi inseriti per sbaglio nel form (alla fine e all'inizio di ogni input)
 				$email = trim($_POST['email']);
-				$password = trim($_POST['password']);									
+				$password = trim($_POST['password']);							
 				$sql = "SELECT email, password FROM studenti WHERE email ='".$email."' AND password ='".$password."'";
 				$queryResult = mysqli_query($connection, $sql);
 				if ( mysqli_num_rows($queryResult) ) { //Se l'indirizzo email e la password sono presenti nel database
-					header("Location: index.html");
+					/*Avviamo la sessione per mantere la login nella home-studente*/
+					session_start();
+					$_SESSION['email']= $email;
+					$_SESSION['accessoPermesso']= 1000;
+				
+					header("Location: home-studente.php");
 					exit();
 				}
 				else { //Altrimenti abbiamo sbagliato qualcosa nel login
