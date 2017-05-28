@@ -1,6 +1,6 @@
 #bodyHome {
 	background-color: white;
-	font-family: constantia, Helvetica, Arial;
+	font-family: rawengulk, Helvetica, Arial;
 	font-variant: normal;
 	margin: 0px;
 	padding: 0px;
@@ -12,9 +12,8 @@
 	}
 	
 @font-face { 
-	font-family: 'constantia';
-	src: url('font/constantia.eot');
-	src: local('font/constantia'), local('font/constantia'), url('font/constantia.ttf') format('truetype');
+	font-family: 'rawengulk';
+	src: local('font/rawengulk'), local('font/rawengulk'), url('font/rawengulk.ttf') format('truetype');
 }	
 
 /*questa è la prima pagina. E' stata inserita così perchè il body potrebbe contenere qualcosa in futuro, inoltre potrebbero essercene altre di questo tipo prossimamente.*/
@@ -90,17 +89,18 @@
 #slogan {
 	position: absolute;
 	font-size: 2em;
-	width: 930px;
+	width: 1000px;
 	/*Stiamo centrando un block element. Spostiamo del 50% rispetto all'elemento che lo contiene verso destra, 	
 	dopodichè ci avviciniamo verso sinistra della metà rispetto alla larghezza del div da centrare*/
 	margin-left: 50%;
-	left: -465px;
+	left: -500px;
 	top: 350px;
 }
 
 
 #entraInStoudy input[type="submit"] {
 	position: absolute;
+	font-family: rawengulk, Helvetica, Arial;
 	padding: 15px 28px;
 	top: 425px;
 	width: 200px;
@@ -132,12 +132,11 @@
 
 body {
 	background-color: white;
-	font-family: constantia, Helvetica, Arial;
+	font-family: rawengulk, Helvetica, Arial;
 	margin: 0px;
 	padding: 0px;
 	
 	background-color: rgb(220, 220, 220);
-	font-family: constantia, Helvetica, Arial;
 }
 
 #topper { 
@@ -163,6 +162,8 @@ body {
 
 #registrazioneLogin {
 	position: absolute;
+	font-family: rawengulk, Helvetica, Arial;
+	font-weight: bold;
 	background-color: white;
 	top: 200px;
 	width: 400px;
@@ -193,6 +194,8 @@ body {
 	width: 100%;
 	margin-bottom: 20px;
 	
+	font-family: rawengulk, Helvetica, Arial;
+	font-weight: bold;
 	font-size: 0.9em;
 	line-height: 1.8em;
 	border: 1px solid #999;
@@ -216,7 +219,8 @@ body {
 	width: 200px;
 	margin-left: 50%;
 	left: -100px;
-	
+
+	font-family: rawengulk, Helvetica, Arial;
 	font-size: 1.15em;
 	line-height: 1;
 	color: white;
