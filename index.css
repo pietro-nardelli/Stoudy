@@ -13,8 +13,15 @@
 	
 @font-face { 
 	font-family: 'rawengulk';
-	src: local('font/rawengulk'), local('font/rawengulk'), url('font/rawengulk.ttf') format('truetype');
+	src: url('font/rawengulk.ttf') format('truetype');
 }	
+
+@font-face { 
+	font-family: 'rawengulk';
+	src: url('font/rawengulkBold.ttf') format('truetype');
+	font-weight:bold;
+}	
+
 
 /*questa è la prima pagina. E' stata inserita così perchè il body potrebbe contenere qualcosa in futuro, inoltre potrebbero essercene altre di questo tipo prossimamente.*/
 #firstPage {
@@ -163,7 +170,6 @@ body {
 #registrazioneLogin {
 	position: absolute;
 	font-family: rawengulk, Helvetica, Arial;
-	font-weight: bold;
 	background-color: white;
 	top: 200px;
 	width: 400px;
@@ -180,7 +186,6 @@ body {
 }
 
 #registrazioneLogin div {
-	font-weight: bold; 
 	font-size: 2em; 
 	margin-bottom: 10px;
 }
@@ -195,7 +200,6 @@ body {
 	margin-bottom: 20px;
 	
 	font-family: rawengulk, Helvetica, Arial;
-	font-weight: bold;
 	font-size: 0.9em;
 	line-height: 1.8em;
 	border: 1px solid #999;
