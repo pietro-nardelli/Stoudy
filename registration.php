@@ -106,13 +106,14 @@
 						$newStudente->appendChild($newNome);
 						$newStudente->appendChild($newCognome);
 						$newStudente->appendChild($newEmail);
+						$newStudente->appendChild($newMaterie);
 						$newStudente->appendChild($newRiassunti);
 						$newRiassunti->appendChild($newCreati);
 						$newRiassunti->appendChild($newVisualizzati);
 						$newRiassunti->appendChild($newPreferiti);
 						$newStudente->appendChild($newReputation);
 						$newStudente->appendChild($newCoins);
-							/*Inseriamo il nodo che abbiamo creato, prima del primo elemento della lista di elementi dopo root*/
+						/*Inseriamo il nodo che abbiamo creato, prima del primo elemento della lista di elementi dopo root*/
 						$root->insertBefore($newStudente, $elementi->item(0));
 						$path = dirname(__FILE__)."/xml-schema/studenti.xml"; //Troviamo un percorso assoluto al file xml di riferimento
 						$doc->save($path); //Sovrascriviamolo
