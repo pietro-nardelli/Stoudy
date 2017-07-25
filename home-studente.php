@@ -12,13 +12,16 @@
 	</style>	
 </head>
 <body>
-	<div id="topper">
-		<div>
-		<a href="index.html">
-		<!-- il logo prende l'intera grandezza del div logo stabilito dai css -->
-				<img src="images/logo.png" style="width: 100%;"/>	
+	<div id="topperHomeStudente">
+		<div id="logoHomeStudente">
+			<a href="#">
+				<!-- il logo prende l'intera grandezza del div logo stabilito dai css -->
+				<img src="images/logoHome.png" style="width: 100%;"/>
 			</a>
 		</div>
+	</div>
+	<div id="main">
+		
 	</div>
 <?php
 session_start();
