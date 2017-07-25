@@ -1,0 +1,40 @@
+body {
+	background-color: white;
+	font-family: rawengulk, Helvetica, Arial;
+	margin: 0px;
+	padding: 0px;
+	
+	background-color: rgb(220, 220, 220);
+}
+
+@font-face { 
+	font-family: 'rawengulk';
+	src: url('font/rawengulk.ttf') format('truetype');
+}	
+
+@font-face { 
+	font-family: 'rawengulk';
+	src: url('font/rawengulkBold.ttf') format('truetype');
+	font-weight:bold;
+}	
+
+#topper { 
+	position: absolute;
+	background-color: white;
+	top: 0%;
+	left: 0%;
+	width: 100%;
+	height: 80px;
+	padding: 2px 0px 2px 0px;
+
+	box-shadow: 4px 4px 2px grey;
+}
+
+
+#topper div { /*div contenente il logo*/
+	position: absolute; 
+	padding: 10px;  
+	width: 300px;
+	left: -150px;
+	margin-left: 50%;
+}
