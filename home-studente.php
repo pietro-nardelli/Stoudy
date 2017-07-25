@@ -12,17 +12,6 @@
 	</style>	
 </head>
 <body>
-	<div id="topperHomeStudente">
-		<div id="logoHomeStudente">
-			<a href="#">
-				<!-- il logo prende l'intera grandezza del div logo stabilito dai css -->
-				<img src="images/logoHome.png" style="width: 100%;"/>
-			</a>
-		</div>
-	</div>
-	<div id="main">
-		
-	</div>
 <?php
 session_start();
 if (!isset($_SESSION['accessoPermesso'])) {
@@ -88,9 +77,38 @@ for ($i=0; $i < $elementi->length; $i++) {
 		$coinsText = $coins->textContent;	
 	}
 }
-
-
 ?>
+	<div id="topperHomeStudente">
+		<div id="logoHomeStudente">
+			<a href="#">
+				<!-- il logo prende l'intera grandezza del div logo stabilito dai css -->
+				<img src="images/logoHome.png" style="width: 100%;"/>
+			</a>
+		</div>
+		<div id="navigation">
+			<a href="#"><img src="images/iconAggiungiMateria.png">Nuova materia</a>
+			<a href="#"><img src="images/iconArchivioMaterie.png">Archivio materie</a>
+			<a href="#"><img src="images/iconRiassuntiCreati.png">Riassunti creati</a>
+			<a href="#"><img src="images/iconRiassuntiVisualizzati.png">Riassunti visualizzati</a>
+			<a href="#"><img src="images/iconRiassuntiPreferiti.png">Riassunti preferiti</a>
+			<form action="<?php $_SERVER["PHP_SELF"] ?>" method="post" id="cercaRiassunti">		
+				<input type="text" name="nome" placeholder=" Cerca riassunti" />
+				<input type="image" src="images/iconCercaRiassunti.png" alt="Submit Form" />
+			</form>
+			<div id="navigationUser">
+				<a href="#"><img src="images/iconUtente.png"><?php echo $nomeText." ".$cognomeText; ?></a>
+				<div id="reputation">
+					<img src="images/iconReputation.png"><?php echo $reputationText; ?>
+				</div>
+				<div id="coins">
+					<img src="images/iconCoins.png"><?php echo $coinsText; ?>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="main">
+		
+	</div>
 </body>
 </html>
 

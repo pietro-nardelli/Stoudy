@@ -31,7 +31,7 @@ body {
 
 
 #logoHomeStudente {
-	position: absolute; 
+	position: relative; 
 	padding: 10px;  
 	width: 210px;
 }
@@ -41,3 +41,105 @@ body {
 	position: relative; 
 	left: 230px;
 }
+
+#navigation {
+	position: relative;
+	height: 200px;
+	width: 100%;
+	top: 50px;
+	margin-left: 8px;
+}
+
+#navigation a{ /*stili per i link facenti parte della barra navigation*/
+	position: relative;
+	margin-bottom: 20px;
+	display: block;
+	font-weight: bold;
+	font-size: 1.2em;
+	color: rgba(255, 255, 255, 0.7); /*Bianco con opacità al 0.7*/
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+	text-decoration: none; /*link senza sottolineatura*/
+    /*la transizione si applica su hover e focus che sono stati stabiliti più avanti. All indica che la transizione viene applicata a 
+	tutte le proprietà di hover e focus. Ease in out indica la rapidità all'inizio e alla fine con la quale vogliamo farla apparire. */ 
+	-webkit-transition: all 0.3s ease-in-out;
+	-moz-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+}
+
+#navigation a:hover,
+#navigation a:focus { 
+	color: #fff; /*quando ci passiamo sopra con il mouse diventa bianco*/
+}
+
+#navigation img {
+	width: 10%;
+	margin-right: 10px;
+	opacity: 0.25;
+	-webkit-transition: all 0.3s ease-in-out;
+	-moz-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+}
+
+#navigation a:hover img,
+#navigation a:focus img{ 
+	opacity: 0.8; /*quando ci passiamo sopra con il mouse l'immagine da opaca diventa più bianca*/
+}
+
+#cercaRiassunti { /*Questo è lo stile del form*/
+	margin-bottom: 20px;
+}
+
+#cercaRiassunti input[type="text"] {
+	position: relative;
+	width: 80%;
+	font-family: rawengulk, Helvetica, Arial;
+	font-size: 0.9em;
+	line-height: 1.8em;
+	
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+	text-align: center;
+}
+
+#cercaRiassunti input[type="text"]:hover,
+#cercaRiassunti input[type="text"]:focus { /*passandoci sopra si illuminano*/
+	border-color: rgba(41,151,293, 0.8);
+	}	
+
+#cercaRiassunti input[type="image"] {
+	position:relative;
+	width:10%;
+	top: 7px;
+	opacity: 0.25;
+	-webkit-transition: all 0.3s ease-in-out;
+	-moz-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+}
+
+#cercaRiassunti input[type="image"]:hover,
+#cercaRiassunti input[type="image"]:focus { 
+	opacity: 0.8; /*quando ci passiamo sopra con il mouse l'immagine da opaca diventa più bianca*/
+}
+
+#navigationUser {
+	position: relative;
+	color: white;
+	margin-left: 20px;
+}
+
+#reputation {
+	position: absolute;
+	left: 20px;
+	width: 100%;
+}
+
+#coins {
+	position: absolute;
+	left: 80px;
+	width: 100%;
+}
+
