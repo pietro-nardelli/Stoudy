@@ -78,7 +78,7 @@ for ($i=0; $i < $elementi->length; $i++) {
 	}
 }
 ?>
-	<div id="topperHomeStudente">
+	<div id="lateralHomeStudente">
 		<div id="logoHomeStudente">
 			<a href="#">
 				<!-- il logo prende l'intera grandezza del div logo stabilito dai css -->
@@ -95,19 +95,21 @@ for ($i=0; $i < $elementi->length; $i++) {
 				<input type="text" name="nome" placeholder=" Cerca riassunti" />
 				<input type="image" src="images/iconCercaRiassunti.png" alt="Submit Form" />
 			</form>
-			<div id="navigationUser">
-				<a href="#"><img src="images/iconUtente.png"><?php echo $nomeText." ".$cognomeText; ?></a>
-				<div id="reputation">
-					<img src="images/iconReputation.png"><?php echo $reputationText; ?>
-				</div>
-				<div id="coins">
-					<img src="images/iconCoins.png"><?php echo $coinsText; ?>
-				</div>
+		</div>
+		<div id="navigationUser">
+			<div id="user">
+				<img src="images/iconUtente.png"><?php echo $nomeText." ".$cognomeText; ?>
+			</div>
+			<div id="reputation">
+				<img src="images/iconReputation.png"><?php echo $reputationText; ?>
+			</div>
+			<div id="coins">
+				<img src="images/iconCoins.png"><?php echo $coinsText; ?>
 			</div>
 		</div>
 	</div>
 	<div id="main">
-		
+
 	</div>
 </body>
 </html>

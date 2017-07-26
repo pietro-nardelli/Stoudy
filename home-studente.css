@@ -18,7 +18,14 @@ body {
 	font-weight:bold;
 }	
 
-#topperHomeStudente { 
+/*E' conveniente impostare la larghezza in px e l'altezza in % così da non sconvolgere il layout nel ridimensionamento
+ *(più avanti, responsive design, tutto in px).
+ *Inoltre conviene usare fixed se vogliamo definire un layout ben ancorato in una determinata posizione, viceversa
+ *in questo caso utilizzando "absolute" nello scorrere in basso finirebbe la barra laterale
+ */
+
+ /*Div della barra laterale*/
+#lateralHomeStudente { 
 	position: fixed;
 	top: 0%;
 	width: 230px;
@@ -29,28 +36,32 @@ body {
 	float:left;
 }
 
-
+/*div contenente il logo*/
 #logoHomeStudente {
-	position: relative; 
+	position: absolute; 
 	padding: 10px;  
-	width: 210px;
+	width: 89%;
 }
-
+/*L'height si basa sul contenuto, non dobbiamo dargliela noi*/
+/*Div principale*/
 #main {
 	float:left;
-	position: relative; 
+	position: absolute; 
 	left: 230px;
+	width: 82%;
 }
-
+/*Div interno alla barra del menu laterale contenente tutti i link*/
 #navigation {
 	position: relative;
-	height: 200px;
-	width: 100%;
-	top: 50px;
+	top: 100px;
+	height: 69%;
+	width: 95%;
 	margin-left: 8px;
+	bottom: 0px;
 }
 
-#navigation a{ /*stili per i link facenti parte della barra navigation*/
+/*stili per i link facenti parte della barra navigation*/
+#navigation a{
 	position: relative;
 	margin-bottom: 20px;
 	display: block;
@@ -73,7 +84,8 @@ body {
 }
 
 #navigation img {
-	width: 10%;
+	position: relative;
+	width: 25px;
 	margin-right: 10px;
 	opacity: 0.25;
 	-webkit-transition: all 0.3s ease-in-out;
@@ -87,13 +99,9 @@ body {
 	opacity: 0.8; /*quando ci passiamo sopra con il mouse l'immagine da opaca diventa più bianca*/
 }
 
-#cercaRiassunti { /*Questo è lo stile del form*/
-	margin-bottom: 20px;
-}
-
 #cercaRiassunti input[type="text"] {
 	position: relative;
-	width: 80%;
+	width: 85%;
 	font-family: rawengulk, Helvetica, Arial;
 	font-size: 0.9em;
 	line-height: 1.8em;
@@ -125,21 +133,37 @@ body {
 	opacity: 0.8; /*quando ci passiamo sopra con il mouse l'immagine da opaca diventa più bianca*/
 }
 
+
+/*div contenente le informazioni sullo studente*/
 #navigationUser {
 	position: relative;
+	top: 100px;
+	height: 75px;
+	width: 95%;
+	margin-left: 8px;
 	color: white;
-	margin-left: 20px;
+}
+
+#navigationUser img {
+	position: relative;
+	width: 25px;
+	margin-right: 10px;
+	opacity: 0.8;
+}
+
+#user {
+	position:relative;
+	margin-bottom: 8px;
 }
 
 #reputation {
-	position: absolute;
-	left: 20px;
-	width: 100%;
+	position: relative;
+	display: inline-block;
 }
 
 #coins {
-	position: absolute;
-	left: 80px;
-	width: 100%;
+	position: relative;
+	display: inline-block;
+	margin-left: 8px;
 }
 
