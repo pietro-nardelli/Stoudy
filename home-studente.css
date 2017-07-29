@@ -137,7 +137,7 @@ body {
 /*div contenente le informazioni sullo studente*/
 #navigationUser {
 	position: relative;
-	top: 100px;
+	top: 50px;
 	height: 75px;
 	width: 95%;
 	margin-left: 8px;
@@ -166,4 +166,3 @@ body {
 	display: inline-block;
 	margin-left: 8px;
 }
-
