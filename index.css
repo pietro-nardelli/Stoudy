@@ -96,12 +96,12 @@
 #slogan {
 	position: absolute;
 	font-size: 2em;
-	width: 1000px;
+	width: 800px;
 	/*Stiamo centrando un block element. Spostiamo del 50% rispetto all'elemento che lo contiene verso destra, 	
 	dopodichè ci avviciniamo verso sinistra della metà rispetto alla larghezza del div da centrare*/
 	margin-left: 50%;
-	left: -500px;
-	top: 350px;
+	left: -400px;
+	top: 300px;
 }
 
 
