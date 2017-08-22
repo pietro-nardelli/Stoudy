@@ -96,12 +96,25 @@
 #slogan {
 	position: absolute;
 	font-size: 2em;
-	width: 800px;
+	width: 750px;
 	/*Stiamo centrando un block element. Spostiamo del 50% rispetto all'elemento che lo contiene verso destra, 	
 	dopodichè ci avviciniamo verso sinistra della metà rispetto alla larghezza del div da centrare*/
 	margin-left: 50%;
-	left: -400px;
+	left: -375px;
 	top: 300px;
+}
+
+#sloganCit {
+	position: absolute;
+	font-size: 1em;
+	width: 750px;
+	/*Stiamo centrando un block element. Spostiamo del 50% rispetto all'elemento che lo contiene verso destra, 	
+	dopodichè ci avviciniamo verso sinistra della metà rispetto alla larghezza del div da centrare*/
+	margin-left: 50%;
+	left: -375px;
+	top: 350px;
+	font-style: italic; 
+	text-align: right;
 }
 
 
