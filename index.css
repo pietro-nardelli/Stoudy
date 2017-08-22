@@ -59,7 +59,7 @@
 #navigation a{ /*stili per i link facenti parte della barra navigation*/
 	position: absolute;
 	display: inline-block; /*elemento che è visualizzato inline ma si comporta come block, quindi ha height e width. Ci serve per illuminarlo con la transition*/
-	height: 25px;
+	height: 20px;
 	width: 100px;
 	top: 30px;
 	text-align: center; 
