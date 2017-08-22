@@ -101,10 +101,10 @@ for ($i=0; $i < $elementi->length; $i++) {
 				<img src="images/iconUtente.png"><?php echo $nomeText." ".$cognomeText; ?>
 			</div>
 			<div id="reputation">
-				<img src="images/iconReputation.png"><?php echo $reputationText; ?>
+				<img src="images/iconReputation.png" title="Reputation"><?php echo $reputationText; ?>
 			</div>
 			<div id="coins">
-				<img src="images/iconCoins.png"><?php echo $coinsText; ?>
+				<img src="images/iconCoins.png" title="Coins"><?php echo $coinsText; ?>
 			</div>
 		</div>
 		<!-- Il link del logout si comporta come i precedenti ma si trova in un punto differente quindi bisogna assegnargli
