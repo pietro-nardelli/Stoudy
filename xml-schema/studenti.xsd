@@ -6,10 +6,12 @@
 	<xsd:element name="cognome" type="xsd:string" />
 	<xsd:element name="email" type="xsd:string" />
 	<xsd:element name="nomeMateria" type="xsd:string" />
-	<xsd:element name="valoreStudio" type="xsd:float" />
+	<xsd:element name="valoreDaStudiare" type="xsd:float" />
 	<xsd:element name="oggettoStudio" type="xsd:string" />
 	<xsd:element name="dataScadenza" type="xsd:date" />
 	<xsd:element name="nGiorniRipasso" type="xsd:nonNegativeInteger" />
+	<xsd:element name="valoreStudiatoOggi" type="xsd:float" />
+	<xsd:element name="dataStudiatoOggi" type="xsd:date" />
 	<xsd:element name="valoreStudiato" type="xsd:float" />
 	<xsd:element name="riassuntoIDVisualizzato" type="xsd:string" />
 	<xsd:element name="riassuntoIDPreferito" type="xsd:string" />
@@ -46,10 +48,12 @@
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element ref="nomeMateria" />
-				<xsd:element ref="valoreStudio" minOccurs="0" maxOccurs="1" />
+				<xsd:element ref="valoreDaStudiare" minOccurs="0" maxOccurs="1" />
 				<xsd:element ref="oggettoStudio" minOccurs="0" maxOccurs="1" />
 				<xsd:element ref="dataScadenza" minOccurs="0" maxOccurs="1" />
 				<xsd:element ref="nGiorniRipasso" minOccurs="0" maxOccurs="1" />
+				<xsd:element ref="valoreStudiatoOggi" minOccurs="0" maxOccurs="1" />
+				<xsd:element ref="dataStudiatoOggi" minOccurs="0" maxOccurs="1" />
 				<xsd:element ref="valoreStudiato" minOccurs="0" maxOccurs="1" />
 			</xsd:sequence>
 			<xsd:attribute ref="status" />

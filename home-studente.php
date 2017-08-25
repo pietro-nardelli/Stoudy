@@ -13,6 +13,7 @@
 </head>
 <body>
 <?php
+include 'functions/valoreStudio.php';
 session_start();
 if (!isset($_SESSION['accessoPermesso'])) {
     header('Location: login.php');
@@ -50,8 +51,8 @@ for ($i=0; $i < $elementi->length; $i++) {
 			$nomeMateria = $materia->firstChild;
 			$nomeMateriaText = $nomeMateria->textContent;
 				
-			$valoreStudio = $nomeMateria->nextSibling;
-			$valoreStudioText = $valoreStudio->textContent;
+			$valoreDaStudiare = $nomeMateria->nextSibling;
+			$valoreDaStudiareText = $valoreDaStudiare->textContent;
 
 			$oggettoStudio = $valoreStudio->nextSibling;
 			$oggettoStudioText = $oggettoStudio->textContent;
@@ -62,7 +63,13 @@ for ($i=0; $i < $elementi->length; $i++) {
 			$nGiorniRipasso = $dataScadenza->nextSibling;
 			$nGiorniRipassoText = $nGiorniRipasso->textContent;
 
-			$valoreStudiato = $nGiorniRipasso->nextSibling;
+			$valoreStudiatoOggi = $nGiorniRipasso->nextSibling;
+			$valoreStudiatoText = $valoreStudiatoOggi->textContent;
+
+			$dataStudiatoOggi = $valoreStudiatoOggi->nextSibling;
+			$dataStudiatoOggiText = $dataStudiatoOggi->textContent;
+
+			$valoreStudiato = $dataStudiatoOggi->nextSibling;
 			$valoreStudiatoText = $valoreStudiato->textContent;
 
 			$status = $materia->getAttribute;
@@ -114,6 +121,7 @@ for ($i=0; $i < $elementi->length; $i++) {
 		</div>
 	</div>
 	<div id="main">
+	<?php valoreStudio(); ?>
 		<div id="progressBarRed" style="background-size: 10% 100%; background-repeat: no-repeat;">
 			10%
 		</div>
