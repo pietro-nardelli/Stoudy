@@ -13,7 +13,7 @@
 </head>
 <body>
 <?php
-include 'functions/valoreStudio.php';
+include 'functions/valoreDaStudiareOggi.php';
 session_start();
 if (!isset($_SESSION['accessoPermesso'])) {
     header('Location: login.php');
@@ -54,7 +54,7 @@ for ($i=0; $i < $elementi->length; $i++) {
 			$valoreDaStudiare = $nomeMateria->nextSibling;
 			$valoreDaStudiareText = $valoreDaStudiare->textContent;
 
-			$oggettoStudio = $valoreStudio->nextSibling;
+			$oggettoStudio = $valoreDaStudiare->nextSibling;
 			$oggettoStudioText = $oggettoStudio->textContent;
 
 			$dataScadenza = $oggettoStudio->nextSibling;
@@ -72,8 +72,7 @@ for ($i=0; $i < $elementi->length; $i++) {
 			$valoreStudiato = $dataStudiatoOggi->nextSibling;
 			$valoreStudiatoText = $valoreStudiato->textContent;
 
-			$status = $materia->getAttribute;
-			$statusText = $status->textContent;
+			$statusText = $materia->getAttribute('status');
 		} 
 
 		$riassunti = $materie->nextSibling;
@@ -121,7 +120,7 @@ for ($i=0; $i < $elementi->length; $i++) {
 		</div>
 	</div>
 	<div id="main">
-	<?php valoreStudio(); ?>
+	<?php valoreDaStudiareOggi($dataScadenzaText, $nGiorniRipassoText, $valoreDaStudiareText, $valoreStudiatoText); ?>
 		<div id="progressBarRed" style="background-size: 10% 100%; background-repeat: no-repeat;">
 			10%
 		</div>
