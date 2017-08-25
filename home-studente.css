@@ -137,7 +137,7 @@ body {
 /*div contenente le informazioni sullo studente*/
 #navigationUser {
 	position: relative;
-	top: 50px;
+	top: 0px;
 	height: 75px;
 	width: 95%;
 	margin-left: 8px;
@@ -164,5 +164,71 @@ body {
 #coins {
 	position: relative;
 	display: inline-block;
-	margin-left: 8px;
+	margin-left: 20px;
+}
+
+#progressBarRed {
+	position: relative;
+	text-align: center;
+	width: 200px;
+	margin-left: 50px;
+	border: 1px solid black;
+
+	background: rgba(226, 24, 24, 1); /* For browsers that do not support gradients */
+	background: -webkit-linear-gradient(left,rgba(226, 24, 24, 1),rgba(226, 24, 24, 0.5)); /*Safari 5.1-6*/
+	background: -o-linear-gradient(right,rgba(226, 24, 24, 1),rgba(226, 24, 24, 0.5)); /*Opera 11.1-12*/
+	background: -moz-linear-gradient(right,rgba(226, 24, 24, 1),rgba(226, 24, 24, 0.5)); /*Fx 3.6-15*/
+	background: linear-gradient(right,rgba(226, 24, 24, 1),rgba(226, 24, 24, 0.5)); /*Standard*/
+}
+
+#progressBarOrange {
+	position: relative;
+	text-align: center;
+	width: 200px;
+	margin-left: 50px;
+	border: 1px solid black;
+
+	background: rgba(254, 126, 6, 1); /* For browsers that do not support gradients */
+	background: -webkit-linear-gradient(left,rgba(254, 126, 6, 1),rgba(254, 126, 6, 0.5)); /*Safari 5.1-6*/
+	background: -o-linear-gradient(right,rgba(254, 126, 6, 1),rgba(254, 126, 6, 0.5)); /*Opera 11.1-12*/
+	background: -moz-linear-gradient(right,rgba(254, 126, 6, 1),rgba(254, 126, 6, 0.5)); /*Fx 3.6-15*/
+	background: linear-gradient(right,rgba(254, 126, 6, 1),rgba(254, 126, 6, 0.5)); /*Standard*/
+}
+
+#progressBarYellow {
+	position: relative;
+	text-align: center;
+	width: 200px;
+	margin-left: 50px;
+	border: 1px solid black;
+
+	background: rgba(243, 183, 18, 1); /* For browsers that do not support gradients */
+	background: -webkit-linear-gradient(left,rgba(243, 183, 18, 1),rgba(243, 183, 18, 0.5)); /*Safari 5.1-6*/
+	background: -o-linear-gradient(right,rgba(243, 183, 18, 1),rgba(243, 183, 18, 0.5)); /*Opera 11.1-12*/
+	background: -moz-linear-gradient(right,rgba(243, 183, 18, 1),rgba(243, 183, 18, 0.5)); /*Fx 3.6-15*/
+	background: linear-gradient(right,rgba(243, 183, 18, 1),rgba(243, 183, 18, 0.5)); /*Standard*/
+}
+
+#progressBarGreen {
+	position: relative;
+	text-align: center;
+	width: 200px;
+	margin-left: 50px;
+	border: 1px solid black;
+
+	background: rgba(98, 228, 33, 1); /* For browsers that do not support gradients */
+	background: -webkit-linear-gradient(left,rgba(98, 228, 33, 1),rgba(98, 228, 33, 0.5)); /*Safari 5.1-6*/
+	background: -o-linear-gradient(right,rgba(98, 228, 33, 1),rgba(98, 228, 33, 0.5)); /*Opera 11.1-12*/
+	background: -moz-linear-gradient(right,rgba(98, 228, 33, 1),rgba(98, 228, 33, 0.5)); /*Fx 3.6-15*/
+	background: linear-gradient(to right, rgba(98, 228, 33, 1), rgba(98, 228, 33, 0.5)); /*Standard*/
+}
+
+#progressBarBlue {
+	position: relative;
+	text-align: center;
+	width: 200px;
+	margin-left: 50px;
+	border: 1px solid black;
+
+	background: rgba(33, 208, 228, 1); /* For browsers that do not support gradients */
 }

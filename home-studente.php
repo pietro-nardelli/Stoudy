@@ -114,7 +114,22 @@ for ($i=0; $i < $elementi->length; $i++) {
 		</div>
 	</div>
 	<div id="main">
-
+		<div id="progressBarRed" style="background-size: 10% 100%; background-repeat: no-repeat;">
+			10%
+		</div>
+		<div id="progressBarOrange" style="background-size: 30% 100%; background-repeat: no-repeat;">
+			30%
+		</div>
+		<div id="progressBarYellow" style="background-size: 55% 100%; background-repeat: no-repeat;">
+			55%
+		</div>
+		<div id="progressBarGreen" style="background-size: 80% 100%; background-repeat: no-repeat;">
+			80%
+		</div>
+		<div id="progressBarBlue" style="background-size: 100% 100%; background-repeat: no-repeat;">
+			100%
+		</div>
+		
 	</div>
 </body>
 </html>
