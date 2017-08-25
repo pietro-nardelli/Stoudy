@@ -8,6 +8,6 @@ function valoreDaStudiareOggi($dataScadenza, $nGiorniRipasso, $valoreDaStudiare,
 
       $giorniDisponibili = $giorni - $nGiorniRipasso;
       $valoreDaStudiareRimanente = ($valoreDaStudiare - $valoreStudiato);
-      return ($valoreDaStudiareRimanente / $giorniDisponibili);
+      return round($valoreDaStudiareRimanente / $giorniDisponibili);
 }
 ?>
