@@ -14,6 +14,8 @@
 <body>
 <?php
 include 'functions/valoreDaStudiareOggi.php';
+include 'functions/percentuale.php';
+
 session_start();
 if (!isset($_SESSION['accessoPermesso'])) {
     header('Location: login.php');
@@ -120,23 +122,12 @@ for ($i=0; $i < $elementi->length; $i++) {
 		</div>
 	</div>
 	<div id="main">
-	<?php valoreDaStudiareOggi($dataScadenzaText, $nGiorniRipassoText, $valoreDaStudiareText, $valoreStudiatoText); ?>
-		<div id="progressBarRed" style="background-size: 10% 100%; background-repeat: no-repeat;">
-			10%
+	<?php valoreDaStudiareOggi($dataScadenzaText, $nGiorniRipassoText, $valoreDaStudiareText, $valoreStudiatoText);
+	$percentuale = (100/100)*100; ?>
+	
+		<div id="progressBar<?php percentuale(100, 100); ?>" style="background-size: <?php echo $percentuale?>% 100%; background-repeat: no-repeat;">
+			<?php echo $percentuale; ?>
 		</div>
-		<div id="progressBarOrange" style="background-size: 30% 100%; background-repeat: no-repeat;">
-			30%
-		</div>
-		<div id="progressBarYellow" style="background-size: 55% 100%; background-repeat: no-repeat;">
-			55%
-		</div>
-		<div id="progressBarGreen" style="background-size: 80% 100%; background-repeat: no-repeat;">
-			80%
-		</div>
-		<div id="progressBarBlue" style="background-size: 100% 100%; background-repeat: no-repeat;">
-			100%
-		</div>
-		
 	</div>
 </body>
 </html>

@@ -166,7 +166,9 @@ body {
 	display: inline-block;
 	margin-left: 20px;
 }
-
+/*In base al valore inserito la barra del progresso cambia colore
+ *deciso dalla funzione percentuale.php
+ */
 #progressBarRed {
 	position: relative;
 	text-align: center;
