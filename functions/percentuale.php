@@ -1,4 +1,5 @@
 <?php 
+/*Stampa il colore corrispondente alla percentuale assegnata*/
 function percentuale ($valoreParziale, $valoreTotale) {
     $percentuale = ($valoreParziale/$valoreTotale)*100;
     if ($percentuale < 25) {echo "Red";}

@@ -63,14 +63,29 @@ for ($i=0; $i < $elementi->length; $i++) {
 			$dataScadenzaText = $dataScadenza->textContent;
 
 			$nGiorniRipasso = $dataScadenza->nextSibling;
-			$nGiorniRipassoText = $nGiorniRipasso->textContent;
+			$nGiorniRipassoText = $nGiorniRipasso->textContent;			
 
 			$valoreStudiatoOggi = $nGiorniRipasso->nextSibling;
-			$valoreStudiatoText = $valoreStudiatoOggi->textContent;
-
-			$dataStudiatoOggi = $valoreStudiatoOggi->nextSibling;
-			$dataStudiatoOggiText = $dataStudiatoOggi->textContent;
-
+			/*Se abbiamo premuto sul pulsante submit, aggiorniamo ciò che si trova in valoreStudiatoOggi e data
+			 *e allo stesso tempo carichiamo il file xml aggiornato in tempo reale. Se non c'è il form si prosegue
+			 *senza aggiornarlo, ma solo leggendolo. Ovviamente solo se è un valore numerico > 0.
+			 */
+			if (isset($_GET['submit']) && is_numeric($_GET['valoreStudiatoOggiForm']) && $_GET['valoreStudiatoOggiForm'] >= 0) {		 
+				//Con trim() togliamo gli spazi inseriti per sbaglio nel form (alla fine e all'inizio di ogni input)
+				$valoreStudiatoOggiForm = trim($_GET['valoreStudiatoOggiForm']);
+				$valoreStudiatoOggi->textContent = $valoreStudiatoOggiForm;
+				$valoreStudiatoOggiText = $valoreStudiatoOggi->textContent;
+				$dataStudiatoOggi = $valoreStudiatoOggi->nextSibling;
+				$dataStudiatoOggi->textContent = date ("Y-m-d");
+				$dataStudiatoOggiText = $dataStudiatoOggi->textContent;
+				$path = dirname(__FILE__)."/xml-schema/studenti.xml"; //Troviamo un percorso assoluto al file xml di riferimento
+				$doc->save($path); //Sovrascriviamolo
+			}
+			else {
+				$valoreStudiatoOggiText = $valoreStudiatoOggi->textContent;
+				$dataStudiatoOggi = $valoreStudiatoOggi->nextSibling;
+				$dataStudiatoOggiText = $dataStudiatoOggi->textContent;
+			}
 			$valoreStudiato = $dataStudiatoOggi->nextSibling;
 			$valoreStudiatoText = $valoreStudiato->textContent;
 
@@ -122,12 +137,20 @@ for ($i=0; $i < $elementi->length; $i++) {
 		</div>
 	</div>
 	<div id="main">
-	<?php valoreDaStudiareOggi($dataScadenzaText, $nGiorniRipassoText, $valoreDaStudiareText, $valoreStudiatoText);
-	$percentuale = (100/100)*100; ?>
-	
-		<div id="progressBar<?php percentuale(100, 100); ?>" style="background-size: <?php echo $percentuale?>% 100%; background-repeat: no-repeat;">
+		valoreStudiatoOggi = <?php echo $valoreStudiatoOggiText; ?>
+		<?php $valoreDaStudiareOggi = valoreDaStudiareOggi($dataScadenzaText, $nGiorniRipassoText, $valoreDaStudiareText, $valoreStudiatoText);?>
+		ValoreDaStudiareOggi = 
+		<?php echo $valoreDaStudiareOggi;
+		$percentuale = ($valoreStudiatoOggiText/$valoreDaStudiareOggi)*100;
+		$percentuale = round ($percentuale, 1); //Arrotondiamo alla prima cifra dopo la virgola
+		?>
+		<div id="progressBar<?php percentuale($valoreStudiatoOggiText, $valoreDaStudiareOggi); ?>" style="background-size: <?php echo $percentuale?>% 100%; background-repeat: no-repeat;">
 			<?php echo $percentuale; ?>
 		</div>
+		<form action="<?php $_SERVER["PHP_SELF"] ?>" method="get">
+			<input type="text" name="valoreStudiatoOggiForm" placeholder=" ValoreStudiatoOggi" /> <br />		
+			<input type="submit" name="submit" value="Invia" />
+		</form>
 	</div>
 </body>
 </html>
