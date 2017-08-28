@@ -15,6 +15,7 @@
 <?php
 include 'functions/valoreDaStudiareOggi.php';
 include 'functions/percentuale.php';
+include 'functions/giorniDisponibili.php';
 
 session_start();
 if (!isset($_SESSION['accessoPermesso'])) {
@@ -121,13 +122,12 @@ for ($i=0; $i < $elementi->length; $i++) {
 			<a href="logout.php"><img src="images/iconLogout.png">Logout</a>
 		</div>
 	</div>
-	<div id="main">
-		<?php
+	<?php
 		/*Se abbiamo premuto sul pulsante submit, aggiorniamo ciò che si trova in valoreStudiatoOggi e data
 		 *e allo stesso tempo carichiamo il file xml aggiornato in tempo reale.
 		 *Ovviamente solo se è un valore numerico > 0.
 		 */		
-		if (isset($_GET['submit']) && is_numeric($_GET['valoreStudiatoOggiForm']) && $_GET['valoreStudiatoOggiForm'] >= 0) {		 
+		if (is_numeric($_GET['valoreStudiatoOggiForm']) && $_GET['valoreStudiatoOggiForm'] >= 0) {		 
 			//Con trim() togliamo gli spazi inseriti per sbaglio nel form (alla fine e all'inizio di ogni input)
 			$valoreStudiatoOggiForm = trim($_GET['valoreStudiatoOggiForm']);
 			$valoreStudiatoOggi->textContent = $valoreStudiatoOggiForm;
@@ -151,29 +151,42 @@ for ($i=0; $i < $elementi->length; $i++) {
 			$doc->save($path); //Sovrascriviamolo
 		}
 		?>
-		valoreStudiatoOggi = <?php echo $valoreStudiatoOggiText; ?>
-		<?php $valoreDaStudiareOggi = valoreDaStudiareOggi($dataScadenzaText, $nGiorniRipassoText, $valoreDaStudiareText, $valoreStudiatoText);?>
-		ValoreDaStudiareOggi = 
-		<?php echo $valoreDaStudiareOggi;
-		$percentuale = ($valoreStudiatoOggiText/$valoreDaStudiareOggi)*100;
-		$percentuale = round ($percentuale, 1); //Arrotondiamo alla prima cifra dopo la virgola
-		?>
-		<div id="progressBar<?php percentuale($valoreStudiatoOggiText, $valoreDaStudiareOggi); ?>" style="background-size: <?php echo $percentuale?>% 100%; background-repeat: no-repeat;">
-			<?php echo $percentuale; ?>%
+	<div id="main">
+		<div id="materia">
+			<?php 
+			//La percentuale si modifica real-time in base a ciò che viene inserito nel valoreStudiatoOggiForm
+			$percentuale = ( ($valoreStudiatoText+$valoreStudiatoOggiText)/$valoreDaStudiareText)*100;
+			$percentuale = round ($percentuale, 1); //Arrotondiamo alla prima cifra dopo la virgola
+			?>
+			<div id="progressBar<?php percentuale(($valoreStudiatoText+$valoreStudiatoOggiText), $valoreDaStudiareText); ?>" style="background-size: <?php echo $percentuale?>% 100%; background-repeat: no-repeat;">
+				<?php echo $percentuale."% (".($valoreStudiatoText+$valoreStudiatoOggiText)."/".$valoreDaStudiareText." ".$oggettoStudioText.")"; ?>
+			</div>
+			<?php 
+			$giorniDisponibili = giorniDisponibili ($dataScadenzaText, $nGiorniRipassoText);
+			$valoreDaStudiareOggi = valoreDaStudiareOggi($giorniDisponibili ,$valoreDaStudiareText, $valoreStudiatoText);
+
+			$percentuale = ($valoreStudiatoOggiText/$valoreDaStudiareOggi)*100;
+			$percentuale = round ($percentuale, 1); //Arrotondiamo alla prima cifra dopo la virgola
+			?>
+			<div id="nomeMateria">
+				<?php echo $nomeMateriaText; ?>
+			</div>
+			<div>
+				L'esame è il <b><?php echo $dataScadenzaText;?></b>. 
+				<br />
+				Hai impostato <b><?php echo $nGiorniRipassoText ?> giorni</b> di ripasso. 
+				<br />
+				Hai a disposizione <b><?php echo $giorniDisponibili;?> giorni</b> di studio. <br/>
+			</div> 
+			<form id ="aggiungiValoreStudio" action="<?php $_SERVER["PHP_SELF"] ?>" method="get">
+				<input type="text" name="valoreStudiatoOggiForm" placeholder="<?php echo "Quante/i ".$oggettoStudioText." hai fatto oggi?"; ?>"/>		
+				<input type="image" name="submit" src="images/iconAggiungiValoreStudio.png" alt="Submit Form" />
+			</form>
+
+			<div id="progressBar<?php percentuale($valoreStudiatoOggiText, $valoreDaStudiareOggi); ?>" style="background-size: <?php echo $percentuale?>% 100%; background-repeat: no-repeat;">
+				<?php echo $percentuale."% (".$valoreStudiatoOggiText."/".$valoreDaStudiareOggi." ".$oggettoStudioText.")"; ?>
+			</div>
 		</div>
-		valoreStudiato = <?php echo $valoreStudiatoText; ?>
-		ValoreDaStudiare = <?php echo $valoreDaStudiareText;
-		//La percentuale si modifica real-time in base a ciò che viene inserito nel valoreStudiatoOggiForm
-		$percentuale = ( ($valoreStudiatoText+$valoreStudiatoOggiText)/$valoreDaStudiareText)*100;
-		$percentuale = round ($percentuale, 1); //Arrotondiamo alla prima cifra dopo la virgola
-		?>
-		<div id="progressBar<?php percentuale(($valoreStudiatoText+$valoreStudiatoOggiText), $valoreDaStudiareText); ?>" style="background-size: <?php echo $percentuale?>% 100%; background-repeat: no-repeat;">
-			<?php echo $percentuale; ?>%
-		</div>
-		<form action="<?php $_SERVER["PHP_SELF"] ?>" method="get">
-			<input type="text" name="valoreStudiatoOggiForm" placeholder=" ValoreStudiatoOggi" /> <br />		
-			<input type="submit" name="submit" value="Invia" />
-		</form>
 	</div>
 </body>
 </html>

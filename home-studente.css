@@ -1,5 +1,4 @@
 body {
-	background-color: white;
 	font-family: rawengulk, Helvetica, Arial;
 	margin: 0px;
 	padding: 0px;
@@ -169,12 +168,75 @@ body {
 /*In base al valore inserito la barra del progresso cambia colore
  *deciso dalla funzione percentuale.php
  */
+
+#materia {
+	position: absolute;
+	width: 500px;
+	margin-left: 50%;
+	left: -250px;
+	background-color: white;
+	margin-top: 50px;
+
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	text-align: center;
+	box-shadow:  5px 5px 25px 5px rgb(182, 182, 182);
+}
+
+#nomeMateria {
+	font-size: 1.5em;
+	padding: 5px;
+}
+
+#aggiungiValoreStudio {
+	position: relative;
+	padding: 5px;
+	width: 250px;
+	left: -125px;
+	margin-left: 50%;
+	margin-bottom: 15px;
+	white-space: nowrap;
+}
+
+#aggiungiValoreStudio input[type="text"] {
+	position: relative;
+	width: 100%;
+	font-family: rawengulk, Helvetica, Arial;
+	font-size: 0.9em;
+	line-height: 1.5em;
+	
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+	text-align: center;
+}
+
+#aggiungiValoreStudio input[type="text"]:hover,
+#aggiungiValoreStudio input[type="text"]:focus { /*passandoci sopra si illuminano*/
+	border-color: rgba(41,151,293, 0.8);
+	}	
+
+#aggiungiValoreStudio input[type="image"] {
+	position:relative;
+	width:10%;
+	top: 7px;
+	opacity: 1;
+	-webkit-transition: all 0.3s ease-in-out;
+	-moz-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+}
+
+#aggiungiValoreStudio input[type="image"]:hover,
+#aggiungiValoreStudio input[type="image"]:focus { 
+	opacity: 0.8; /*quando ci passiamo sopra con il mouse l'immagine da opaca diventa più bianca*/
+}
+
 #progressBarRed {
 	position: relative;
 	text-align: center;
-	width: 200px;
-	margin-left: 50px;
-	border: 1px solid black;
+	width: 100%;
 
 	background: rgba(226, 24, 24, 1); /* For browsers that do not support gradients */
 	background: -webkit-linear-gradient(left,rgba(226, 24, 24, 1),rgba(226, 24, 24, 0.5)); /*Safari 5.1-6*/
@@ -186,9 +248,8 @@ body {
 #progressBarOrange {
 	position: relative;
 	text-align: center;
-	width: 200px;
-	margin-left: 50px;
-	border: 1px solid black;
+	width: 100%;
+
 
 	background: rgba(254, 126, 6, 1); /* For browsers that do not support gradients */
 	background: -webkit-linear-gradient(left,rgba(254, 126, 6, 1),rgba(254, 126, 6, 0.5)); /*Safari 5.1-6*/
@@ -200,9 +261,8 @@ body {
 #progressBarYellow {
 	position: relative;
 	text-align: center;
-	width: 200px;
-	margin-left: 50px;
-	border: 1px solid black;
+	width: 100%;
+
 
 	background: rgba(243, 183, 18, 1); /* For browsers that do not support gradients */
 	background: -webkit-linear-gradient(left,rgba(243, 183, 18, 1),rgba(243, 183, 18, 0.5)); /*Safari 5.1-6*/
@@ -214,9 +274,7 @@ body {
 #progressBarGreen {
 	position: relative;
 	text-align: center;
-	width: 200px;
-	margin-left: 50px;
-	border: 1px solid black;
+	width: 100%;
 
 	background: rgba(98, 228, 33, 1); /* For browsers that do not support gradients */
 	background: -webkit-linear-gradient(left,rgba(98, 228, 33, 1),rgba(98, 228, 33, 0.5)); /*Safari 5.1-6*/
@@ -228,9 +286,7 @@ body {
 #progressBarBlue {
 	position: relative;
 	text-align: center;
-	width: 200px;
-	margin-left: 50px;
-	border: 1px solid black;
+	width: 100%;
 
 	background: rgba(33, 208, 228, 1); /* For browsers that do not support gradients */
 }
