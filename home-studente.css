@@ -170,7 +170,7 @@ body {
  */
 
 #materia {
-	position: absolute;
+	position: relative;
 	width: 500px;
 	margin-left: 50%;
 	left: -250px;

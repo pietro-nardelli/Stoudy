@@ -30,15 +30,15 @@ foreach (file("xml-schema/studenti.xml") as $node) { //Per ogni riga del file xm
 $doc = new DOMDocument(); //Creiamo l'oggetto documento DOM e lo assegnamo a $doc
 $doc->loadXML($xmlString); //$doc essendo un oggetto DOMDocument possiede il parser XML (metodo nella classe DOMDocument) che lo facciamo girare sulla stringa $xmlString
 $root = $doc->documentElement; //la chiamata a DocumentElement restituisce la radice del documento DOM
-$elementi = $root->childNodes; //$elementi contiene i nodi figli di root 
+$studenti = $root->childNodes; //$studenti contiene i nodi figli di root 
 /***/
 
-/*Scorri tutti gli elementi del file XML*/
-for ($i=0; $i < $elementi->length; $i++) {
-	/*Se l'email derivante dal login coincide con un elemento presente nel file XML, carica tutti i dati relativi*/
-	if ($_SESSION['email'] == $elementi->item($i)->firstChild->nextSibling->nextSibling->textContent){
-		$elemento = $elementi->item($i); //questo sarà uno degli elementi e sarà dotato di altri figli.
-		$nome = $elemento->firstChild; //ora data contiene il primo sottoelemento di $elemento[$i], ovvero data
+/*Scorri tutti gli studenti del file XML*/
+for ($i=0; $i < $studenti->length; $i++) {
+	/*Se l'email derivante dal login coincide con uno studente presente nel file XML, carica tutti i dati relativi*/
+	if ($_SESSION['email'] == $studenti->item($i)->firstChild->nextSibling->nextSibling->textContent){
+		$studente = $studenti->item($i); //questo sarà uno degli studenti e sarà dotato di altri figli.
+		$nome = $studente->firstChild; //ora data contiene il primo sottoelemento (studente) di $studente[$i]
 		$nomeText = $nome->textContent;
 
 		$cognome = $nome->nextSibling;
@@ -48,37 +48,43 @@ for ($i=0; $i < $elementi->length; $i++) {
 		$emailText = $email->textContent;
 
 		$materie = $email->nextSibling;
-
-		if ($materie->hasChildNodes()) { //Solo se ci sono materie bisogna inizializzarle!
-			$materia = $materie->firstChild;
-			$nomeMateria = $materia->firstChild;
-			$nomeMateriaText = $nomeMateria->textContent;
+		$materie = $materie->childNodes;
+		/*Bisogna creare un array per ogni valore presente in materia, affinchè si possa successivamente
+		 *elencare ed aggiornare le materie presenti nella lista. Se si creasse un array per i soli valori
+		 *testuali sarebbe impossibile aggiornarli. Ogni valore $k deve appartenere ad una materia
+		 *($k=>materia k-esima).
+		 */
+		$nomeMateriaText = array();
+		for ($k=0; $k < $materie->length; $k++) {	
+			$materia = $materie->item($k);
+			$nomeMateria[$k] = $materia->firstChild;
+			$nomeMateriaText[$k] = $nomeMateria[$k]->textContent;
 				
-			$valoreDaStudiare = $nomeMateria->nextSibling;
-			$valoreDaStudiareText = $valoreDaStudiare->textContent;
+			$valoreDaStudiare[$k] = $nomeMateria[$k]->nextSibling;
+			$valoreDaStudiareText[$k] = $valoreDaStudiare[$k]->textContent;
 
-			$oggettoStudio = $valoreDaStudiare->nextSibling;
-			$oggettoStudioText = $oggettoStudio->textContent;
+			$oggettoStudio[$k] = $valoreDaStudiare[$k]->nextSibling;
+			$oggettoStudioText[$k] = $oggettoStudio[$k]->textContent;
 
-			$dataScadenza = $oggettoStudio->nextSibling;
-			$dataScadenzaText = $dataScadenza->textContent;
+			$dataScadenza[$k] = $oggettoStudio[$k]->nextSibling;
+			$dataScadenzaText[$k] = $dataScadenza[$k]->textContent;
 
-			$nGiorniRipasso = $dataScadenza->nextSibling;
-			$nGiorniRipassoText = $nGiorniRipasso->textContent;			
+			$nGiorniRipasso[$k] = $dataScadenza[$k]->nextSibling;
+			$nGiorniRipassoText[$k] = $nGiorniRipasso[$k]->textContent;			
 
-			$valoreStudiatoOggi = $nGiorniRipasso->nextSibling;			
-			$valoreStudiatoOggiText = $valoreStudiatoOggi->textContent;
+			$valoreStudiatoOggi[$k] = $nGiorniRipasso[$k]->nextSibling;			
+			$valoreStudiatoOggiText[$k] = $valoreStudiatoOggi[$k]->textContent;
 
-			$dataStudiatoOggi = $valoreStudiatoOggi->nextSibling;
-			$dataStudiatoOggiText = $dataStudiatoOggi->textContent;
+			$dataStudiatoOggi[$k] = $valoreStudiatoOggi[$k]->nextSibling;
+			$dataStudiatoOggiText[$k] = $dataStudiatoOggi[$k]->textContent;
 			
-			$valoreStudiato = $dataStudiatoOggi->nextSibling;
-			$valoreStudiatoText = $valoreStudiato->textContent;
+			$valoreStudiato[$k] = $dataStudiatoOggi[$k]->nextSibling;
+			$valoreStudiatoText[$k] = $valoreStudiato[$k]->textContent;
 
-			$statusText = $materia->getAttribute('status');
+			$statusText[$k] = $materia->getAttribute('status');
 		} 
 
-		$riassunti = $materie->nextSibling;
+		$riassunti = $email->nextSibling->nextSibling;
 		$reputation = $riassunti->nextSibling;
 		$reputationText = $reputation->textContent;
 
@@ -127,14 +133,18 @@ for ($i=0; $i < $elementi->length; $i++) {
 		 *e allo stesso tempo carichiamo il file xml aggiornato in tempo reale.
 		 *Ovviamente solo se è un valore numerico > 0.
 		 */		
-		if (is_numeric($_GET['valoreStudiatoOggiForm']) && $_GET['valoreStudiatoOggiForm'] >= 0) {		 
+		if (isset($_GET['valoreStudiatoOggiForm']) && is_numeric($_GET['valoreStudiatoOggiForm']) && $_GET['valoreStudiatoOggiForm'] >= 0) {		 
 			//Con trim() togliamo gli spazi inseriti per sbaglio nel form (alla fine e all'inizio di ogni input)
 			$valoreStudiatoOggiForm = trim($_GET['valoreStudiatoOggiForm']);
-			$valoreStudiatoOggi->textContent = $valoreStudiatoOggiForm;
-			$valoreStudiatoOggiText = $valoreStudiatoOggi->textContent;
-			$dataStudiatoOggi = $valoreStudiatoOggi->nextSibling;
-			$dataStudiatoOggi->textContent = date ("Y-m-d");
-			$dataStudiatoOggiText = $dataStudiatoOggi->textContent;
+			/*Ciclando le materie da visualizzare, cicliamo anche la form che possiede l'indice $k
+			*affinchè si possa determinare quale pulsante di quale materia abbiamo premuto.
+			*/
+			$k = $_GET['indexMateria'];
+			$valoreStudiatoOggi[$k]->textContent = $valoreStudiatoOggiForm;
+			$valoreStudiatoOggiText[$k] = $valoreStudiatoOggi[$k]->textContent;
+			$dataStudiatoOggi[$k] = $valoreStudiatoOggi[$k]->nextSibling;
+			$dataStudiatoOggi[$k]->textContent = date ("Y-m-d");
+			$dataStudiatoOggiText[$k] = $dataStudiatoOggi[$k]->textContent;
 			$path = dirname(__FILE__)."/xml-schema/studenti.xml"; //Troviamo un percorso assoluto al file xml di riferimento
 			$doc->save($path); //Sovrascriviamolo
 		}
@@ -142,51 +152,58 @@ for ($i=0; $i < $elementi->length; $i++) {
 		 *allora aggiorna il valoreStudiato (aggiornamento dopo la mezzanotte). Inoltre
 		 *azzera il valoreStudiatoOggi
 		 */
-		if (strcmp($dataStudiatoOggi->textContent, date("Y-m-d")) != 0){
-			$valoreStudiato->textContent = $valoreStudiatoText + $valoreStudiatoOggiText;
-			$valoreStudiatoText = $valoreStudiato->textContent; 		//Riassegnazione della variabile
-			$valoreStudiatoOggi->textContent = 0;
-			$valoreStudiatoOggiText = $valoreStudiatoOggi->textContent;	//Riassegnazione della variabile
-			$path = dirname(__FILE__)."/xml-schema/studenti.xml"; //Troviamo un percorso assoluto al file xml di riferimento
-			$doc->save($path); //Sovrascriviamolo
+		for ($k=0; $k < $materie->length; $k++) {
+			if (strcmp($dataStudiatoOggi[$k]->textContent, date("Y-m-d")) != 0){
+				$valoreStudiato[$k]->textContent = $valoreStudiatoText[$k] + $valoreStudiatoOggiText[$k];
+				$valoreStudiatoText[$k] = $valoreStudiato[$k]->textContent; 		//Riassegnazione della variabile
+				$valoreStudiatoOggi[$k]->textContent = 0;
+				$valoreStudiatoOggiText[$k] = $valoreStudiatoOggi[$k]->textContent;	//Riassegnazione della variabile
+				$path = dirname(__FILE__)."/xml-schema/studenti.xml"; //Troviamo un percorso assoluto al file xml di riferimento
+				$doc->save($path); //Sovrascriviamolo
+			}
 		}
 		?>
 	<div id="main">
+		<?php 
+		/*Dobbiamo ciclare affinchè si possano scorrere tutte le materie presente negli array creati in precedenza*/
+		for ($k=0; $k < $materie->length; $k++) { ?>
 		<div id="materia">
 			<?php 
 			//La percentuale si modifica real-time in base a ciò che viene inserito nel valoreStudiatoOggiForm
-			$percentuale = ( ($valoreStudiatoText+$valoreStudiatoOggiText)/$valoreDaStudiareText)*100;
+			$percentuale = ( ($valoreStudiatoText[$k]+$valoreStudiatoOggiText[$k])/$valoreDaStudiareText[$k])*100;
 			$percentuale = round ($percentuale, 1); //Arrotondiamo alla prima cifra dopo la virgola
 			?>
-			<div id="progressBar<?php percentuale(($valoreStudiatoText+$valoreStudiatoOggiText), $valoreDaStudiareText); ?>" style="background-size: <?php echo $percentuale?>% 100%; background-repeat: no-repeat;">
-				<?php echo $percentuale."% (".($valoreStudiatoText+$valoreStudiatoOggiText)."/".$valoreDaStudiareText." ".$oggettoStudioText.")"; ?>
+			<div id="progressBar<?php percentuale(($valoreStudiatoText[$k]+$valoreStudiatoOggiText[$k]), $valoreDaStudiareText[$k]); ?>" style="background-size: <?php echo $percentuale?>% 100%; background-repeat: no-repeat;">
+				<?php echo $percentuale."% (".($valoreStudiatoText[$k]+$valoreStudiatoOggiText[$k])."/".$valoreDaStudiareText[$k]." ".$oggettoStudioText[$k].")"; ?>
 			</div>
 			<?php 
-			$giorniDisponibili = giorniDisponibili ($dataScadenzaText, $nGiorniRipassoText);
-			$valoreDaStudiareOggi = valoreDaStudiareOggi($giorniDisponibili ,$valoreDaStudiareText, $valoreStudiatoText);
+			$giorniDisponibili = giorniDisponibili ($dataScadenzaText[$k], $nGiorniRipassoText[$k]);
+			$valoreDaStudiareOggi = valoreDaStudiareOggi($giorniDisponibili ,$valoreDaStudiareText[$k], $valoreStudiatoText[$k]);
 
-			$percentuale = ($valoreStudiatoOggiText/$valoreDaStudiareOggi)*100;
-			$percentuale = round ($percentuale, 1); //Arrotondiamo alla prima cifra dopo la virgola
+			$percentuale = ($valoreStudiatoOggiText[$k]/$valoreDaStudiareOggi)*100;
+			$percentuale = round ($percentuale, 1);
 			?>
 			<div id="nomeMateria">
-				<?php echo $nomeMateriaText; ?>
+				<b><?php echo $nomeMateriaText[$k]; ?></b>
 			</div>
 			<div>
-				L'esame è il <b><?php echo $dataScadenzaText;?></b>. 
+				L'esame è il <b><?php echo $dataScadenzaText[$k];?></b>. 
 				<br />
-				Hai impostato <b><?php echo $nGiorniRipassoText ?> giorni</b> di ripasso. 
+				Hai impostato <b><?php echo $nGiorniRipassoText[$k] ?> giorni</b> di ripasso. 
 				<br />
 				Hai a disposizione <b><?php echo $giorniDisponibili;?> giorni</b> di studio. <br/>
 			</div> 
 			<form id ="aggiungiValoreStudio" action="<?php $_SERVER["PHP_SELF"] ?>" method="get">
-				<input type="text" name="valoreStudiatoOggiForm" placeholder="<?php echo "Quante/i ".$oggettoStudioText." hai fatto oggi?"; ?>"/>		
+				<input type="text" name="valoreStudiatoOggiForm" placeholder="<?php echo "Quante/i ".$oggettoStudioText[$k]." hai fatto oggi?"; ?>"/>		
+				<!-- Il valore di indexMateria è l'indice della materia che abbiamo trovato con il for su tutto l'array-->
+				<input type="hidden" name="indexMateria" value="<?php echo $k;?>" />
 				<input type="image" name="submit" src="images/iconAggiungiValoreStudio.png" alt="Submit Form" />
 			</form>
-
-			<div id="progressBar<?php percentuale($valoreStudiatoOggiText, $valoreDaStudiareOggi); ?>" style="background-size: <?php echo $percentuale?>% 100%; background-repeat: no-repeat;">
-				<?php echo $percentuale."% (".$valoreStudiatoOggiText."/".$valoreDaStudiareOggi." ".$oggettoStudioText.")"; ?>
+			<div id="progressBar<?php percentuale($valoreStudiatoOggiText[$k], $valoreDaStudiareOggi); ?>" style="background-size: <?php echo $percentuale?>% 100%; background-repeat: no-repeat;">
+				<?php echo $percentuale."% (".$valoreStudiatoOggiText[$k]."/".$valoreDaStudiareOggi." ".$oggettoStudioText[$k].")"; ?>
 			</div>
 		</div>
+		<?php }?>
 	</div>
 </body>
 </html>
