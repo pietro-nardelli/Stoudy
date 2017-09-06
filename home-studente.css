@@ -233,7 +233,7 @@ body {
 	opacity: 0.8; /*quando ci passiamo sopra con il mouse l'immagine da opaca diventa più bianca*/
 }
 
-
+/*C'è distinzione tra planned e unplanned perchè altrimenti il pulsante non si posiziona adeguatamente*/
 #aggiungiRiassuntoPlanned {
 	position: relative;
 	display: block;
@@ -271,7 +271,7 @@ body {
 	width: 140px;
 	left: -70px;
 	margin-left: 50%;
-	top: 5px;
+	top: 15px;
 	text-decoration: none;
 	color: black;
 

@@ -58,11 +58,13 @@ for ($i=0; $i < $studenti->length; $i++) {
 		for ($k=0; $k < $materie->length; $k++) {	
 			$materia = $materie->item($k);
 
-			$statusText[$k] = $materia->getAttribute('status');
+			$statusText[$k] = $materia->getAttribute('status'); //Serve per capire se la materia è planned-unplanned-archived
+			//L'unica cosa in comune tra gli status è che possiamo inserire in ogni caso creare l'array nomeMateria
 			if ($statusText[$k] == 'unplanned' || $statusText[$k] == 'planned') {
 				$nomeMateria[$k] = $materia->firstChild;
 				$nomeMateriaText[$k] = $nomeMateria[$k]->textContent;
 			}
+			//Solo per la materia planned possiamo inserire tutti i dati inerenti al piano di studi, altrimenti errore
 			if ($statusText[$k] == 'planned') {
 				$valoreDaStudiare[$k] = $nomeMateria[$k]->nextSibling;
 				$valoreDaStudiareText[$k] = $valoreDaStudiare[$k]->textContent;
@@ -139,7 +141,7 @@ for ($i=0; $i < $studenti->length; $i++) {
 		if (isset($_GET['valoreStudiatoOggiForm']) && is_numeric($_GET['valoreStudiatoOggiForm']) && $_GET['valoreStudiatoOggiForm'] >= 0) {		 
 			//Con trim() togliamo gli spazi inseriti per sbaglio nel form (alla fine e all'inizio di ogni input)
 			$valoreStudiatoOggiForm = trim($_GET['valoreStudiatoOggiForm']);
-			/*Ciclando le materie da visualizzare, cicliamo anche la form che possiede l'indice $k
+			/*Ciclando le materie (planned) da visualizzare, cicliamo anche la form che possiede l'indice $k
 			*affinchè si possa determinare quale pulsante di quale materia abbiamo premuto.
 			*/
 			$k = $_GET['indexMateria'];
@@ -156,7 +158,7 @@ for ($i=0; $i < $studenti->length; $i++) {
 		 *azzera il valoreStudiatoOggi
 		 */
 		for ($k=0; $k < $materie->length; $k++) {
-			if ($statusText[$k] == 'planned') {
+			if ($statusText[$k] == 'planned') { //Si deve controllare in primis se è planned altrimenti errori
 				if (strcmp($dataStudiatoOggi[$k]->textContent, date("Y-m-d")) != 0){
 					$valoreStudiato[$k]->textContent = $valoreStudiatoText[$k] + $valoreStudiatoOggiText[$k];
 					$valoreStudiatoText[$k] = $valoreStudiato[$k]->textContent; 		//Riassegnazione della variabile
@@ -224,12 +226,14 @@ for ($i=0; $i < $studenti->length; $i++) {
 						<b><?php echo $nomeMateriaText[$k]; ?></b>
 					</div>
 					<div>
-						Questa materia non è pianificata. Se ti va, puoi ancora pianificarla.
+						Questa materia non possiede un programma di studio. 
+						<br/>
+						Se ti va, puoi ancora <a href="#" style="color: black; ">pianificarla</a>.
 					</div>
 					<a href="#" id="aggiungiRiassuntoUnplanned">	
 						Aggiungi riassunto
 					</a>
-					<br />
+					<br /><br /> <!-- Necessari per avere spazio bianco sotto il pulsante -->
 				</div>
 				<?php
 			}
