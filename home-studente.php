@@ -57,31 +57,34 @@ for ($i=0; $i < $studenti->length; $i++) {
 		$nomeMateriaText = array();
 		for ($k=0; $k < $materie->length; $k++) {	
 			$materia = $materie->item($k);
-			$nomeMateria[$k] = $materia->firstChild;
-			$nomeMateriaText[$k] = $nomeMateria[$k]->textContent;
-				
-			$valoreDaStudiare[$k] = $nomeMateria[$k]->nextSibling;
-			$valoreDaStudiareText[$k] = $valoreDaStudiare[$k]->textContent;
-
-			$oggettoStudio[$k] = $valoreDaStudiare[$k]->nextSibling;
-			$oggettoStudioText[$k] = $oggettoStudio[$k]->textContent;
-
-			$dataScadenza[$k] = $oggettoStudio[$k]->nextSibling;
-			$dataScadenzaText[$k] = $dataScadenza[$k]->textContent;
-
-			$nGiorniRipasso[$k] = $dataScadenza[$k]->nextSibling;
-			$nGiorniRipassoText[$k] = $nGiorniRipasso[$k]->textContent;			
-
-			$valoreStudiatoOggi[$k] = $nGiorniRipasso[$k]->nextSibling;			
-			$valoreStudiatoOggiText[$k] = $valoreStudiatoOggi[$k]->textContent;
-
-			$dataStudiatoOggi[$k] = $valoreStudiatoOggi[$k]->nextSibling;
-			$dataStudiatoOggiText[$k] = $dataStudiatoOggi[$k]->textContent;
-			
-			$valoreStudiato[$k] = $dataStudiatoOggi[$k]->nextSibling;
-			$valoreStudiatoText[$k] = $valoreStudiato[$k]->textContent;
 
 			$statusText[$k] = $materia->getAttribute('status');
+			if ($statusText[$k] == 'unplanned' || $statusText[$k] == 'planned') {
+				$nomeMateria[$k] = $materia->firstChild;
+				$nomeMateriaText[$k] = $nomeMateria[$k]->textContent;
+			}
+			if ($statusText[$k] == 'planned') {
+				$valoreDaStudiare[$k] = $nomeMateria[$k]->nextSibling;
+				$valoreDaStudiareText[$k] = $valoreDaStudiare[$k]->textContent;
+
+				$oggettoStudio[$k] = $valoreDaStudiare[$k]->nextSibling;
+				$oggettoStudioText[$k] = $oggettoStudio[$k]->textContent;
+
+				$dataScadenza[$k] = $oggettoStudio[$k]->nextSibling;
+				$dataScadenzaText[$k] = $dataScadenza[$k]->textContent;
+
+				$nGiorniRipasso[$k] = $dataScadenza[$k]->nextSibling;
+				$nGiorniRipassoText[$k] = $nGiorniRipasso[$k]->textContent;			
+
+				$valoreStudiatoOggi[$k] = $nGiorniRipasso[$k]->nextSibling;			
+				$valoreStudiatoOggiText[$k] = $valoreStudiatoOggi[$k]->textContent;
+
+				$dataStudiatoOggi[$k] = $valoreStudiatoOggi[$k]->nextSibling;
+				$dataStudiatoOggiText[$k] = $dataStudiatoOggi[$k]->textContent;
+				
+				$valoreStudiato[$k] = $dataStudiatoOggi[$k]->nextSibling;
+				$valoreStudiatoText[$k] = $valoreStudiato[$k]->textContent;
+			}
 		} 
 
 		$riassunti = $email->nextSibling->nextSibling;
@@ -153,13 +156,15 @@ for ($i=0; $i < $studenti->length; $i++) {
 		 *azzera il valoreStudiatoOggi
 		 */
 		for ($k=0; $k < $materie->length; $k++) {
-			if (strcmp($dataStudiatoOggi[$k]->textContent, date("Y-m-d")) != 0){
-				$valoreStudiato[$k]->textContent = $valoreStudiatoText[$k] + $valoreStudiatoOggiText[$k];
-				$valoreStudiatoText[$k] = $valoreStudiato[$k]->textContent; 		//Riassegnazione della variabile
-				$valoreStudiatoOggi[$k]->textContent = 0;
-				$valoreStudiatoOggiText[$k] = $valoreStudiatoOggi[$k]->textContent;	//Riassegnazione della variabile
-				$path = dirname(__FILE__)."/xml-schema/studenti.xml"; //Troviamo un percorso assoluto al file xml di riferimento
-				$doc->save($path); //Sovrascriviamolo
+			if ($statusText[$k] == 'planned') {
+				if (strcmp($dataStudiatoOggi[$k]->textContent, date("Y-m-d")) != 0){
+					$valoreStudiato[$k]->textContent = $valoreStudiatoText[$k] + $valoreStudiatoOggiText[$k];
+					$valoreStudiatoText[$k] = $valoreStudiato[$k]->textContent; 		//Riassegnazione della variabile
+					$valoreStudiatoOggi[$k]->textContent = 0;
+					$valoreStudiatoOggiText[$k] = $valoreStudiatoOggi[$k]->textContent;	//Riassegnazione della variabile
+					$path = dirname(__FILE__)."/xml-schema/studenti.xml"; //Troviamo un percorso assoluto al file xml di riferimento
+					$doc->save($path); //Sovrascriviamolo
+				}
 			}
 		}
 		?>
@@ -167,43 +172,69 @@ for ($i=0; $i < $studenti->length; $i++) {
 		<?php 
 		/*Dobbiamo ciclare affinchè si possano scorrere tutte le materie presente negli array creati in precedenza*/
 		for ($k=0; $k < $materie->length; $k++) { ?>
-		<div id="materia">
 			<?php 
-			//La percentuale si modifica real-time in base a ciò che viene inserito nel valoreStudiatoOggiForm
-			$percentuale = ( ($valoreStudiatoText[$k]+$valoreStudiatoOggiText[$k])/$valoreDaStudiareText[$k])*100;
-			$percentuale = round ($percentuale, 1); //Arrotondiamo alla prima cifra dopo la virgola
-			?>
-			<div id="progressBar<?php percentuale(($valoreStudiatoText[$k]+$valoreStudiatoOggiText[$k]), $valoreDaStudiareText[$k]); ?>" style="background-size: <?php echo $percentuale?>% 100%; background-repeat: no-repeat;">
-				<?php echo $percentuale."% (".($valoreStudiatoText[$k]+$valoreStudiatoOggiText[$k])."/".$valoreDaStudiareText[$k]." ".$oggettoStudioText[$k].")"; ?>
-			</div>
-			<?php 
-			$giorniDisponibili = giorniDisponibili ($dataScadenzaText[$k], $nGiorniRipassoText[$k]);
-			$valoreDaStudiareOggi = valoreDaStudiareOggi($giorniDisponibili ,$valoreDaStudiareText[$k], $valoreStudiatoText[$k]);
+			/*Se la materia è PLANNED, allora visualizza il piano di studi*/
+			if ($statusText[$k] == 'planned') { ?>
+				<div id="materia">
+					<?php
+					//La percentuale si modifica real-time in base a ciò che viene inserito nel valoreStudiatoOggiForm
+					$percentuale = ( ($valoreStudiatoText[$k]+$valoreStudiatoOggiText[$k])/$valoreDaStudiareText[$k])*100;
+					$percentuale = round ($percentuale, 1); //Arrotondiamo alla prima cifra dopo la virgola
+					?>
+					<div id="progressBar<?php percentuale(($valoreStudiatoText[$k]+$valoreStudiatoOggiText[$k]), $valoreDaStudiareText[$k]); ?>" style="background-size: <?php echo $percentuale?>% 100%; background-repeat: no-repeat;">
+						<?php echo $percentuale."% (".($valoreStudiatoText[$k]+$valoreStudiatoOggiText[$k])."/".$valoreDaStudiareText[$k]." ".$oggettoStudioText[$k].")"; ?>
+					</div>
+					<?php 
+					$giorniDisponibili = giorniDisponibili ($dataScadenzaText[$k], $nGiorniRipassoText[$k]);
+					$valoreDaStudiareOggi = valoreDaStudiareOggi($giorniDisponibili ,$valoreDaStudiareText[$k], $valoreStudiatoText[$k]);
 
-			$percentuale = ($valoreStudiatoOggiText[$k]/$valoreDaStudiareOggi)*100;
-			$percentuale = round ($percentuale, 1);
-			?>
-			<div id="nomeMateria">
-				<b><?php echo $nomeMateriaText[$k]; ?></b>
-			</div>
-			<div>
-				L'esame è il <b><?php echo $dataScadenzaText[$k];?></b>. 
-				<br />
-				Hai impostato <b><?php echo $nGiorniRipassoText[$k] ?> giorni</b> di ripasso. 
-				<br />
-				Hai a disposizione <b><?php echo $giorniDisponibili;?> giorni</b> di studio. <br/>
-			</div> 
-			<form id ="aggiungiValoreStudio" action="<?php $_SERVER["PHP_SELF"] ?>" method="get">
-				<input type="text" name="valoreStudiatoOggiForm" placeholder="<?php echo "Quante/i ".$oggettoStudioText[$k]." hai fatto oggi?"; ?>"/>		
-				<!-- Il valore di indexMateria è l'indice della materia che abbiamo trovato con il for su tutto l'array-->
-				<input type="hidden" name="indexMateria" value="<?php echo $k;?>" />
-				<input type="image" name="submit" src="images/iconAggiungiValoreStudio.png" alt="Submit Form" />
-			</form>
-			<div id="progressBar<?php percentuale($valoreStudiatoOggiText[$k], $valoreDaStudiareOggi); ?>" style="background-size: <?php echo $percentuale?>% 100%; background-repeat: no-repeat;">
-				<?php echo $percentuale."% (".$valoreStudiatoOggiText[$k]."/".$valoreDaStudiareOggi." ".$oggettoStudioText[$k].")"; ?>
-			</div>
-		</div>
-		<?php }?>
+					$percentuale = ($valoreStudiatoOggiText[$k]/$valoreDaStudiareOggi)*100;
+					$percentuale = round ($percentuale, 1);
+					?>
+					<div id="nomeMateria">
+						<b><?php echo $nomeMateriaText[$k]; ?></b>
+					</div>
+					<div>
+						L'esame è il <b><?php echo $dataScadenzaText[$k];?></b>. 
+						<br />
+						Hai impostato <b><?php echo $nGiorniRipassoText[$k] ?> giorni</b> di ripasso. 
+						<br />
+						Hai a disposizione <b><?php echo $giorniDisponibili;?> giorni</b> di studio. <br/>
+					</div> 
+					<form id ="aggiungiValoreStudio" action="<?php $_SERVER["PHP_SELF"] ?>" method="get">
+						<input type="text" name="valoreStudiatoOggiForm" placeholder="<?php echo "Quante/i ".$oggettoStudioText[$k]." hai fatto oggi?"; ?>"/>		
+						<!-- Il valore di indexMateria è l'indice della materia che abbiamo trovato con il for su tutto l'array-->
+						<input type="hidden" name="indexMateria" value="<?php echo $k;?>" />
+						<input type="image" name="submit" src="images/iconAggiungiValoreStudio.png" alt="Submit Form" />
+					</form>
+					<a href="#" id="aggiungiRiassuntoPlanned">	
+						Aggiungi riassunto
+					</a>
+					<div id="progressBar<?php percentuale($valoreStudiatoOggiText[$k], $valoreDaStudiareOggi); ?>" style="background-size: <?php echo $percentuale?>% 100%; background-repeat: no-repeat;">
+						<?php echo $percentuale."% (".$valoreStudiatoOggiText[$k]."/".$valoreDaStudiareOggi." ".$oggettoStudioText[$k].")"; ?>
+					</div>
+				</div>
+			<?php
+			}
+			/*Se la materia è UNPLANNED, allora visualizza solo il pulsante 'aggiungi riassunto' */
+			else if ($statusText[$k] == 'unplanned') {
+				?>
+				<div id="materia">
+					<div id="nomeMateria">
+						<b><?php echo $nomeMateriaText[$k]; ?></b>
+					</div>
+					<div>
+						Questa materia non è pianificata. Se ti va, puoi ancora pianificarla.
+					</div>
+					<a href="#" id="aggiungiRiassuntoUnplanned">	
+						Aggiungi riassunto
+					</a>
+					<br />
+				</div>
+				<?php
+			}
+		}
+		?>
 	</div>
 </body>
 </html>
