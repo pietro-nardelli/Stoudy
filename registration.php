@@ -117,7 +117,7 @@
 						$path = dirname(__FILE__)."/xml-schema/studenti.xml"; //Troviamo un percorso assoluto al file xml di riferimento
 						$doc->save($path); //Sovrascriviamolo
 						/***/
-						header("Location: registration-redirect.php");
+						header("Location: login.php");
 						exit();
 					}
 				}

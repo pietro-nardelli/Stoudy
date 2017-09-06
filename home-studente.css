@@ -217,6 +217,7 @@ body {
 	border-color: rgba(41,151,293, 0.8);
 	}	
 
+
 #aggiungiValoreStudio input[type="image"] {
 	position:relative;
 	width:10%;
@@ -347,3 +348,83 @@ body {
 
 	background: rgba(33, 208, 228, 1); /* For browsers that do not support gradients */
 }
+
+/*AGGIUNGI-MATERIA.PHP*/
+
+
+#aggiungiMateria {
+	position: absolute;
+	font-family: rawengulk, Helvetica, Arial;
+	background-color: white;
+	top: 100px;
+	width: 400px;
+	margin-left: 50%;
+	left: -200px;
+	padding: 10px;
+	margin-bottom: 10px;
+	
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+	text-align: center;
+	box-shadow: 1.5px 1.5px 1.5px 1.5px #999;
+}
+
+#aggiungiMateria div {
+	font-size: 2em; 
+	margin-bottom: 10px;
+}
+
+#aggiungiMateria p {
+	margin-bottom: 30px;
+}
+
+#aggiungiMateria input[type="text"],
+#aggiungiMateria input[type="password"] {
+	width: 100%;
+	margin-bottom: 20px;
+	
+	font-family: rawengulk, Helvetica, Arial;
+	font-size: 0.9em;
+	line-height: 1.8em;
+	border: 1px solid #999;
+	
+    -webkit-box-shadow: 0 2px 0px rgb(232,238,252);
+	-moz-box-shadow: 0 2px 0px rgb(232,238,252);
+	box-shadow: 0 2px 0px rgb(232,238,252);
+}
+
+#aggiungiMateria input[type="text"]:hover,
+#aggiungiMateria input[type="text"]:focus,
+#aggiungiMateria input[type="password"]:hover,
+#aggiungiMateria input[type="password"]:focus { /*passandoci sopra si illuminano*/
+	border-color: rgba(41,151,293, 0.8);
+	}	
+
+#aggiungiMateria input[type="submit"] {
+	position: relative;
+	padding: 10px 18px;
+	margin-top: 15px;
+	width: 200px;
+	margin-left: 50%;
+	left: -100px;
+
+	font-family: rawengulk, Helvetica, Arial;
+	font-size: 1.15em;
+	line-height: 1;
+	color: white;
+	border: none;
+	background-color: rgb(41,151,293);
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+	-webkit-box-shadow: 0 1px 2px rgb(0, 0, 0, 0.5);
+	-moz-box-shadow: 0 1px 2px rgb(0, 0, 0, 0.5);
+	box-shadow: 0 1px 2px rgb(0, 0, 0, 0.5);
+}
+	
+	
+#aggiungiMateria input[type="submit"]:hover,
+#aggiungiMateria input[type="submit"]:focus {
+	background-color: rgba(41,151,293, 0.80);
+	}

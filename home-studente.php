@@ -106,7 +106,7 @@ for ($i=0; $i < $studenti->length; $i++) {
 			</a>
 		</div>
 		<div id="navigation">
-			<a href="#"><img src="images/iconAggiungiMateria.png">Nuova materia</a>
+			<a href="aggiungi-materia.php"><img src="images/iconAggiungiMateria.png">Nuova materia</a>
 			<a href="#"><img src="images/iconArchivioMaterie.png">Archivio materie</a>
 			<a href="#"><img src="images/iconRiassuntiCreati.png">Riassunti creati</a>
 			<a href="#"><img src="images/iconRiassuntiVisualizzati.png">Riassunti visualizzati</a>
