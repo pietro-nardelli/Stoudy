@@ -13,7 +13,7 @@
 </head>
 <body>
 <?php
-
+include 'functions/giorniDisponibili.php';
 session_start();
 if (!isset($_SESSION['accessoPermesso'])) {
     header('Location: login.php');
@@ -44,8 +44,8 @@ for ($i=0; $i < $studenti->length; $i++) {
 		$email = $cognome->nextSibling;
 		$emailText = $email->textContent;
 
-		$materie = $email->nextSibling;
-		$materie = $materie->childNodes;
+		$materieElement = $email->nextSibling;
+		$materie = $materieElement->childNodes;
 		/*Bisogna creare un array per ogni valore presente in materia, affinchè si possa successivamente
 		 *elencare ed aggiornare le materie presenti nella lista. Se si creasse un array per i soli valori
 		 *testuali sarebbe impossibile aggiornarli. Ogni valore $k deve appartenere ad una materia
@@ -146,14 +146,20 @@ for ($i=0; $i < $studenti->length; $i++) {
 			</p>
 			<?php
 			if (isset($_POST['submit'])) {	
+				$errore = 0;
 				if ($_POST['nomeMateria'] && !empty($_POST['status']) ) {
 					for ($k=0; $k < $materie->length; $k++) {
-						if ( $_POST['nomeMateria'] == $nomeMateriaText[$k] ) {	
+						if ( strcasecmp($_POST['nomeMateria'], $nomeMateriaText[$k]) == 0 ) {	
 							echo '<p style="color: red;">Materia già presente.</p>';
+							$errore = 1;
 						}
 					}
-					$_SESSION['nomeMateria']= $_POST['nomeMateria'];
-					$_SESSION['status']= $_POST['status'];
+					if ($errore == 0) {
+						$_SESSION['nomeMateria']= $_POST['nomeMateria'];
+						$_SESSION['status']= $_POST['status'];
+
+						header("Location: aggiungi-materia.php");
+					}
 				}
 				else {
 					echo '<p style="color: red;">Compilare tutti i campi.</p>';
@@ -163,7 +169,7 @@ for ($i=0; $i < $studenti->length; $i++) {
 
 			<input type="text" name="nomeMateria" placeholder=" Nome della materia" />
 			<input type="radio" name="status" value="planned" /> <label>Pianifica</label>
-			<input type="radio" name="status" value="unplanned" /> <label>Non pianificarla</label>
+			<input type="radio" name="status" value="unplanned" /> <label>Non pianificarla</label><br />
 			<input type="submit" name="submit" value="Continua" />
 		<?php 
 		}
@@ -178,23 +184,27 @@ for ($i=0; $i < $studenti->length; $i++) {
 			Ad esempio, se si deve studiare un libro di 300 pagine inserire "pagine" nel form sottostante.
 			</p>
 			<?php
-			if (isset($_POST['submit2'])) {	
+			if (isset($_POST['submit'])) {	
 				if ($_POST['oggettoStudio']) {
 					$_SESSION['oggettoStudio']= $_POST['oggettoStudio'];
+					
+					header("Location: aggiungi-materia.php");
 				}
 				else {
 					echo '<p style="color: red;">Compilare tutti i campi.</p>';
 				}
 			}
+			if (isset($_POST['back'])) {
+				unset($_SESSION['status']);
+
+				header("Location: aggiungi-materia.php");
+			}
 			?>
 
-			<input type="text" name="oggettoStudio" placeholder="Pagine? Capitoli? Ore?"/> <br />		
-			<!--<input type="text" name="valoreDaStudiare" placeholder="Inserire un valore corrispondente a quanto si deve studiare" /> <br />				
-			<input type="text" name="dataScadenza" placeholder="Inserire la data dell'esame nel formato yyyy-mm-dd" /> <br />		
-			<input type="text" name="nGiorniRipasso" placeholder="Quanti giorni si intende ripetere?" /> <br />	
-			<input type="text" name="valoreStudiato" placeholder="Se hai iniziato già a studiare, inserisci " /> <br />
-			-->
-			<input type="submit" name="submit2" value="Continua" />
+			<input type="text" name="oggettoStudio" placeholder="Pagine? Capitoli? Paragrafi?"/> <br />	
+
+			<input type="submit" name="back" value="Indietro" />	
+			<input type="submit" name="submit" value="Continua" />
 		<?php
 		}
 		else {
@@ -203,45 +213,120 @@ for ($i=0; $i < $studenti->length; $i++) {
 				Aggiungi una materia
 				</div>
 				<p>
-				Blablabla
+				Ancora un ultimo passaggio e abbiamo finito!
 				</p>
 				<?php
-				if (isset($_POST['submit3'])) {	
-					if ($_POST['valoreDaStudiare']) {
+				if (isset($_POST['submit'])) {	
+					if (isset($_POST['valoreDaStudiare'])) {
 						if (is_numeric ($_POST['valoreDaStudiare']) && $_POST['valoreDaStudiare'] > 0 ) {
 							$_SESSION['valoreDaStudiare']= $_POST['valoreDaStudiare'];
 						}
 						else {
+							unset($_SESSION['valoreDaStudiare']);
 							echo '<p style="color: red;">Valore da studiare deve essere un n° maggiore di 0.</p>';
 						}
-					}
-					else {
-						echo '<p style="color: red;">Compilare tutti i campi.</p>';
 					}
 					//https://stackoverflow.com/questions/10120643/php-datetime-createfromformat-functionality/10120725#10120725
 					if ($_POST['dataScadenza']) {
 						$dateTime = DateTime::createFromFormat('Y-m-d', $_POST['dataScadenza']);
 						$errors = DateTime::getLastErrors();
+						$now = new DateTime();
+
+						
 						if (empty($errors['warning_count'])) {
 							$_SESSION['dataScadenza'] = $_POST['dataScadenza'];
 						}
 						else {
+							unset($_SESSION['dataScadenza']);
 							echo '<p style="color: red;">La data non è stata compilata correttamente.</p>';
 						}
 					}
-					else {
-						echo '<p style="color: red;">Compilare tutti i campi.</p>';
+					if (isset($_POST['nGiorniRipasso'])) {
+						if (is_numeric ($_POST['nGiorniRipasso']) && $_POST['nGiorniRipasso'] >= 0) {
+							$_SESSION['nGiorniRipasso'] = $_POST['nGiorniRipasso'];
+						}
+						else {
+							unset($_SESSION['nGiorniRipasso']);
+							echo '<p style="color: red;">Giorni di ripasso deve essere un n° positivo.</p>';
+						}
 					}
-					//Inserire da qui in poi ngiorniRipasso e valoreStudiato. Poi inserire anche il pulsante per annullare
+					if (isset($_POST['valoreStudiato'])) {
+						if (is_numeric ($_POST['nGiorniRipasso']) && $_POST['valoreStudiato'] >= 0) {
+							$_SESSION['valoreStudiato'] = $_POST['valoreStudiato'];
+						}
+						else {
+							unset($_SESSION['valoreStudiato']);
+							echo '<p style="color: red;">Valore studiato deve essere un n° maggiore di 0.</p>';
+						}
+					}
+					else {
+						$_SESSION['valoreStudiato'] = "0";
+					}
+					if (!isset($_POST['valoreDaStudiare']) || !($_POST['dataScadenza']) || !isset($_POST['nGiorniRipasso'])) {
+						echo '<p style="color: red;">Compilare tutti i campi obbligatori.</p>';
+					}
+					else {
+						$dataScadenza = $dateTime->format('Y-m-d');
+						if (giorniDisponibili($dataScadenza, $_POST['nGiorniRipasso']) < 0) {
+							echo '<p style="color: red;">Ops, non hai abbastanza giorni per studiare.</p>';
+						}
+						if ($_POST['valoreStudiato'] > $_POST['valoreDaStudiare'] ) {
+							echo '<p style="color: red;">Il valore studiato non può essere maggiore del totale da studiare!</p>';
+						}
+					}
+					if (isset($_SESSION['valoreDaStudiare']) &&
+					isset($_SESSION['dataScadenza']) &&
+					isset($_SESSION['nGiorniRipasso']) &&
+					isset($_SESSION['valoreStudiato'])) {
+						$newMateria = $doc->createElement("materia");
+						$newNomeMateria = $doc->createElement("nomeMateria", $_SESSION['nomeMateria']);
+										
+						$newOggettoStudio = $doc->createElement("oggettoStudio", $_SESSION['oggettoStudio']);
+						$newValoreDaStudiare = $doc->createElement("valoreDaStudiare", $_SESSION['valoreDaStudiare']);
+						$newDataScadenza = $doc->createElement("dataScadenza", $_SESSION['dataScadenza']);
+						$newNGiorniRipasso = $doc->createElement("nGiorniRipasso", $_SESSION['nGiorniRipasso']);
+						$newValoreStudiato = $doc->createElement("valoreStudiato", $_SESSION['valoreStudiato']);
+						$newValoreStudiatoOggi = $doc->createElement("valoreStudiatoOggi","0");
+						$newDataStudiatoOggi = $doc->createElement("dataStudiatoOggi",date("Y-m-d"));
+						
+						/*Attacchiamo all'elemento principale tutti i suoi figli e i corrispettivi "nipoti"*/
+						$newMateria->appendChild($newNomeMateria);
+						$newMateria->appendChild($newValoreDaStudiare);
+						$newMateria->appendChild($newOggettoStudio);
+						$newMateria->appendChild($newDataScadenza);
+						$newMateria->appendChild($newNGiorniRipasso);
+						$newMateria->appendChild($newValoreStudiatoOggi);
+						$newMateria->appendChild($newDataStudiatoOggi);
+						$newMateria->appendChild($newValoreStudiato);
+						
+						$newMateria->setAttribute("status", $_SESSION['status']);
+						
+						
+						/*Inseriamo il nodo che abbiamo creato, prima del primo elemento della lista di elementi dopo root*/
+						$materieElement->insertBefore($newMateria);
+						$path = dirname(__FILE__)."/xml-schema/studenti.xml"; //Troviamo un percorso assoluto al file xml di riferimento
+						$doc->save($path); //Sovrascriviamolo
+						/***/
+						/*header("Location: home-studente.php");
+						exit();*/
+					}
+				}
+
+
+
+				if (isset($_POST['back'])) {
+					unset($_SESSION['oggettoStudio']);
+					header("Location: aggiungi-materia.php");
 				}
 				?>
 	
 				<input type="text" name="valoreDaStudiare" placeholder="Quante/i <?php echo $_SESSION['oggettoStudio'] ?> devi studiare?" /> <br />				
-				<input type="text" name="dataScadenza" placeholder="Inserire la data dell'esame nel formato yyyy-mm-dd" /> <br />		
+				<input type="text" name="dataScadenza" placeholder="Inserire la data dell'esame (yyyy-mm-dd)" /> <br />		
 				<input type="text" name="nGiorniRipasso" placeholder="Quanti giorni si intende ripetere?" /> <br />	
-				<input type="text" name="valoreStudiato" placeholder="Inserisci quante/i <?php echo $_SESSION['oggettoStudio'] ?> hai già fatto " /> <br />
-	
-				<input type="submit" name="submit3" value="Continua" />
+				<input type="text" name="valoreStudiato" placeholder="Inserisci quante/i <?php echo $_SESSION['oggettoStudio'] ?> hai già fatto (optional) " /> <br />
+				
+				<input type="submit" name="back" value="Indietro" />
+				<input type="submit" name="submit" value="Continua" />
 		<?php
 		}
 		?>
