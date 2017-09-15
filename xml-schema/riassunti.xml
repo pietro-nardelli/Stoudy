@@ -1,4 +1,4 @@
-<?xml version="1.0" enIDing="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <riassunti xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="riassunti.xsd">
 	<riassunto condivisione="public">
 		<ID>928731</ID>
@@ -6,10 +6,7 @@
 		<emailStudente>mario@email.com</emailStudente>
 		<data>2017-04-01</data>
 		<orario>18:11:02</orario>
-		<contenuto>
-			<testo>Il campo elettrostatico si definisce conservativo se la circuitazione del campo...</testo>
-			<!--<immagine></immagine>-->
-		</contenuto>
+		<testo>Il campo elettrostatico si definisce conservativo se la circuitazione del campo...</testo>
 		<visualizzazioni>123</visualizzazioni>
 		<tags>
 			<nomeTag>Fisica 2</nomeTag>
@@ -29,9 +26,7 @@
 		<emailStudente>prova@email.com</emailStudente>
 		<data>2017-03-21</data>
 		<orario>21:34:22</orario>
-		<contenuto>
-			<immagine>http://www.imagedatabase.com/image209192929282.jpg</immagine>
-		</contenuto>
+		<testo>Bla bla bla</testo>
 		<visualizzazioni>0</visualizzazioni>
 		<tags>
 			<nomeTag>tag1</nomeTag>

@@ -38,7 +38,7 @@ for ($i=0; $i < $studenti->length; $i++) {
 	/*Se l'email derivante dal login coincide con uno studente presente nel file XML, carica tutti i dati relativi*/
 	if ($_SESSION['email'] == $studenti->item($i)->firstChild->nextSibling->nextSibling->textContent){
 		$studente = $studenti->item($i); //questo sarà uno degli studenti e sarà dotato di altri figli.
-		$nome = $studente->firstChild; //ora data contiene il primo sottoelemento (studente) di $studente[$i]
+		$nome = $studente->firstChild; 
 		$nomeText = $nome->textContent;
 
 		$cognome = $nome->nextSibling;
@@ -47,8 +47,8 @@ for ($i=0; $i < $studenti->length; $i++) {
 		$email = $cognome->nextSibling;
 		$emailText = $email->textContent;
 
-		$materie = $email->nextSibling;
-		$materie = $materie->childNodes;
+		$materieElement = $email->nextSibling; //Questo rappresenta l'elemento "materie"
+		$materie = $materieElement->childNodes; //Quest'altro invece la lista di materie
 		/*Bisogna creare un array per ogni valore presente in materia, affinchè si possa successivamente
 		 *elencare ed aggiornare le materie presenti nella lista. Se si creasse un array per i soli valori
 		 *testuali sarebbe impossibile aggiornarli. Ogni valore $k deve appartenere ad una materia
@@ -56,7 +56,7 @@ for ($i=0; $i < $studenti->length; $i++) {
 		 */
 		$nomeMateriaText = array();
 		for ($k=0; $k < $materie->length; $k++) {	
-			$materia = $materie->item($k);
+			$materia = $materie->item($k); //Materia k-esima appartenente alla lista precedentemente definita
 
 			$statusText[$k] = $materia->getAttribute('status'); //Serve per capire se la materia è planned-unplanned-archived
 			//L'unica cosa in comune tra gli status è che possiamo inserire in ogni caso creare l'array nomeMateria
@@ -107,7 +107,6 @@ for ($i=0; $i < $studenti->length; $i++) {
 		</div>
 		<div id="navigation">
 			<a href="aggiungi-materia.php"><img src="images/iconAggiungiMateria.png">Nuova materia</a>
-			<a href="#"><img src="images/iconArchivioMaterie.png">Archivio materie</a>
 			<a href="#"><img src="images/iconRiassuntiCreati.png">Riassunti creati</a>
 			<a href="#"><img src="images/iconRiassuntiVisualizzati.png">Riassunti visualizzati</a>
 			<a href="#"><img src="images/iconRiassuntiPreferiti.png">Riassunti preferiti</a>
@@ -173,12 +172,12 @@ for ($i=0; $i < $studenti->length; $i++) {
 	<div id="main">
 		<?php 
 		/*Dobbiamo ciclare affinchè si possano scorrere tutte le materie presente negli array creati in precedenza*/
-		for ($k=0; $k < $materie->length; $k++) { ?>
-			<?php 
+		for ($k=0; $k < $materie->length; $k++) { 
 			/*Se la materia è PLANNED, allora visualizza il piano di studi*/
-			if ($statusText[$k] == 'planned') { ?>
+			if ($statusText[$k] == 'planned') { 
+				?>
 				<div id="materia">
-					<?php
+					<?php	
 					//La percentuale si modifica real-time in base a ciò che viene inserito nel valoreStudiatoOggiForm
 					$percentuale = ( ($valoreStudiatoText[$k]+$valoreStudiatoOggiText[$k])/$valoreDaStudiareText[$k])*100;
 					$percentuale = round ($percentuale, 1); //Arrotondiamo alla prima cifra dopo la virgola
@@ -189,7 +188,7 @@ for ($i=0; $i < $studenti->length; $i++) {
 					<?php 
 					$giorniDisponibili = giorniDisponibili ($dataScadenzaText[$k], $nGiorniRipassoText[$k]);
 					$valoreDaStudiareOggi = valoreDaStudiareOggi($giorniDisponibili ,$valoreDaStudiareText[$k], $valoreStudiatoText[$k]);
-
+	
 					$percentuale = ($valoreStudiatoOggiText[$k]/$valoreDaStudiareOggi)*100;
 					$percentuale = round ($percentuale, 1);
 					?>

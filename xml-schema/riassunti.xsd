@@ -1,4 +1,4 @@
-<?xml version="1.0" enIDing="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
 	<!-- definition of simple element -->
@@ -7,7 +7,6 @@
 	<xsd:element name="data" type="xsd:date" />
 	<xsd:element name="orario" type="xsd:time" />
 	<xsd:element name="testo" type="xsd:string" />
-	<xsd:element name="immagine" type="xsd:string" />
 	<xsd:element name="emailPreferiti" type="xsd:string" />
 	<xsd:element name="visualizzazioni" type="xsd:nonNegativeInteger" />
 	<xsd:element name="nomeTag" type="xsd:string" />
@@ -31,19 +30,10 @@
 		</xsd:simpleType>
 	</xsd:element>
 
-	<xsd:element name="contenuto">
-		<xsd:complexType>
-			<xsd:choice>
-				<xsd:element ref="testo" />
-				<xsd:element ref="immagine" />
-			</xsd:choice>
-		</xsd:complexType>
-	</xsd:element>
-
 	<xsd:element name="tags">
 		<xsd:complexType>
 			<xsd:sequence>
-				<xsd:element ref="nomeTag" minOccurs="1" maxOccurs="unbounded" />
+				<xsd:element ref="nomeTag" minOccurs="1" maxOccurs="5" />
 			</xsd:sequence>
 		</xsd:complexType>
 	</xsd:element>
@@ -64,7 +54,7 @@
 				<xsd:element ref="emailStudente" />
 				<xsd:element ref="data" />
 				<xsd:element ref="orario" />
-				<xsd:element ref="contenuto" />
+				<xsd:element ref="testo" />
 				<xsd:element ref="visualizzazioni" />
 				<xsd:element ref="tags" />
 				<xsd:element ref="preferiti" />

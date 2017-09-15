@@ -5,8 +5,12 @@ function giorniDisponibili($dataScadenza, $nGiorniRipasso){
       $date2=date_create($dataScadenza);  //Idem per la data di scadenza
       $diff=date_diff($date1,$date2);     //Effettuiamo la differenza tra le due date
       $giorni = $diff->format('%a');      //La variabile giorni sarà un numero intero risultante dalla differenza precedente
-            
-      $giorniDisponibili = $giorni - $nGiorniRipasso;            
+      if (is_numeric($nGiorniRipasso)) {      
+            $giorniDisponibili = $giorni - $nGiorniRipasso;    
+      }          
+      else {
+            $giorniDisponibili = $giorni;  
+      }
       return $giorniDisponibili;    
 }
 ?>

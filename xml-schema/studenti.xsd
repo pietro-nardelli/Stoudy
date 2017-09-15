@@ -24,7 +24,6 @@
 			<xsd:restriction base="xsd:string"> 
 				<xsd:enumeration value="planned" />
 				<xsd:enumeration value="unplanned" />
-				<xsd:enumeration value="archived" />
 			</xsd:restriction>
 		</xsd:simpleType>
 	</xsd:attribute>
