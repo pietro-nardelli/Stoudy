@@ -54,7 +54,7 @@ for ($i=0; $i < $studenti->length; $i++) {
 		 *testuali sarebbe impossibile aggiornarli. Ogni valore $k deve appartenere ad una materia
 		 *($k=>materia k-esima).
 		 */
-		$nomeMateriaText = array();
+		
 		for ($k=0; $k < $materie->length; $k++) {	
 			$materia = $materie->item($k); //Materia k-esima appartenente alla lista precedentemente definita
 
@@ -211,6 +211,9 @@ for ($i=0; $i < $studenti->length; $i++) {
 					<a href="#" id="aggiungiRiassuntoPlanned">	
 						Aggiungi riassunto
 					</a>
+					<a href="elimina-materia.php?<?php echo "nomeMateria=".urlencode($nomeMateriaText[$k]).""; ?>" id="eliminaMateriaPlanned">
+						Elimina materia
+					</a>
 					<div id="progressBar<?php percentuale($valoreStudiatoOggiText[$k], $valoreDaStudiareOggi); ?>" style="background-size: <?php echo $percentuale?>% 100%; background-repeat: no-repeat;">
 						<?php echo $percentuale."% (".$valoreStudiatoOggiText[$k]."/".$valoreDaStudiareOggi." ".$oggettoStudioText[$k].")"; ?>
 					</div>
@@ -231,6 +234,9 @@ for ($i=0; $i < $studenti->length; $i++) {
 					</div>
 					<a href="#" id="aggiungiRiassuntoUnplanned">	
 						Aggiungi riassunto
+					</a>
+					<a href="elimina-materia.php?<?php echo "nomeMateria=".urlencode($nomeMateriaText[$k]).""; ?>" id="eliminaMateriaUnplanned">
+						Elimina materia
 					</a>
 					<br /><br /> <!-- Necessari per avere spazio bianco sotto il pulsante -->
 				</div>

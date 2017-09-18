@@ -237,13 +237,12 @@ body {
 /*C'è distinzione tra planned e unplanned perchè altrimenti il pulsante non si posiziona adeguatamente*/
 #aggiungiRiassuntoPlanned {
 	position: relative;
-	display: block;
+	display: inline-block;
+	white-space: nowrap;
 	background-color: rgba(112, 134, 154, 0.70);
 	text-align: center;
 	padding: 5px;
 	width: 140px;
-	left: -70px;
-	margin-left: 50%;
 	margin-top: 10px;
 	margin-bottom: 15px;
 	text-decoration: none;
@@ -263,16 +262,43 @@ body {
 	background-color: rgba(154, 183, 210, 0.70);
 }
 
+#eliminaMateriaPlanned {
+	position: relative;
+	display: inline-block;
+	white-space: nowrap;
+	background-color: rgba(184, 0, 0, 0.7);
+	text-align: center;
+	padding: 5px;
+	width: 110px;
+	margin-top: 10px;
+	margin-bottom: 15px;
+	text-decoration: none;
+	color: black;
+
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+
+#eliminaMateriaPlanned:hover,
+#eliminaMateriaPlanned:focus {
+	background-color: rgba(255, 0, 0, 0.7);
+}
+
 #aggiungiRiassuntoUnplanned {
 	position: relative;
-	display: block;
+	display: inline-block;
+	white-space: nowrap;
 	background-color: rgba(112, 134, 154, 0.70);
 	text-align: center;
 	padding: 5px;
 	width: 140px;
-	left: -70px;
-	margin-left: 50%;
 	top: 15px;
+	margin-bottom: 15px;
 	text-decoration: none;
 	color: black;
 
@@ -288,6 +314,33 @@ body {
 #aggiungiRiassuntoUnplanned:hover,
 #aggiungiRiassuntoUnplanned:focus {
 	background-color: rgba(154, 183, 210, 0.70);
+}
+
+#eliminaMateriaUnplanned {
+	position: relative;
+	display: inline-block;
+	white-space: nowrap;
+	background-color: rgba(184, 0, 0, 0.7);
+	text-align: center;
+	padding: 5px;
+	width: 110px;
+	top: 15px;
+	margin-bottom: 15px;
+	text-decoration: none;
+	color: black;
+
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+
+#eliminaMateriaUnplanned:hover,
+#eliminaMateriaUnplanned:focus {
+	background-color: rgba(255, 0, 0, 0.7);
 }
 
 
