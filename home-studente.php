@@ -208,7 +208,7 @@ for ($i=0; $i < $studenti->length; $i++) {
 						<input type="hidden" name="indexMateria" value="<?php echo $k;?>" />
 						<input type="image" name="submit" src="images/iconAggiungiValoreStudio.png" alt="Submit Form" />
 					</form>
-					<a href="#" id="aggiungiRiassuntoPlanned">	
+					<a href="aggiungi-riassunto.php?<?php echo "nomeMateria=".urlencode($nomeMateriaText[$k]).""; ?>" id="aggiungiRiassuntoPlanned">	
 						Aggiungi riassunto
 					</a>
 					<a href="elimina-materia.php?<?php echo "nomeMateria=".urlencode($nomeMateriaText[$k]).""; ?>" id="eliminaMateriaPlanned">
@@ -232,7 +232,7 @@ for ($i=0; $i < $studenti->length; $i++) {
 						<br/>
 						Se ti va, puoi ancora <a href="#" style="color: black; ">pianificarla</a>.
 					</div>
-					<a href="#" id="aggiungiRiassuntoUnplanned">	
+					<a href="aggiungi-riassunto.php?<?php echo "nomeMateria=".urlencode($nomeMateriaText[$k]).""; ?>" id="aggiungiRiassuntoUnplanned">	
 						Aggiungi riassunto
 					</a>
 					<a href="elimina-materia.php?<?php echo "nomeMateria=".urlencode($nomeMateriaText[$k]).""; ?>" id="eliminaMateriaUnplanned">

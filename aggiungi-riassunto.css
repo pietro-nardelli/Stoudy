@@ -1,0 +1,268 @@
+body {
+	font-family: rawengulk, Helvetica, Arial;
+	margin: 0px;
+	padding: 0px;
+	
+	background-color: rgb(220, 220, 220);
+}
+
+@font-face { 
+	font-family: 'rawengulk';
+	src: url('font/rawengulk.ttf') format('truetype');
+}	
+
+@font-face { 
+	font-family: 'rawengulk';
+	src: url('font/rawengulkBold.ttf') format('truetype');
+	font-weight:bold;
+}	
+
+/*E' conveniente impostare la larghezza in px e l'altezza in % così da non sconvolgere il layout nel ridimensionamento
+ *(più avanti, responsive design, tutto in px).
+ *Inoltre conviene usare fixed se vogliamo definire un layout ben ancorato in una determinata posizione, viceversa
+ *in questo caso utilizzando "absolute" nello scorrere in basso finirebbe la barra laterale
+ */
+
+ /*Div della barra laterale*/
+#lateralHomeStudente { 
+	position: fixed;
+	top: 0%;
+	width: 230px;
+	height: 100%;
+	background-color: rgb(28,38,47);
+	padding: 2px 0px 2px 0px;
+	box-shadow: 4px 4px 2px grey;
+	float:left;
+}
+
+/*div contenente il logo*/
+#logoHomeStudente {
+	position: absolute; 
+	padding: 10px;  
+	width: 89%;
+}
+/*L'height si basa sul contenuto, non dobbiamo dargliela noi*/
+/*Div principale*/
+#main {
+	float:left;
+	position: absolute; 
+	left: 230px;
+	width: 82%;
+}
+/*Div interno alla barra del menu laterale contenente tutti i link*/
+#navigation {
+	position: relative;
+	top: 100px;
+	height: 69%;
+	width: 95%;
+	margin-left: 8px;
+	bottom: 0px;
+}
+
+/*stili per i link facenti parte della barra navigation*/
+#navigation a{
+	position: relative;
+	margin-bottom: 20px;
+	display: block;
+	font-weight: bold;
+	font-size: 1.2em;
+	color: rgba(255, 255, 255, 0.7); /*Bianco con opacità al 0.7*/
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+	text-decoration: none; /*link senza sottolineatura*/
+    /*la transizione si applica su hover e focus che sono stati stabiliti più avanti. All indica che la transizione viene applicata a 
+	tutte le proprietà di hover e focus. Ease in out indica la rapidità all'inizio e alla fine con la quale vogliamo farla apparire. */ 
+	-webkit-transition: all 0.3s ease-in-out;
+	-moz-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+}
+
+#navigation a:hover,
+#navigation a:focus { 
+	color: #fff; /*quando ci passiamo sopra con il mouse diventa bianco*/
+}
+
+#navigation img {
+	position: relative;
+	width: 25px;
+	margin-right: 10px;
+	opacity: 0.25;
+	-webkit-transition: all 0.3s ease-in-out;
+	-moz-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+}
+
+#navigation a:hover img,
+#navigation a:focus img{ 
+	opacity: 0.8; /*quando ci passiamo sopra con il mouse l'immagine da opaca diventa più bianca*/
+}
+
+#cercaRiassunti input[type="text"] {
+	position: relative;
+	width: 85%;
+	font-family: rawengulk, Helvetica, Arial;
+	font-size: 0.9em;
+	line-height: 1.8em;
+	
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+	text-align: center;
+}
+
+#cercaRiassunti input[type="text"]:hover,
+#cercaRiassunti input[type="text"]:focus { /*passandoci sopra si illuminano*/
+	border-color: rgba(41,151,293, 0.8);
+	}	
+
+#cercaRiassunti input[type="image"] {
+	position:relative;
+	width:10%;
+	top: 7px;
+	opacity: 0.25;
+	-webkit-transition: all 0.3s ease-in-out;
+	-moz-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+}
+
+#cercaRiassunti input[type="image"]:hover,
+#cercaRiassunti input[type="image"]:focus { 
+	opacity: 0.8; /*quando ci passiamo sopra con il mouse l'immagine da opaca diventa più bianca*/
+}
+
+
+/*div contenente le informazioni sullo studente*/
+#navigationUser {
+	position: relative;
+	top: 0px;
+	height: 75px;
+	width: 95%;
+	margin-left: 8px;
+	color: white;
+}
+
+#navigationUser img {
+	position: relative;
+	width: 25px;
+	margin-right: 10px;
+	opacity: 0.8;
+}
+
+#user {
+	position:relative;
+	margin-bottom: 8px;
+}
+
+#reputation {
+	position: relative;
+	display: inline-block;
+}
+
+#coins {
+	position: relative;
+	display: inline-block;
+	margin-left: 20px;
+}
+
+#aggiungiRiassunto {
+	position: relative;
+	width: 800px;
+	margin-left: 50%;
+	left: -400px;
+	background-color: white;
+	margin-top: 50px;
+	margin-bottom: 50px;
+
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	box-shadow:  5px 5px 25px 5px rgb(182, 182, 182);
+}
+
+#nomeMateria {
+	font-size: 1.5em;
+	padding: 5px;
+}
+
+#aggiungiRiassunto form {
+	position: relative;
+	padding: 5px;
+	width: 90%;
+    white-space: nowrap;
+}
+
+input[name="titoloRiassuntoForm"] {
+	position: relative;
+	width: 100%;
+	font-family: rawengulk, Helvetica, Arial;
+	font-size: 0.9em;
+	line-height: 1.5em;
+	
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+}
+
+input[type="text"]:hover,
+input[type="text"]:focus { /*passandoci sopra si illuminano*/
+	border-color: rgba(41,151,293, 0.8);
+	}	
+
+textArea {
+	position: relative;
+    width: 100%;
+	font-family: rawengulk, Helvetica, Arial;
+	font-size: 0.9em;
+	line-height: 1.5em;
+	
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+}
+
+textArea:hover,
+textArea:focus { /*passandoci sopra si illuminano*/
+	border-color: rgba(41,151,293, 0.8);
+	}	
+
+input[name="tagsRiassuntoForm"] {
+	position: relative;
+	width: 250px;
+	font-family: rawengulk, Helvetica, Arial;
+	font-size: 0.9em;
+	line-height: 1.5em;
+	
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+}
+
+input[type="submit"] {
+	position: relative;
+	padding: 10px 18px;
+	margin-top: 15px;
+	width: 200px;
+	white-space: nowrap;
+	margin-left: 50%;
+	left: -100px;
+
+	font-family: rawengulk, Helvetica, Arial;
+	font-size: 1.15em;
+	line-height: 1;
+	color: white;
+	border: none;
+	background-color: rgb(41,151,293);
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+	-webkit-box-shadow: 0 1px 2px rgb(0, 0, 0, 0.5);
+	-moz-box-shadow: 0 1px 2px rgb(0, 0, 0, 0.5);
+	box-shadow: 0 1px 2px rgb(0, 0, 0, 0.5);
+}
+
+input[type="submit"]:hover,
+input[type="submit"]:focus {
+	background-color: rgba(41,151,293, 0.80);
+	}
