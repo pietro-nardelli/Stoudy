@@ -13,6 +13,11 @@
 </head>
 <body>
 <?php
+				
+				/*
+				echo nl2br($_POST['testoRiassuntoForm'])."<br />"; //Stampa correttamente con i <br />
+				*/
+
 session_start();
 if (!isset($_SESSION['accessoPermesso'])) {
     header('Location: login.php');
@@ -96,7 +101,7 @@ for ($i=0; $i < $studenti->length; $i++) {
 
 	<div id="lateralHomeStudente">
 		<div id="logoHomeStudente">
-			<a href="#">
+			<a href="home-studente.php">
 				<!-- il logo prende l'intera grandezza del div logo stabilito dai css -->
 				<img src="images/logoHome.png" style="width: 100%;"/>
 			</a>
@@ -134,22 +139,70 @@ for ($i=0; $i < $studenti->length; $i++) {
                 <?php echo "Aggiungi un riassunto di <b>".$_GET['nomeMateria']."</b>"; ?>
 			</div>
 			<?php
-			/*$_POST['submit']
-			 **Se è stata premuto il pulsante... 
+			if (isset($_POST['submit'])) {
+				$erroreTags = 0; //Se rimane 0 tutto ok
+				$errore = 0;
 
-			 *$_POST['titoloRiassuntoForm']
-			 **Almeno 10 caratteri e massimo 100 caratteri
-			 *$_POST['testoRiassuntoForm]
-			 **Almeno 100 caratteri e massimo 1000 caratteri
-			 *$_POST['tagsRiassuntoForm']
-			 **almeno 1 carattere, massimo 4 ",".
-	 		 **ogni tag massimo 20 caratteri
-			 **ogni tag non numerico
-			 *$_POST['condivisioneRiassuntoForm']
-			 **Condivisione deve essere stata inserita
-			 */
-			if ($_POST['submit']) {
+				//Titolo di almeno 10 caratteri e massimo 100 caratteri
+				if (strlen($_POST['titoloRiassuntoForm']) < 10 || strlen($_POST['titoloRiassuntoForm']) > 100) {
+					echo '<p style="color: red;">Titolo troppo corto / lungo.</p>';
+					$errore = 1; 
+				}
+				//Testo almeno 100 caratteri e massimo 1000 caratteri
+				if (strlen($_POST['testoRiassuntoForm']) < 100 || strlen($_POST['titoloRiassuntoForm']) > 1000) {
+					echo '<p style="color: red;">Riassunto troppo corto / lungo.</p>';
+				}
+				
+				/* Assegnamo ogni tag all'array tagsRiassunto */
+				$tagsRiassunto = explode(",", $_POST['tagsRiassuntoForm']); //Divide la stringa in sottostringhe
+				foreach ($tagsRiassunto as $i => $value) { 
+					$tagsRiassunto[$i] = trim($value); 
+					if (strlen($tagsRiassunto[$i]) == 0 || is_numeric($tagsRiassunto[$i]) || strlen($tagsRiassunto[$i]) > 20)  {
+						$erroreTags = 1;
+					}
+				}
+				/* Controlliamo che non ci siano tag uguali */
+				foreach ($tagsRiassunto as $j => $value) {
+					for ($h = $j+1; $h < sizeof($tagsRiassunto) ; $h++ ) {
+						if (strcasecmp($value, $tagsRiassunto[$h]) == 0) {
+							$erroreTags = 1;
+						}
+					}
+				}
 
+				//Tag di almeno 1 carattere, massimo 20 non numerico e non uguali...
+				if ($erroreTags == 1) {
+					echo '<p style="color: red;">I tag non devono essere vuoti, devono essere alfanumerici, non più lunghi di 20 caratteri e non possono essercene due uguali.</p>';
+					$errore = 1;
+				}
+				//... e massimo 5 tag
+				if ($i > 4) {
+					echo '<p style="color: red;">Hai inserito troppi tag. Massimo 5.</p>';
+					$errore = 1;
+				}
+				//Riassunto pubblico o privato
+				if (!isset($_POST['condivisioneRiassuntoForm'])) {
+					echo '<p style="color: red;">Scegliere se rendere il riassunto pubblico o privato.</p>';
+					$errore = 1;
+				}
+
+				//Se $errore = 0 allora assegna i cookie corrispondenti
+				if ($errore == 0) {	
+					$nowDate = date("Y-m-d"); //Data odierna
+					$nowTime = date("H:i:s"); //Ora odierna
+					$_SESSION['titoloRiassunto'] = $_POST['titoloRiassuntoForm'];
+					$_SESSION['testoRiassunto'] = $_POST['testoRiassuntoForm'];
+					$_SESSION['condivisioneRiassunto'] = $_POST['condivisioneRiassuntoForm'];
+					foreach ($tagsRiassunto as $i => $value) { 
+						$_SESSION['tagsRiassunto'.$i.''] = $tagsRiassunto[$i];
+					}
+					$_SESSION['aggiungiRiassunto'] = 1000; //Bisogna fare unset dopo aver aggiornato il DOM
+					header($_SERVER["PHP_SELF"]);
+				}
+			}
+
+			if (isset($_SESSION['aggiungiRiassunto'])) {
+				//DA QUI IN AVANTI SI AGGIORNA IL DOM
 			}
 
 			?>

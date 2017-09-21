@@ -100,7 +100,7 @@ for ($i=0; $i < $studenti->length; $i++) {
 ?>
 	<div id="lateralHomeStudente">
 		<div id="logoHomeStudente">
-			<a href="#">
+			<a href="home-studente.php">
 				<!-- il logo prende l'intera grandezza del div logo stabilito dai css -->
 				<img src="images/logoHome.png" style="width: 100%;"/>
 			</a>
