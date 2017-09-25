@@ -90,8 +90,8 @@ for ($i=0; $i < $studenti->length; $i++) {
 			}
 		} 
 
-		$riassunti = $email->nextSibling->nextSibling;
-		$reputation = $riassunti->nextSibling;
+		$riassuntiStudente = $email->nextSibling->nextSibling;
+		$reputation = $riassuntiStudente->nextSibling;
 		$reputationText = $reputation->textContent;
 
 		$coins = $reputation->nextSibling;
@@ -189,8 +189,8 @@ for ($i=0; $i < $studenti->length; $i++) {
 
 				//Se $errore = 0 allora assegna i cookie corrispondenti
 				if ($errore == 0) {	
-					$nowDate = date("Y-m-d"); //Data odierna
-					$nowTime = date("H:i:s"); //Ora odierna
+					$_SESSION['nowDate'] = date("Y-m-d"); //Data odierna
+					$_SESSION['nowTime'] = date("H:i:s"); //Ora odierna
 					$_SESSION['titoloRiassunto'] = $_POST['titoloRiassuntoForm'];
 					$_SESSION['testoRiassunto'] = $_POST['testoRiassuntoForm'];
 					$_SESSION['condivisioneRiassunto'] = $_POST['condivisioneRiassuntoForm'];
@@ -202,71 +202,8 @@ for ($i=0; $i < $studenti->length; $i++) {
 
 			if (isset($_SESSION['aggiungiRiassunto'])) {
 				//DA QUI IN AVANTI SI AGGIORNA IL DOM
-				
-				// Aggiorniamo il file studenti.xml (riassunti->creati) 
-				/*$riassuntiCreati = $riassunti->firstChild;
-				$newRiassuntoIDCreato = $doc->createElement("riassuntoIDCreato", "1");
-										
-				/*Attacchiamo all'elemento principale tutti i suoi figli e i corrispettivi "nipoti"*/
-				/*$riassuntiCreati->appendChild($newRiassuntoIDCreato);				
-				$newRiassuntoIDCreato->setAttribute("materiaRiassunto", $_GET['nomeMateria']);
-				
-				
-				/*Inseriamo il nodo che abbiamo creato, prima del primo elemento della lista di elementi dopo root*/
-				/*$riassuntiCreati->insertBefore($newRiassuntoIDCreato);
-				$path = dirname(__FILE__)."/xml-schema/studenti.xml"; //Troviamo un percorso assoluto al file xml di riferimento
-				$doc->save($path); //Sovrascriviamolo
-				/***/
-
-				/* Aggiorniamo il file tags.xml */
-				/*
-				$xmlString2 = ""; //Inizializziamo la variabile xmlString
-				foreach (file("xml-schema/tags.xml") as $node2) { //Per ogni riga del file xml...
-					$xmlString2 .= trim($node2); //Aggiungi alla stringa $xmlString la riga $node
-				}
-				$doc2 = new DOMDocument();
-				$doc2->loadXML($xmlString2); 
-				$root2 = $doc2->documentElement; 
-				$tags = $root2->childNodes; 
-
-
-				for ($k=0; $k < $tags->length; $k++) {	
-					$tag = $tags->item($k); 
-		
-					$nomeTag[$k] = $tag->firstChild; 
-					$nomeTagText[$k] = $nomeTag[$k]->textContent;
-					$riassuntoID[$k] = $nomeTag[$k] ->nextSibling;
-					$riassuntoIDText[$k] = $riassuntoID[$k]->textContent;
-					
-					
-					foreach ($_SESSION['tagsRiassuntoNuovo'] as $i => $value) {
-						if (strcasecmp ($value, $nomeTagText[$k]) == 0) {
-							$indiceTrovato[$i] = -1; //In questo caso il tag di indice $i è stato trovato in xml
-
-							$newRiassuntoID = $doc2->createElement("riassuntoID", "1");
-							$tag->appendChild($newRiassuntoID);	
-						}
-					}	
-				}
-				foreach ($_SESSION['tagsRiassuntoNuovo'] as $l => $value) {
-					if (empty($indiceTrovato[$l]) ||  $indiceTrovato[$l] != -1) {
-						$newTag = $doc2->createElement("tag");
-						$newNome = $doc2->createElement("nome", $value);
-						$newRiassuntoID = $doc2->createElement("riassuntoID", "1");
-						
-						$newTag->appendChild($newNome);
-						$newTag->appendChild($newRiassuntoID);	
-											
-						
-						$root2->appendChild($newTag);
-					}
-				}
-
-				$path2 = dirname(__FILE__)."/xml-schema/tags.xml"; //Troviamo un percorso assoluto al file xml di riferimento
-				$doc2->save($path2); //Sovrascriviamolo
-				/***/
-
-				/* Aggiorniamo il file riassunti.xml */
+								
+				/* AGGIORNIAMO IL FILE RIASSUNTI.XML */
 				$xmlString3 = ""; 
 				foreach (file("xml-schema/riassunti.xml") as $node3) { 
 					$xmlString3 .= trim($node3); 
@@ -275,62 +212,57 @@ for ($i=0; $i < $studenti->length; $i++) {
 				$doc3->loadXML($xmlString3); 
 				$root3 = $doc3->documentElement; 
 				$riassunti = $root3->childNodes; 
-				for ($i=0; $i < $riassunti->length; $i++) {
-					$riassunto = $riassunti->item($i); 
-					$condivisioneRiassuntoText[$i] = $riassunto->getAttribute('condivisione');
-					$IDRiassunto[$i] = $riassunto->firstChild; 
-					$IDRiassuntoText[$i] = $IDRiassunto[$i]->textContent;
+				for ($id=0; $id < $riassunti->length; $id++) { //id è l'id del riassunto che aumenta ad ogni riassunto aggiunto
+					$riassunto = $riassunti->item($id); 
+					$condivisioneRiassuntoText[$id] = $riassunto->getAttribute('condivisione');
+					$idDRiassunto[$id] = $riassunto->firstChild; 
+					$idDRiassuntoText[$id] = $idDRiassunto[$id]->textContent;
 
-					$titoloRiassunto[$i] = $IDRiassunto[$i]->nextSibling;
-					$titoloRiassuntoText[$i] = $titoloRiassunto[$i]->textContent;
+					$titoloRiassunto[$id] = $idDRiassunto[$id]->nextSibling;
+					$titoloRiassuntoText[$id] = $titoloRiassunto[$id]->textContent;
 
-					$emailStudenteRiassunto[$i] = $titoloRiassunto[$i]->nextSibling;
-					$emailStudenteRiassuntoText[$i] = $emailStudenteRiassunto[$i]->textContent;
+					$emailStudenteRiassunto[$id] = $titoloRiassunto[$id]->nextSibling;
+					$emailStudenteRiassuntoText[$id] = $emailStudenteRiassunto[$id]->textContent;
 
-					$dataRiassunto[$i] = $emailStudenteRiassunto[$i]->nextSibling;
-					$dataRiassuntoText[$i] = $dataRiassunto[$i]->textContent;
+					$dataRiassunto[$id] = $emailStudenteRiassunto[$id]->nextSibling;
+					$dataRiassuntoText[$id] = $dataRiassunto[$id]->textContent;
 
-					$orarioRiassunto[$i] = $dataRiassunto[$i]->nextSibling;
-					$orarioriassuntoText[$i] = $orarioRiassunto[$i]->textContent;
+					$orarioRiassunto[$id] = $dataRiassunto[$id]->nextSibling;
+					$orarioriassuntoText[$id] = $orarioRiassunto[$id]->textContent;
 
-					$testoRiassunto[$i] = $orarioRiassunto[$i]->nextSibling;
-					$testoRiassuntoText[$i] = $testoRiassunto[$i]->textContent;
+					$testoRiassunto[$id] = $orarioRiassunto[$id]->nextSibling;
+					$testoRiassuntoText[$id] = $testoRiassunto[$id]->textContent;
 
-					$visualizzazioniRiassunto[$i] = $testoRiassunto[$i]->nextSibling;
-					$visualizzazioniRiassuntoText[$i] = $visualizzazioniRiassunto[$i]->textContent;
+					$visualizzazioniRiassunto[$id] = $testoRiassunto[$id]->nextSibling;
+					$visualizzazioniRiassuntoText[$id] = $visualizzazioniRiassunto[$id]->textContent;
 
-					$tagsRiassuntoElement[$i] = $visualizzazioniRiassunto[$i]->nextSibling;
-					$tagsRiassunto[$i] = $tagsRiassuntoElement[$i]->childNodes;
-					for ($k=0; $k < $tagsRiassunto[$i]->length; $k++) {	
-						$nomeTagRiassunto = $tagsRiassunto[$i]->item($k);
+					$tagsRiassuntoElement[$id] = $visualizzazioniRiassunto[$id]->nextSibling;
+					$tagsRiassunto[$id] = $tagsRiassuntoElement[$id]->childNodes;
+					for ($k=0; $k < $tagsRiassunto[$id]->length; $k++) { 	
+						$nomeTagRiassunto = $tagsRiassunto[$id]->item($k);
 						$nomeTagRiassuntoText[$k] = $nomeTagRiassunto->textContent;
 					}
 
-					$preferitiRiassuntoElement[$i] = $tagsRiassuntoElement[$i]->nextSibling;
-					$preferitiRiassunto[$i] = $preferitiRiassuntoElement[$i]->childNodes;
-					for ($k=0; $k < $preferitiRiassunto[$i]->length; $k++) {	
-						$emailPreferitiRiassunto = $preferitiRiassunto[$i]->item($k);
+					$preferitiRiassuntoElement[$id] = $tagsRiassuntoElement[$id]->nextSibling;
+					$preferitiRiassunto[$id] = $preferitiRiassuntoElement[$id]->childNodes;
+					for ($k=0; $k < $preferitiRiassunto[$id]->length; $k++) {	
+						$emailPreferitiRiassunto = $preferitiRiassunto[$id]->item($k);
 						$emailPreferitiRiassuntoText[$k] = $emailPreferitiRiassunto->textContent;
 					}
 				}
 
 
-
 				$newRiassunto = $doc3->createElement("riassunto");
-				$newIDRiassunto = $doc3->createElement("ID", $i);		
+				$newIDRiassunto = $doc3->createElement("ID", $id);		
 				$newTitoloRiassunto = $doc3->createElement("titolo", $_SESSION['titoloRiassunto']);
 				$newEmailStudenteRiassunto = $doc3->createElement("emailStudente", $_SESSION['email']);
-				$newDataRiassunto = $doc3->createElement("data",$nowDate);
-				$newOrarioRiassunto = $doc3->createElement("orario", $nowTime);
+				$newDataRiassunto = $doc3->createElement("data", $_SESSION['nowDate']);
+				$newOrarioRiassunto = $doc3->createElement("orario", $_SESSION['nowTime']);
 				$newTestoRiassunto = $doc3->createElement("testo", $_SESSION['testoRiassunto']);
 				$newVisualizzazioniRiassunto = $doc3->createElement("visualizzazioni","0");
-
 				$newTagsRiassunto = $doc3->createElement("tags");
 				$newPreferitiRiassunto = $doc3->createElement("preferiti");
 
-				
-				
-				/*Attacchiamo all'elemento principale tutti i suoi figli e i corrispettivi "nipoti"*/
 				$newRiassunto->appendChild($newIDRiassunto);
 				$newRiassunto->appendChild($newTitoloRiassunto);
 				$newRiassunto->appendChild($newEmailStudenteRiassunto);
@@ -338,23 +270,93 @@ for ($i=0; $i < $studenti->length; $i++) {
 				$newRiassunto->appendChild($newOrarioRiassunto);
 				$newRiassunto->appendChild($newTestoRiassunto);
 				$newRiassunto->appendChild($newVisualizzazioniRiassunto);
-				foreach ($_SESSION['tagsRiassuntoNuovo'] as $i => $value) {
+				$newRiassunto->appendChild($newTagsRiassunto);
+				$newRiassunto->appendChild($newPreferitiRiassunto);
+				foreach ($_SESSION['tagsRiassuntoNuovo'] as $l => $value) {
 					$newNomeTagRiassunto = $doc3->createElement("nomeTag", $value);
 					$newTagsRiassunto->appendChild($newNomeTagRiassunto);
 				}
-				foreach ($_SESSION['tagsRiassuntoNuovo'] as $i => $value) {
-					$newEmailPreferitiRiassunto = $doc3->createElement("emailPreferiti", $value);
-					$newPreferitiRiassunto->appendChild($newEmailPreferitiRiassunto);
-				}
 				$newRiassunto->setAttribute("condivisione", $_SESSION['condivisioneRiassunto']);
-				$root3->appendChild($newRiassunto);
-
-
-				$path3 = dirname(__FILE__)."/xml-schema/riassunti.xml"; //Troviamo un percorso assoluto al file xml di riferimento
-				$doc3->save($path3); //Sovrascriviamolo
+				
+				$root3->appendChild($newRiassunto); //Va fatto con appendChild altrimenti potrebbe creare problemi...
+				$path3 = dirname(__FILE__)."/xml-schema/riassunti.xml";
+				$doc3->save($path3);
 				/***/
+
+
+				/* AGGIORNIAMO IL FILE RIASSUNTI.XML (solamente riassunti->creati) */ 
+				$riassuntiCreati = $riassuntiStudente->firstChild;
+				
+				$newRiassuntoIDCreato = $doc->createElement("riassuntoIDCreato", $id);
+				$riassuntiCreati->appendChild($newRiassuntoIDCreato);				
+				$newRiassuntoIDCreato->setAttribute("materiaRiassunto", $_GET['nomeMateria']);
+				
+				$riassuntiCreati->insertBefore($newRiassuntoIDCreato);
+				$path = dirname(__FILE__)."/xml-schema/studenti.xml"; 
+				$doc->save($path);
+				/***/
+
+				/* AGGIORNIAMO IL FILE TAGS.XML */
+				$xmlString2 = ""; 
+				foreach (file("xml-schema/tags.xml") as $node2) { 
+					$xmlString2 .= trim($node2); 
+				}
+				$doc2 = new DOMDocument();
+				$doc2->loadXML($xmlString2); 
+				$root2 = $doc2->documentElement; 
+				$tags = $root2->childNodes; 
+				for ($k=0; $k < $tags->length; $k++) {	
+					$tag = $tags->item($k); 
+					$nomeTag[$k] = $tag->firstChild; 
+					$nomeTagText[$k] = $nomeTag[$k]->textContent;
+					$riassuntoID[$k] = $nomeTag[$k] ->nextSibling;
+					$riassuntoIDText[$k] = $riassuntoID[$k]->textContent;
+					
+					
+					 /*$l è l'indice del tag, tra quelli inseriti. 
+					 *Se l'array indiceTrovato è pari a -1 => quel tag è già presente nel file.
+					 *Altrimenti => quel tag non è presente nel file e va aggiunto da zero.
+					 */
+
+					 //Confrontiamo ogni tag inserito con quelli già presenti in tags.xml: caso in cui tag già presente.
+					foreach ($_SESSION['tagsRiassuntoNuovo'] as $l => $value) {
+						//Dobbiamo allora semplicemente associare un riassuntoID al tag($k) corrispondente.
+						if (strcasecmp ($value, $nomeTagText[$k]) == 0) {
+							$indiceTrovato[$l] = -1;
+							$newRiassuntoID = $doc2->createElement("riassuntoID", $id);
+							$tag->appendChild($newRiassuntoID);	
+						}
+					}	
+				}
+				//Confrontiamo ogni tag inserito con quelli già presenti in tags.xml: caso in cui tag non è presente.
+				foreach ($_SESSION['tagsRiassuntoNuovo'] as $p => $value) {
+					//Dobbiamo allora semplicemente creare un tag nuovo
+					if (empty($indiceTrovato[$p]) ||  $indiceTrovato[$p] != -1) {
+						$newTag = $doc2->createElement("tag");
+						$newNome = $doc2->createElement("nome", $value);
+						$newRiassuntoID = $doc2->createElement("riassuntoID", $id);
+						
+						$newTag->appendChild($newNome);
+						$newTag->appendChild($newRiassuntoID);	
+	
+						$root2->appendChild($newTag);
+					}
+				}
+
+				$path2 = dirname(__FILE__)."/xml-schema/tags.xml"; //Troviamo un percorso assoluto al file xml di riferimento
+				$doc2->save($path2); //Sovrascriviamolo
+				/***/
+
+				
+				unset($_SESSION['nowDate']);
+				unset($_SESSION['nowTime']);
+				unset($_SESSION['titoloRiassunto']);
+				unset($_SESSION['testoRiassunto']);
+				unset($_SESSION['condivisioneRiassunto']);
+				unset($_SESSION['tagsRiassuntoNuovo']); //Questa è una variabile session che gestisce l'array dei tags
+				unset($_SESSION['aggiungiRiassunto']); //Bisogna fare unset dopo aver aggiornato il DOM
 				unset($_SESSION['aggiungiRiassunto']);
-				header("Refresh:200; url=home-studente.php");
+				header('Location: home-studente.php');
 			}
 
 			?>
