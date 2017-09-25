@@ -52,7 +52,7 @@ for ($i=0; $i < $studenti->length; $i++) {
 		 *testuali sarebbe impossibile aggiornarli. Ogni valore $k deve appartenere ad una materia
 		 *($k=>materia k-esima).
 		 */
-		$nomeMateriaText = array();
+		
 		for ($k=0; $k < $materie->length; $k++) {	
 			$materia = $materie->item($k);
 
