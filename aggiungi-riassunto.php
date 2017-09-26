@@ -8,7 +8,7 @@
 	<!--<meta name="keywords" content="">-->
 
 	<style type="text/css">
-		@import url("aggiungi-riassunto.css");
+		@import url("riassunto.css");
 	</style>	
 </head>
 <body>
@@ -135,6 +135,7 @@ for ($i=0; $i < $studenti->length; $i++) {
 		</div>
 	</div>
     <div id="main">
+	<?php if (isset($_GET['nomeMateria'])) { ?>
         <div id="aggiungiRiassunto">
             <div id="nomeMateria">
                 <?php echo "Aggiungi un riassunto di <b>".$_GET['nomeMateria']."</b>"; ?>
@@ -215,10 +216,10 @@ for ($i=0; $i < $studenti->length; $i++) {
 				for ($id=0; $id < $riassunti->length; $id++) { //id è l'id del riassunto che aumenta ad ogni riassunto aggiunto
 					$riassunto = $riassunti->item($id); 
 					$condivisioneRiassuntoText[$id] = $riassunto->getAttribute('condivisione');
-					$idDRiassunto[$id] = $riassunto->firstChild; 
-					$idDRiassuntoText[$id] = $idDRiassunto[$id]->textContent;
+					$IDRiassunto[$id] = $riassunto->firstChild; 
+					$IDRiassuntoText[$id] = $IDRiassunto[$id]->textContent;
 
-					$titoloRiassunto[$id] = $idDRiassunto[$id]->nextSibling;
+					$titoloRiassunto[$id] = $IDRiassunto[$id]->nextSibling;
 					$titoloRiassuntoText[$id] = $titoloRiassunto[$id]->textContent;
 
 					$emailStudenteRiassunto[$id] = $titoloRiassunto[$id]->nextSibling;
@@ -288,7 +289,7 @@ for ($i=0; $i < $studenti->length; $i++) {
 				$riassuntiCreati = $riassuntiStudente->firstChild;
 				
 				$newRiassuntoIDCreato = $doc->createElement("riassuntoIDCreato", $id);
-				$riassuntiCreati->appendChild($newRiassuntoIDCreato);				
+				$riassuntiCreati->appendChild($newRiassuntoIDCreato); //CHECK SE SERVE QUESTO, visto che c'è già insertBefore		
 				$newRiassuntoIDCreato->setAttribute("materiaRiassunto", $_GET['nomeMateria']);
 				
 				$riassuntiCreati->insertBefore($newRiassuntoIDCreato);
@@ -369,6 +370,11 @@ for ($i=0; $i < $studenti->length; $i++) {
 				<input type="submit" name="submit" value="Aggiungi riassunto" />
 			</form>
         </div>
+		<?php } //Tutto questo è visualizzato solo se c'è nomeMateria nel GET
+		else {
+			echo "Impossibile aggiungere riassunto senza una materia!";
+		}
+		?>
 	</div>
 </body>
 </html>

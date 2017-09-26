@@ -58,7 +58,7 @@ for ($i=0; $i < $studenti->length; $i++) {
 				?>
 				<?php
 				$materia = $studente->getElementsByTagName('materia')->item($k);
-				$materia->parentNode->removeChild($materia);
+				$materia->parentNode->removeChild($materia); //Serve perchè altrimenti da errore!
 				$path = dirname(__FILE__)."/xml-schema/studenti.xml"; //Troviamo un percorso assoluto al file xml di riferimento
 				$doc->save($path); //Sovrascriviamolo 
 				header('refresh:5; url=home-studente.php');
