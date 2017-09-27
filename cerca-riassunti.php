@@ -19,15 +19,11 @@
 				*/
 
 session_start();
+$trovato = false;
 
 if (!isset($_SESSION['accessoPermesso'])) {
     header('Location: login.php');
 }
-$IDGet = $_GET['IDRiassunto'];
-$visualizzato = false;
-$preferito = 0;
-$riassuntoProprio = false;
-
 /***Procedura standard per inizializzare il file XML***/
 $xmlString = ""; //Inizializziamo la variabile xmlString
 foreach (file("xml-schema/studenti.xml") as $node) { //Per ogni riga del file xml...
@@ -96,28 +92,6 @@ for ($i=0; $i < $studenti->length; $i++) {
 		} 
 
 		$riassuntiStudente = $email->nextSibling->nextSibling;
-
-		$riassuntiVisualizzatiElement = $riassuntiStudente->firstChild->nextSibling;
-		$riassuntiVisualizzati = $riassuntiVisualizzatiElement->childNodes;
-		for ($k=0; $k < $riassuntiVisualizzati->length; $k++) {	
-			$riassuntoIDVisualizzato[$k] = $riassuntiVisualizzati->item ($k);
-			$riassuntoIDVisualizzatoText[$k] = $riassuntoIDVisualizzato[$k]->textContent;
-			if ($IDGet == $riassuntoIDVisualizzatoText[$k]) {
-				$visualizzato = true;
-			}
-		}
-		$riassuntiPreferitiElement = $riassuntiVisualizzatiElement->nextSibling;
-		$riassuntiPreferiti = $riassuntiPreferitiElement->childNodes;
-		for ($k=0; $k < $riassuntiPreferiti->length; $k++) {	
-			$riassuntoIDPreferito[$k] = $riassuntiPreferiti->item ($k);
-			$riassuntoIDPreferitoText[$k] = $riassuntoIDPreferito[$k]->textContent;
-			if ($IDGet == $riassuntoIDPreferitoText[$k]) {
-				$indicePreferito = $k;
-				$preferito = 1;
-			}
-		}
-
-
 		$reputation = $riassuntiStudente->nextSibling;
 		$reputationText = $reputation->textContent;
 
@@ -171,12 +145,38 @@ for ($id=0; $id < $riassunti->length; $id++) { //id è l'id del riassunto che au
 	for ($k=0; $k < $preferitiRiassunto[$id]->length; $k++) {	
 		$emailPreferitiRiassunto = $preferitiRiassunto[$id]->item($k);
 		$emailPreferitiRiassuntoText[$k] = $emailPreferitiRiassunto->textContent;
-		if (strcasecmp($_SESSION['email'], $emailPreferitiRiassuntoText[$k]) == 0) {
-			$indiceEmailPreferito;
-		}
 	}
 }
 /***/
+
+/* Inizializziamo il file TAGS.XML */
+$xmlString2 = ""; 
+foreach (file("xml-schema/tags.xml") as $node2) { 
+	$xmlString2 .= trim($node2); 
+}
+$doc2 = new DOMDocument();
+$doc2->loadXML($xmlString2); 
+$root2 = $doc2->documentElement; 
+$tags = $root2->childNodes; 
+	for ($k=0; $k < $tags->length; $k++) {	
+    	$tag = $tags->item($k); 
+		$nomeTag[$k] = $tag->firstChild; 
+		$nomeTagText[$k] = $nomeTag[$k]->textContent;
+
+        //Controlla se c'è una sottostringa nel nomeTagText[$k]
+        if (!empty ($_POST['tagRicercato'])) {
+            if (strpos($nomeTagText[$k], $_POST['tagRicercato']) !== false) {
+                $trovato = true;
+                $riassuntoIDTrovatoLista = $tag->getElementsByTagName('riassuntoID');
+                foreach ($riassuntoIDTrovatoLista as $key => $value) { //Inseriamo nell'array riassuntoIDTrovato ognuno degli ID del tag ricercato
+                    $riassuntoIDTrovato[] = $riassuntoIDTrovatoLista->item($key)->textContent;
+                }
+            }
+        }
+    }	
+/***/
+
+
 ?>
 
 	<div id="lateralHomeStudente">
@@ -214,129 +214,22 @@ for ($id=0; $id < $riassunti->length; $id++) { //id è l'id del riassunto che au
 		</div>
 	</div>
     <div id="main">
-	<?php if (isset($IDGet) && !empty($IDRiassunto[$_GET['IDRiassunto']])) { 
-		if (strcasecmp($_SESSION['email'], $emailStudenteRiassuntoText[$IDGet]) == 0) {
-			$riassuntoProprio = true;
-		}
-		if (!$riassuntoProprio && (strcasecmp($condivisioneRiassuntoText[$IDGet], "privato") == 0) ) {
-			echo "Questo riassunto è privato e non può essere visualizzato.";
-			//REDIRECT DA FARE QUI
-			exit();
-		}
-		$nowTime = date("H:i:s"); //Ora odierna
-		$nowDate = date("Y-m-d"); //Data odierna
-		$nowTimeTotal = strtotime($nowTime." ".$nowDate);
-		$timeTotal = strtotime($dataRiassuntoText[$IDGet]." ".$orarioRiassuntoText[$IDGet]);
-		$diffHours = ($nowTimeTotal - $timeTotal)/3600;
+        <?php 
+        if ($trovato) {
+            foreach ($riassuntoIDTrovato as $key=>$valueID) {
+                $riassuntoTrovatoTitolo[] = $titoloRiassuntoText[$valueID];
+                $riassuntoTrovatoEmail[] = $emailStudenteRiassuntoText[$valueID];
+                $riassuntoTrovatoData [] = $dataRiassuntoText[$valueID];
+                $riassuntoTrovatoOrario [] = $orarioRiassuntoText[$valueID];
+                $riassuntoTrovatoVisualizzazioni []= $visualizzazioniRiassuntoText[$valueID];
+                $riassuntoTrovatoPreferiti [] =  $preferitiRiassunto[$valueID]->length;
+            }
+        }
+        else {
+            echo "Tag non trovato..";
+        }
 
-		if (!$riassuntoProprio) {
-			if (!$visualizzato) {
-				if ($coinsText == 0) {
-					if ($diffHours > 24) {
-						echo "Questo riassunto non può essere visualizzato. Non hai abbastanza coin.";
-						exit();
-					}
-					else { //Se il riassunto è stato inserito entro 24 ore
-						$newRiassuntoIDVisualizzato = $doc->createElement("riassuntoIDVisualizzato", $IDGet);
-						$riassuntiVisualizzatiElement->insertBefore($newRiassuntoIDVisualizzato);		
-						$path = dirname(__FILE__)."/xml-schema/studenti.xml"; 
-						$doc->save($path);
-						
-						$visualizzazioniRiassunto[$IDGet]->textContent= $visualizzazioniRiassuntoText[$IDGet]+1;
-						$path3 = dirname(__FILE__)."/xml-schema/riassunti.xml"; 
-						$doc3->save($path3);
-						header('Location: visualizza-riassunto.php?IDRiassunto='.$IDGet);
-					}
-				}
-				else { //Se si hanno abbastanza coin per visualizzarlo...
-					$newRiassuntoIDVisualizzato = $doc->createElement("riassuntoIDVisualizzato", $IDGet);
-					$riassuntiVisualizzatiElement->insertBefore($newRiassuntoIDVisualizzato);		
-					$path = dirname(__FILE__)."/xml-schema/studenti.xml"; 
-					$doc->save($path);
-
-					$visualizzazioniRiassunto[$IDGet]->textContent= $visualizzazioniRiassuntoText[$IDGet]+1;
-					
-					$path3 = dirname(__FILE__)."/xml-schema/riassunti.xml"; 
-					$doc3->save($path3);
-					header('Location: visualizza-riassunto.php?IDRiassunto='.$IDGet);
-
-				}
-			}
-		}
-
-		if (isset($_GET['preferito'])) {
-			if ($_GET['preferito'] == 1 && !$preferito) { //Aggiungiamo il riassunto ai preferiti
-				$newRiassuntoIDPreferito = $doc->createElement("riassuntoIDPreferito", $IDGet);
-				$riassuntiPreferitiElement->insertBefore($newRiassuntoIDPreferito);					
-				$path = dirname(__FILE__)."/xml-schema/studenti.xml"; 
-				$doc->save($path);
-
-				$newEmailPreferiti = $doc3->createElement("emailPreferiti", $_SESSION['email']);
-				$preferitiRiassuntoElement[$IDGet]->insertBefore($newEmailPreferiti);
-				$path3 = dirname(__FILE__)."/xml-schema/riassunti.xml"; 
-				$doc3->save($path3);
-
-				header('Location: visualizza-riassunto.php?IDRiassunto='.$IDGet);
-			}
-			else if ($_GET['preferito'] == 0 && $preferito) { //Togliamo il riassunto dai preferiti
-				$riassuntoPreferito = $studente->getElementsByTagName('riassuntoIDPreferito')->item($indicePreferito);
-				$riassuntoPreferito->parentNode->removeChild($riassuntoPreferito); //Serve perchè altrimenti da errore!
-				$path = dirname(__FILE__)."/xml-schema/studenti.xml"; //Troviamo un percorso assoluto al file xml di riferimento
-				$doc->save($path); //Sovrascriviamolo 
-
-				$emailPreferito = $root3->getElementsByTagName('emailPreferiti')->item($indiceEmailPreferito);
-				$emailPreferito->parentNode->removeChild($emailPreferito);
-				$path3 = dirname(__FILE__)."/xml-schema/riassunti.xml"; //Troviamo un percorso assoluto al file xml di riferimento
-				$doc3->save($path3); //Sovrascriviamolo 
-
-				header('Location: visualizza-riassunto.php?IDRiassunto='.$IDGet);
-			}
-		}
-		?>
-        <div id="visualizzaRiassunto">
-            <div id="nomeMateria">
-                <?php echo "<b>".$titoloRiassuntoText[$IDGet]."</b>"; ?>
-			</div>
-			<div>
-				<?php 
-				echo "<br />";
-				echo nl2br($testoRiassuntoText[$IDGet])."<br /><hr style='width: 95%;'/><hr id='lista' />";
-				echo "<b>Autore</b>: ".$emailStudenteRiassuntoText[$IDGet]."<br /><hr id='lista' />";
-				echo "<b>Data </b>: ".$dataRiassuntoText[$IDGet]." <b>Ora </b>: ".$orarioRiassuntoText[$IDGet]."<br /> <hr id='lista' />";
-				echo "<b>Tags</b>: ";
-				foreach ($tagsRiassunto[$IDGet] as $key=>$value) { 
-					echo $nomeTagRiassuntoText[$key]." | ";
-				}
-				echo "<br /> <hr id='lista' />";
-				echo "<b>Visualizzazioni</b>: ".$visualizzazioniRiassuntoText[$IDGet]." <br />";
-				echo "<b>Preferiti</b>: ";
-				$numeroPreferiti = $preferitiRiassunto[$IDGet] ->length;
-				echo $numeroPreferiti." <hr id='lista' />";
-				?>
-				<div id="opzioniRiassunto">
-				<?php
-				//Se la variabile preferiti è empty || se è = a 0 allora visualizza questo.
-				//Altrimenti visualizza la stellina che diventa da gialla scura a chiara e la scritta toglilo dai preferiti
-				//In entrambi i casi bisogna procedere all'eliminazione o all'aggiunta tramite DOM
-				if (!$preferito) { 
-					?>
-					<a id="aggiungiAiPreferiti" href="visualizza-riassunto.php?<?php echo "IDRiassunto=".urlencode($IDGet)."&preferito=".urlencode(1).""; ?>">Aggiungilo ai preferiti</a>
-					<?php
-				}
-				else {
-					?>
-					<a id="togliloDaiPreferiti" href="visualizza-riassunto.php?<?php echo "IDRiassunto=".urlencode($IDGet)."&preferito=".urlencode(0).""; ?>">Toglilo dai preferiti</a>
-					<?php
-				}
-				?>
-					<a id="segnalaRiassunto" href="#">Segnala riassunto </a>
-				</div>
-				
-        </div>
-		<?php } 
-		else {
-			echo "Impossibile visualizzare un riassunto se non viene fornito un ID valido";
-		}?>
+        ?>
     </div>
 </body>
 </html>
