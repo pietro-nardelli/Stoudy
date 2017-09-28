@@ -351,7 +351,7 @@ for ($i=0; $i < $studenti->length; $i++) {
 				unset($_SESSION['tagsRiassuntoNuovo']); //Questa è una variabile session che gestisce l'array dei tags
 				unset($_SESSION['aggiungiRiassunto']); //Bisogna fare unset dopo aver aggiornato il DOM
 				unset($_SESSION['aggiungiRiassunto']);
-				header('Location: home-studente.php');
+				header('Location: visualizza-riassunto.php?IDRiassunto='.$id);
 			}
 
 			?>

@@ -162,7 +162,6 @@ $tags = $root2->childNodes;
     	$tag = $tags->item($k); 
 		$nomeTag[$k] = $tag->firstChild; 
 		$nomeTagText[$k] = $nomeTag[$k]->textContent;
-
         //Controlla se c'è una sottostringa nel nomeTagText[$k]
         if (!empty ($_POST['tagRicercato'])) {
             if (strpos($nomeTagText[$k], $_POST['tagRicercato']) !== false) {
@@ -217,13 +216,37 @@ $tags = $root2->childNodes;
         <?php 
         if ($trovato) {
             foreach ($riassuntoIDTrovato as $key=>$valueID) {
-                $riassuntoTrovatoTitolo[] = $titoloRiassuntoText[$valueID];
-                $riassuntoTrovatoEmail[] = $emailStudenteRiassuntoText[$valueID];
-                $riassuntoTrovatoData [] = $dataRiassuntoText[$valueID];
-                $riassuntoTrovatoOrario [] = $orarioRiassuntoText[$valueID];
-                $riassuntoTrovatoVisualizzazioni []= $visualizzazioniRiassuntoText[$valueID];
-                $riassuntoTrovatoPreferiti [] =  $preferitiRiassunto[$valueID]->length;
-            }
+				if (strcasecmp($condivisioneRiassuntoText[$valueID], "pubblico") == 0) {
+					$riassuntoTrovatoTitolo[] = $titoloRiassuntoText[$valueID];
+					$riassuntoTrovatoEmail[] = $emailStudenteRiassuntoText[$valueID];
+					$riassuntoTrovatoData [] = $dataRiassuntoText[$valueID];
+					$riassuntoTrovatoOrario [] = $orarioRiassuntoText[$valueID];
+					$riassuntoTrovatoVisualizzazioni []= $visualizzazioniRiassuntoText[$valueID];
+					$riassuntoTrovatoPreferiti [] =  $preferitiRiassunto[$valueID]->length;
+				}
+			}		
+			?>
+			<div id="riassuntoTrovato">
+				<div id="risultatoRicercaAlto">Risultati per per aver cercato il tag: <b><?php echo $_POST['tagRicercato'];?></b> </div><hr />
+				<?php
+				for ($key = 0; $key < sizeof($riassuntoTrovatoTitolo)-1 ; $key++) { //Altrimenti stampiamo la barra anche per l'ultimo elemento cercato
+						echo "<a id ='titoloRiassuntoTrovato' href='#'>".$riassuntoTrovatoTitolo[$key]."</a>";
+						echo "<span id ='visualizzazioniPreferitiRiassuntoTrovato'>".$riassuntoTrovatoVisualizzazioni[$key]." <img src='images/iconViews.png' /> ".$riassuntoTrovatoPreferiti[$key]." <img src='images/iconFavorites.png' /></span>";
+						echo "<br /><span id='emailRiassuntoTrovato'><i> Creato da ".$riassuntoTrovatoEmail[$key]." il ".$riassuntoTrovatoData[$key]." alle ore ".$riassuntoTrovatoOrario[$key]."</i></span>";
+						/*foreach ($tagsRiassuntoText[$key] as $k => $value) {
+							echo $value;
+						}*/
+						echo "<hr />";
+				}
+				echo "<a id ='titoloRiassuntoTrovato' href='#'>".$riassuntoTrovatoTitolo[$key]."</a>";
+				echo "<span id ='visualizzazioniPreferitiRiassuntoTrovato'>".$riassuntoTrovatoVisualizzazioni[$key]." <img src='images/iconViews.png' /> ".$riassuntoTrovatoPreferiti[$key]." <img src='images/iconFavorites.png' /></span>";
+				echo "<br /><span id='emailRiassuntoTrovato'><i> Creato da ".$riassuntoTrovatoEmail[$key]." il ".$riassuntoTrovatoData[$key]." alle ore ".$riassuntoTrovatoOrario[$key]."</i></span>";
+				/*foreach ($nomeTagRiassuntoText as $key =>$value) {
+					echo $value;
+				}*/
+				?>
+			</div>
+			<?php
         }
         else {
             echo "Tag non trovato..";
