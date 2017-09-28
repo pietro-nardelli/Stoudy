@@ -13,13 +13,8 @@
 </head>
 <body>
 <?php
-				
-				/*
-				echo nl2br($_POST['testoRiassuntoForm'])."<br />"; //Stampa correttamente con i <br />
-				*/
-
 session_start();
-$trovato = false;
+
 
 if (!isset($_SESSION['accessoPermesso'])) {
     header('Location: login.php');
@@ -135,17 +130,9 @@ for ($id=0; $id < $riassunti->length; $id++) { //id è l'id del riassunto che au
 
 	$tagsRiassuntoElement[$id] = $visualizzazioniRiassunto[$id]->nextSibling;
 	$tagsRiassunto[$id] = $tagsRiassuntoElement[$id]->childNodes;
-	for ($k=0; $k < $tagsRiassunto[$id]->length; $k++) { 	
-		$nomeTagRiassunto = $tagsRiassunto[$id]->item($k);
-		$nomeTagRiassuntoText[$k] = $nomeTagRiassunto->textContent;
-	}
 
 	$preferitiRiassuntoElement[$id] = $tagsRiassuntoElement[$id]->nextSibling;
 	$preferitiRiassunto[$id] = $preferitiRiassuntoElement[$id]->childNodes;
-	for ($k=0; $k < $preferitiRiassunto[$id]->length; $k++) {	
-		$emailPreferitiRiassunto = $preferitiRiassunto[$id]->item($k);
-		$emailPreferitiRiassuntoText[$k] = $emailPreferitiRiassunto->textContent;
-	}
 }
 /***/
 
@@ -158,13 +145,14 @@ $doc2 = new DOMDocument();
 $doc2->loadXML($xmlString2); 
 $root2 = $doc2->documentElement; 
 $tags = $root2->childNodes; 
+$trovato = false;
 	for ($k=0; $k < $tags->length; $k++) {	
     	$tag = $tags->item($k); 
 		$nomeTag[$k] = $tag->firstChild; 
 		$nomeTagText[$k] = $nomeTag[$k]->textContent;
         //Controlla se c'è una sottostringa nel nomeTagText[$k]
-        if (!empty ($_POST['tagRicercato'])) {
-            if (strpos($nomeTagText[$k], $_POST['tagRicercato']) !== false) {
+        if (!empty ($_GET['tagRicercato'])) {
+            if (stripos($nomeTagText[$k], $_GET['tagRicercato']) !== false) {
                 $trovato = true;
                 $riassuntoIDTrovatoLista = $tag->getElementsByTagName('riassuntoID');
                 foreach ($riassuntoIDTrovatoLista as $key => $value) { //Inseriamo nell'array riassuntoIDTrovato ognuno degli ID del tag ricercato
@@ -190,7 +178,7 @@ $tags = $root2->childNodes;
 			<a href="#"><img src="images/iconRiassuntiCreati.png">Riassunti creati</a>
 			<a href="#"><img src="images/iconRiassuntiVisualizzati.png">Riassunti visualizzati</a>
 			<a href="#"><img src="images/iconRiassuntiPreferiti.png">Riassunti preferiti</a>
-			<form action="<?php $_SERVER["PHP_SELF"] ?>" method="post" id="cercaRiassunti">		
+			<form action="<?php $_SERVER["PHP_SELF"] ?>" method="get" id="cercaRiassunti">		
 				<input type="text" name="tagRicercato" placeholder=" Cerca riassunti" />
 				<input type="image" src="images/iconCercaRiassunti.png" alt="Submit Form" />
 			</form>
@@ -217,6 +205,7 @@ $tags = $root2->childNodes;
         if ($trovato) {
             foreach ($riassuntoIDTrovato as $key=>$valueID) {
 				if (strcasecmp($condivisioneRiassuntoText[$valueID], "pubblico") == 0) {
+					$valueIDArray [] = $valueID;
 					$riassuntoTrovatoTitolo[] = $titoloRiassuntoText[$valueID];
 					$riassuntoTrovatoEmail[] = $emailStudenteRiassuntoText[$valueID];
 					$riassuntoTrovatoData [] = $dataRiassuntoText[$valueID];
@@ -227,26 +216,23 @@ $tags = $root2->childNodes;
 			}		
 			?>
 			<div id="riassuntoTrovato">
-				<div id="risultatoRicercaAlto">Risultati per per aver cercato il tag: <b><?php echo $_POST['tagRicercato'];?></b> </div><hr />
+				<div id="risultatoRicercaAlto">Risultati per per aver cercato il tag: <b><?php echo $_GET['tagRicercato'];?></b> </div><hr />
 				<?php
-				for ($key = 0; $key < sizeof($riassuntoTrovatoTitolo)-1 ; $key++) { //Altrimenti stampiamo la barra anche per l'ultimo elemento cercato
-						echo "<a id ='titoloRiassuntoTrovato' href='#'>".$riassuntoTrovatoTitolo[$key]."</a>";
-						echo "<span id ='visualizzazioniPreferitiRiassuntoTrovato'>".$riassuntoTrovatoVisualizzazioni[$key]." <img src='images/iconViews.png' /> ".$riassuntoTrovatoPreferiti[$key]." <img src='images/iconFavorites.png' /></span>";
-						echo "<br /><span id='emailRiassuntoTrovato'><i> Creato da ".$riassuntoTrovatoEmail[$key]." il ".$riassuntoTrovatoData[$key]." alle ore ".$riassuntoTrovatoOrario[$key]."</i></span>";
-						/*foreach ($tagsRiassuntoText[$key] as $k => $value) {
-							echo $value;
-						}*/
-						echo "<hr />";
+				for ($key = 0; $key < sizeof($valueIDArray) ; $key++) { 
+					$valueID = $valueIDArray[$key];
+					echo "<a id ='titoloRiassuntoTrovato' href='visualizza-riassunto.php?IDRiassunto=".urlencode($valueID)."' >".$riassuntoTrovatoTitolo[$key]."</a>";
+					echo "<span id ='visualizzazioniPreferitiRiassuntoTrovato'>".$riassuntoTrovatoVisualizzazioni[$key]." <img src='images/iconViews.png' /> ".$riassuntoTrovatoPreferiti[$key]." <img src='images/iconFavorites.png' /></span>";
+					echo "<br /><span id='emailRiassuntoTrovato'><i> Creato da ".$riassuntoTrovatoEmail[$key]." il ".$riassuntoTrovatoData[$key]." alle ore ".$riassuntoTrovatoOrario[$key]."</i></span>";
+					foreach ($tagsRiassunto[$valueID] as $j => $value) {
+						$nomeTagRiassunto = $tagsRiassunto[$valueID]->item($j);
+						$nomeTagRiassuntoText[$j] = $nomeTagRiassunto->textContent;
+						echo $nomeTagRiassuntoText[$j]."<br />";
+					}
+					echo "<hr />";
 				}
-				echo "<a id ='titoloRiassuntoTrovato' href='#'>".$riassuntoTrovatoTitolo[$key]."</a>";
-				echo "<span id ='visualizzazioniPreferitiRiassuntoTrovato'>".$riassuntoTrovatoVisualizzazioni[$key]." <img src='images/iconViews.png' /> ".$riassuntoTrovatoPreferiti[$key]." <img src='images/iconFavorites.png' /></span>";
-				echo "<br /><span id='emailRiassuntoTrovato'><i> Creato da ".$riassuntoTrovatoEmail[$key]." il ".$riassuntoTrovatoData[$key]." alle ore ".$riassuntoTrovatoOrario[$key]."</i></span>";
-				/*foreach ($nomeTagRiassuntoText as $key =>$value) {
-					echo $value;
-				}*/
 				?>
-			</div>
-			<?php
+				</div>
+				<?php
         }
         else {
             echo "Tag non trovato..";

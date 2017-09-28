@@ -13,11 +13,6 @@
 </head>
 <body>
 <?php
-				
-				/*
-				echo nl2br($_POST['testoRiassuntoForm'])."<br />"; //Stampa correttamente con i <br />
-				*/
-
 session_start();
 
 if (!isset($_SESSION['accessoPermesso'])) {
@@ -191,7 +186,7 @@ for ($id=0; $id < $riassunti->length; $id++) { //id è l'id del riassunto che au
 			<a href="#"><img src="images/iconRiassuntiCreati.png">Riassunti creati</a>
 			<a href="#"><img src="images/iconRiassuntiVisualizzati.png">Riassunti visualizzati</a>
 			<a href="#"><img src="images/iconRiassuntiPreferiti.png">Riassunti preferiti</a>
-			<form action="<?php $_SERVER["PHP_SELF"] ?>" method="post" id="cercaRiassunti">		
+			<form action="<?php $_SERVER["PHP_SELF"] ?>" method="get" id="cercaRiassunti">		
 				<input type="text" name="tagRicercato" placeholder=" Cerca riassunti" />
 				<input type="image" src="images/iconCercaRiassunti.png" alt="Submit Form" />
 			</form>
