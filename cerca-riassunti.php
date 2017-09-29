@@ -178,7 +178,7 @@ $trovato = false;
 			<a href="#"><img src="images/iconRiassuntiCreati.png">Riassunti creati</a>
 			<a href="#"><img src="images/iconRiassuntiVisualizzati.png">Riassunti visualizzati</a>
 			<a href="#"><img src="images/iconRiassuntiPreferiti.png">Riassunti preferiti</a>
-			<form action="<?php $_SERVER["PHP_SELF"] ?>" method="get" id="cercaRiassunti">		
+			<form action="cerca-riassunti.php" method="get" id="cercaRiassunti">		
 				<input type="text" name="tagRicercato" placeholder=" Cerca riassunti" />
 				<input type="image" src="images/iconCercaRiassunti.png" alt="Submit Form" />
 			</form>
@@ -218,7 +218,20 @@ $trovato = false;
 			<div id="riassuntoTrovato">
 				<div id="risultatoRicercaAlto">Risultati per per aver cercato il tag: <b><?php echo $_GET['tagRicercato'];?></b> </div><hr />
 				<?php
-				for ($key = 0; $key < sizeof($valueIDArray) ; $key++) { 
+				$pageLength = 2;
+				if (isset($_GET['next'])) {
+					$first = $_GET['next'];
+				}
+				else {
+					$first = 0;
+				}
+				if (sizeof($valueIDArray) - $first < $pageLength ) {
+					$last = sizeof($valueIDArray);
+				}
+				else {
+					$last = $first+$pageLength;
+				}
+				for ($key = $first; $key < $last ; $key++) { 
 					$valueID = $valueIDArray[$key];
 					echo "<a id ='titoloRiassuntoTrovato' href='visualizza-riassunto.php?IDRiassunto=".urlencode($valueID)."' >".$riassuntoTrovatoTitolo[$key]."</a>";
 					echo "<span id ='visualizzazioniPreferitiRiassuntoTrovato'>".$riassuntoTrovatoVisualizzazioni[$key]." <img src='images/iconViews.png' /> ".$riassuntoTrovatoPreferiti[$key]." <img src='images/iconFavorites.png' /></span>";
@@ -226,11 +239,35 @@ $trovato = false;
 					foreach ($tagsRiassunto[$valueID] as $j => $value) {
 						$nomeTagRiassunto = $tagsRiassunto[$valueID]->item($j);
 						$nomeTagRiassuntoText[$j] = $nomeTagRiassunto->textContent;
-						echo $nomeTagRiassuntoText[$j]."<br />";
+						echo "<a id='tagRiassuntoTrovato' href='cerca-riassunti.php?tagRicercato=".urlencode($nomeTagRiassuntoText[$j])."'>".$nomeTagRiassuntoText[$j]."</a>";
 					}
 					echo "<hr />";
 				}
+				$totPagine =  round ( (sizeof($valueIDArray) / $pageLength));
+				$paginaAttuale = ($first / $pageLength)+1;
+
 				?>
+					<div id="pagineRiassuntoTrovato">
+					<?php
+					if ($paginaAttuale == 1 && $paginaAttuale == $totPagine) {
+						echo "pagina ".$paginaAttuale." / ".$totPagine;		
+					}
+					else if ($paginaAttuale == 1) {
+						echo "pagina ".$paginaAttuale." / ".$totPagine;												
+						echo "<a id ='pagineNextRiassuntoTrovato' href='cerca-riassunti.php?tagRicercato=".urlencode($_GET['tagRicercato'])."&next=".$last."' >successivo</a>";														
+
+					}
+					else if ($paginaAttuale < $totPagine) {
+						echo "<a id ='paginePrevRiassuntoTrovato' href='cerca-riassunti.php?tagRicercato=".urlencode($_GET['tagRicercato'])."&next=".($last-$pageLength-1)."' >precedente</a>";
+						echo "pagina ".$paginaAttuale." / ".$totPagine;												
+						echo "<a id ='pagineNextRiassuntoTrovato' href='cerca-riassunti.php?tagRicercato=".urlencode($_GET['tagRicercato'])."&next=".$last."' >successivo</a>";														
+					}
+					else {
+						echo "<a id ='paginePrevRiassuntoTrovato' href='cerca-riassunti.php?tagRicercato=".urlencode($_GET['tagRicercato'])."&next=".($last-$pageLength-1)."' >precedente</a>";						
+						echo "pagina ".$paginaAttuale." / ".$totPagine;	
+					}
+					?>
+					</div>
 				</div>
 				<?php
         }

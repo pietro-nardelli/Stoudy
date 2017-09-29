@@ -363,6 +363,7 @@ input[type="submit"]:focus {
 	position: relative;
 	display: inline-block;
 	font-weight: bold;
+	font-size: 1.1em;
 	width: 75%;
 	text-decoration: none;
 	color: black;
@@ -377,13 +378,11 @@ input[type="submit"]:focus {
 #titoloRiassuntoTrovato:hover,
 #titoloRiassuntoTrovato:focus { 
 	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
-	font-weight: bold;
 }
 
 #visualizzazioniPreferitiRiassuntoTrovato {
 	position: relative;
 	display: inline-block;
-	font-weight: bold;
 	width: 24%;
 	margin-top: -10px;
 	text-align: right;
@@ -402,8 +401,81 @@ input[type="submit"]:focus {
 
 #emailRiassuntoTrovato {
 	display: inline-block;
-	font-weight: bold;
 	width: 100%;
 	margin-top: 5px;
 }
 
+#tagRiassuntoTrovato {
+	position: relative;
+	display: inline-block;
+	margin-right: 10px;
+	margin-top: 5px;
+	font-size: 0.9em;
+	text-decoration: none;
+	color: white;
+	background-color: rgba(28,38,47, 0.7);
+	padding: 1px;
+
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+	-webkit-transition: all 0.3s ease-in-out;
+	-moz-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+}
+
+#tagRiassuntoTrovato:hover,
+#tagRiassuntoTrovato:focus { 
+	background-color: rgba(28,38,47, 1);
+	box-shadow:  2px 2px 10px 2px rgb(182, 182, 182);
+}
+
+#pagineRiassuntoTrovato {
+	width: 100%;
+	padding-bottom: 5px;
+	font-size: 0.9em;
+}
+
+#pagineNextRiassuntoTrovato{
+	position: relative;
+	width: 8.5%;
+	margin-left: 10px;
+	display: inline-block;
+	text-decoration: none;
+	color: black;
+	background-color: rgba(254, 126, 6, 0.7);
+	padding: 2px;
+
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	-webkit-transition: all 0.3s ease-in-out;
+	-moz-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+}
+#paginePrevRiassuntoTrovato{
+	position: relative;
+	width: 9%;
+	margin-right: 10px;
+	display: inline-block;
+	text-decoration: none;
+	color: black;
+	background-color: rgba(254, 126, 6, 0.7);
+	padding: 2px;
+
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	-webkit-transition: all 0.3s ease-in-out;
+	-moz-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+}
+
+#pagineRiassuntoTrovato a:hover,
+#pagineRiassuntoTrovato a:focus { 
+	background-color: rgba(254, 126, 6, 1);
+	box-shadow:  2px 2px 10px 2px rgb(182, 182, 182);
+}
