@@ -2,7 +2,9 @@ body {
 	font-family: rawengulk, Helvetica, Arial;
 	margin: 0px;
 	padding: 0px;
-	
+
+	/*background-image: url(images/background.jpg);*/
+	background-size: 100%;
 	background-color: rgb(220, 220, 220);
 }
 

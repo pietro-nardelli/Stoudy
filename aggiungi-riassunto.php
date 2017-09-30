@@ -208,48 +208,54 @@ for ($i=0; $i < $studenti->length; $i++) {
 				$doc3->loadXML($xmlString3); 
 				$root3 = $doc3->documentElement; 
 				$riassunti = $root3->childNodes; 
-				for ($id=0; $id < $riassunti->length; $id++) { //id è l'id del riassunto che aumenta ad ogni riassunto aggiunto
-					$riassunto = $riassunti->item($id); 
-					$condivisioneRiassuntoText[$id] = $riassunto->getAttribute('condivisione');
-					$IDRiassunto[$id] = $riassunto->firstChild; 
-					$IDRiassuntoText[$id] = $IDRiassunto[$id]->textContent;
+				/*Il contatore non è l'ID del riassunto in quanto un riassunto potrebbe essere cancellato, 
+				 *e ciò che ne rimane è un posto vuoto!! 
+				 * Se non facessimo così l'ID non sarebbe univoco.
+				 */
+				for ($cRiass=0; $cRiass < $riassunti->length; $cRiass++) {
+					$riassunto = $riassunti->item($cRiass); 
+					$condivisioneRiassuntoText[$cRiass] = $riassunto->getAttribute('condivisione');
+					$IDRiassunto[$cRiass] = $riassunto->firstChild; 
+					$IDRiassuntoText[$cRiass] = $IDRiassunto[$cRiass]->textContent;
 
-					$titoloRiassunto[$id] = $IDRiassunto[$id]->nextSibling;
-					$titoloRiassuntoText[$id] = $titoloRiassunto[$id]->textContent;
+					$titoloRiassunto[$cRiass] = $IDRiassunto[$cRiass]->nextSibling;
+					$titoloRiassuntoText[$cRiass] = $titoloRiassunto[$cRiass]->textContent;
 
-					$emailStudenteRiassunto[$id] = $titoloRiassunto[$id]->nextSibling;
-					$emailStudenteRiassuntoText[$id] = $emailStudenteRiassunto[$id]->textContent;
+					$emailStudenteRiassunto[$cRiass] = $titoloRiassunto[$cRiass]->nextSibling;
+					$emailStudenteRiassuntoText[$cRiass] = $emailStudenteRiassunto[$cRiass]->textContent;
 
-					$dataRiassunto[$id] = $emailStudenteRiassunto[$id]->nextSibling;
-					$dataRiassuntoText[$id] = $dataRiassunto[$id]->textContent;
+					$dataRiassunto[$cRiass] = $emailStudenteRiassunto[$cRiass]->nextSibling;
+					$dataRiassuntoText[$cRiass] = $dataRiassunto[$cRiass]->textContent;
 
-					$orarioRiassunto[$id] = $dataRiassunto[$id]->nextSibling;
-					$orarioriassuntoText[$id] = $orarioRiassunto[$id]->textContent;
+					$orarioRiassunto[$cRiass] = $dataRiassunto[$cRiass]->nextSibling;
+					$orarioriassuntoText[$cRiass] = $orarioRiassunto[$cRiass]->textContent;
 
-					$testoRiassunto[$id] = $orarioRiassunto[$id]->nextSibling;
-					$testoRiassuntoText[$id] = $testoRiassunto[$id]->textContent;
+					$testoRiassunto[$cRiass] = $orarioRiassunto[$cRiass]->nextSibling;
+					$testoRiassuntoText[$cRiass] = $testoRiassunto[$cRiass]->textContent;
 
-					$visualizzazioniRiassunto[$id] = $testoRiassunto[$id]->nextSibling;
-					$visualizzazioniRiassuntoText[$id] = $visualizzazioniRiassunto[$id]->textContent;
+					$visualizzazioniRiassunto[$cRiass] = $testoRiassunto[$cRiass]->nextSibling;
+					$visualizzazioniRiassuntoText[$cRiass] = $visualizzazioniRiassunto[$cRiass]->textContent;
 
-					$tagsRiassuntoElement[$id] = $visualizzazioniRiassunto[$id]->nextSibling;
-					$tagsRiassunto[$id] = $tagsRiassuntoElement[$id]->childNodes;
-					for ($k=0; $k < $tagsRiassunto[$id]->length; $k++) { 	
-						$nomeTagRiassunto = $tagsRiassunto[$id]->item($k);
+					$tagsRiassuntoElement[$cRiass] = $visualizzazioniRiassunto[$cRiass]->nextSibling;
+					$tagsRiassunto[$cRiass] = $tagsRiassuntoElement[$cRiass]->childNodes;
+					for ($k=0; $k < $tagsRiassunto[$cRiass]->length; $k++) { 	
+						$nomeTagRiassunto = $tagsRiassunto[$cRiass]->item($k);
 						$nomeTagRiassuntoText[$k] = $nomeTagRiassunto->textContent;
 					}
 
-					$preferitiRiassuntoElement[$id] = $tagsRiassuntoElement[$id]->nextSibling;
-					$preferitiRiassunto[$id] = $preferitiRiassuntoElement[$id]->childNodes;
-					for ($k=0; $k < $preferitiRiassunto[$id]->length; $k++) {	
-						$emailPreferitiRiassunto = $preferitiRiassunto[$id]->item($k);
+					$preferitiRiassuntoElement[$cRiass] = $tagsRiassuntoElement[$cRiass]->nextSibling;
+					$preferitiRiassunto[$cRiass] = $preferitiRiassuntoElement[$cRiass]->childNodes;
+					for ($k=0; $k < $preferitiRiassunto[$cRiass]->length; $k++) {	
+						$emailPreferitiRiassunto = $preferitiRiassunto[$cRiass]->item($k);
 						$emailPreferitiRiassuntoText[$k] = $emailPreferitiRiassunto->textContent;
 					}
 				}
 
+				//Da qui $IDRiassuntoText[ $riassunti->length -1 ] +1 corrisponde all'ID che noi vogliamo inserire...
+				$id = $IDRiassuntoText[ $riassunti->length -1 ] +1;
 
 				$newRiassunto = $doc3->createElement("riassunto");
-				$newIDRiassunto = $doc3->createElement("ID", $id);		
+				$newIDRiassunto = $doc3->createElement("ID", $id );		
 				$newTitoloRiassunto = $doc3->createElement("titolo", $_SESSION['titoloRiassunto']);
 				$newEmailStudenteRiassunto = $doc3->createElement("emailStudente", $_SESSION['email']);
 				$newDataRiassunto = $doc3->createElement("data", $_SESSION['nowDate']);

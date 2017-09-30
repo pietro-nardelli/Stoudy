@@ -14,8 +14,6 @@
 <body>
 <?php
 session_start();
-
-
 if (!isset($_SESSION['accessoPermesso'])) {
     header('Location: login.php');
 }
