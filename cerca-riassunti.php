@@ -51,7 +51,7 @@ for ($i=0; $i < $studenti->length; $i++) {
 		 */
 		
 		for ($k=0; $k < $materie->length; $k++) {	
-			$materia = $materie->item($k); //Materia k-esima appartenente alla lista precedentemente definita
+			$materia = $materie->item($k); 
 
 			$statusText[$k] = $materia->getAttribute('status'); //Serve per capire se la materia è planned-unplanned-archived
 			//L'unica cosa in comune tra gli status è che possiamo inserire in ogni caso creare l'array nomeMateria
@@ -102,8 +102,19 @@ $doc3 = new DOMDocument();
 $doc3->loadXML($xmlString3); 
 $root3 = $doc3->documentElement; 
 $riassunti = $root3->childNodes; 
-for ($id=0; $id < $riassunti->length; $id++) { //id è l'id del riassunto che aumenta ad ogni riassunto aggiunto
-	$riassunto = $riassunti->item($id); 
+//Questo ciclo è necessario per assegnare all'IDRIassuntoLista l'ID di ogni riassunto
+for ($cRiass=0; $cRiass < $riassunti->length; $cRiass++) {
+	$riassunto = $riassunti->item($cRiass); 
+	$IDRiassuntoLista[$cRiass] = $riassunto->firstChild->textContent;
+}
+
+/*A questo punto possiamo scorrere l'array precedentemente inizializzato tenendo conto che il suo valore $id 
+ *è l'indice degli array che andremo ad inizializzare per ogni oggetto nel dom di ogni riassunto.
+ *Se non lo facessimo quando andremo cercare per ID per operare su quel determinato oggetto
+ *non lo troveremo. 
+ */
+foreach ($IDRiassuntoLista as $count => $id) {
+	$riassunto = $riassunti->item($count); 
 	$condivisioneRiassuntoText[$id] = $riassunto->getAttribute('condivisione');
 	$IDRiassunto[$id] = $riassunto->firstChild; 
 	$IDRiassuntoText[$id] = $IDRiassunto[$id]->textContent;

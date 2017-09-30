@@ -108,7 +108,7 @@ for ($i=0; $i < $studenti->length; $i++) {
 			$riassuntoIDPreferitoText[$k] = $riassuntoIDPreferito[$k]->textContent;
 			if ($IDGet == $riassuntoIDPreferitoText[$k]) {
 				$indicePreferito = $k;
-				$preferito = 1;
+				$preferito = 1; //Se uguale a 1 allora la flag indica che è già tra i preferiti, viceversa non lo è.
 			}
 		}
 
@@ -130,8 +130,19 @@ $doc3 = new DOMDocument();
 $doc3->loadXML($xmlString3); 
 $root3 = $doc3->documentElement; 
 $riassunti = $root3->childNodes; 
-for ($id=0; $id < $riassunti->length; $id++) { //id è l'id del riassunto che aumenta ad ogni riassunto aggiunto
-	$riassunto = $riassunti->item($id); 
+//Questo ciclo è necessario per assegnare all'IDRIassuntoLista l'ID di ogni riassunto
+for ($cRiass=0; $cRiass < $riassunti->length; $cRiass++) {
+	$riassunto = $riassunti->item($cRiass); 
+	$IDRiassuntoLista[$cRiass] = $riassunto->firstChild->textContent;
+}
+
+/*A questo punto possiamo scorrere l'array precedentemente inizializzato tenendo conto che il suo valore $id 
+ *è l'indice degli array che andremo ad inizializzare per ogni oggetto nel dom di ogni riassunto.
+ *Se non lo facessimo quando andremo cercare per ID per operare su quel determinato oggetto
+ *non lo troveremo. 
+ */
+foreach ($IDRiassuntoLista as $count => $id) {
+	$riassunto = $riassunti->item($count); 
 	$condivisioneRiassuntoText[$id] = $riassunto->getAttribute('condivisione');
 	$IDRiassunto[$id] = $riassunto->firstChild; 
 	$IDRiassuntoText[$id] = $IDRiassunto[$id]->textContent;
@@ -167,7 +178,7 @@ for ($id=0; $id < $riassunti->length; $id++) { //id è l'id del riassunto che au
 		$emailPreferitiRiassunto = $preferitiRiassunto[$id]->item($k);
 		$emailPreferitiRiassuntoText[$k] = $emailPreferitiRiassunto->textContent;
 		if (strcasecmp($_SESSION['email'], $emailPreferitiRiassuntoText[$k]) == 0) {
-			$indiceEmailPreferito;
+			$indiceEmailPreferito = $k;
 		}
 	}
 }
@@ -186,7 +197,7 @@ for ($id=0; $id < $riassunti->length; $id++) { //id è l'id del riassunto che au
 			<a href="#"><img src="images/iconRiassuntiCreati.png">Riassunti creati</a>
 			<a href="#"><img src="images/iconRiassuntiVisualizzati.png">Riassunti visualizzati</a>
 			<a href="#"><img src="images/iconRiassuntiPreferiti.png">Riassunti preferiti</a>
-			<form action="<?php $_SERVER["PHP_SELF"] ?>" method="get" id="cercaRiassunti">		
+			<form action="cerca-riassunti.php" method="get" id="cercaRiassunti">		
 				<input type="text" name="tagRicercato" placeholder=" Cerca riassunti" />
 				<input type="image" src="images/iconCercaRiassunti.png" alt="Submit Form" />
 			</form>
@@ -209,10 +220,14 @@ for ($id=0; $id < $riassunti->length; $id++) { //id è l'id del riassunto che au
 		</div>
 	</div>
     <div id="main">
-	<?php if (isset($IDGet) && !empty($IDRiassunto[$_GET['IDRiassunto']])) { 
+	<?php 
+	//Se id è valido e se abbiamo usato il "motore" di ricerca...
+	if (isset($IDGet) && !empty($IDRiassunto[$_GET['IDRiassunto']])) { 
+		//Controlliamo se il riassunto è nostro oppure no
 		if (strcasecmp($_SESSION['email'], $emailStudenteRiassuntoText[$IDGet]) == 0) {
 			$riassuntoProprio = true;
 		}
+		//Se non è nostro ed è privato
 		if (!$riassuntoProprio && (strcasecmp($condivisioneRiassuntoText[$IDGet], "privato") == 0) ) {
 			echo "Questo riassunto è privato e non può essere visualizzato.";
 			//REDIRECT DA FARE QUI
@@ -220,18 +235,19 @@ for ($id=0; $id < $riassunti->length; $id++) { //id è l'id del riassunto che au
 		}
 		$nowTime = date("H:i:s"); //Ora odierna
 		$nowDate = date("Y-m-d"); //Data odierna
-		$nowTimeTotal = strtotime($nowTime." ".$nowDate);
-		$timeTotal = strtotime($dataRiassuntoText[$IDGet]." ".$orarioRiassuntoText[$IDGet]);
-		$diffHours = ($nowTimeTotal - $timeTotal)/3600;
+		$nowTimeTotal = strtotime($nowTime." ".$nowDate); //Va fatto per ottenere la differenza di orari
+		$timeTotal = strtotime($dataRiassuntoText[$IDGet]." ".$orarioRiassuntoText[$IDGet]); //Idem sopra
+		$diffHours = ($nowTimeTotal - $timeTotal)/3600; //Questa è la differenza in ore tra la data del riassunto e la data attuale
 
 		if (!$riassuntoProprio) {
 			if (!$visualizzato) {
 				if ($coinsText == 0) {
+					//Se il riassunto è stato inserito da più di 24 ore, non si hanno coin e non lo abbiamo già visualizzato nè è nostro...
 					if ($diffHours > 24) {
 						echo "Questo riassunto non può essere visualizzato. Non hai abbastanza coin.";
 						exit();
 					}
-					else { //Se il riassunto è stato inserito entro 24 ore
+					else { //Se il riassunto è stato inserito entro 24 ore: visualizziamolo e aggiungiamolo ai riassunti visti
 						$newRiassuntoIDVisualizzato = $doc->createElement("riassuntoIDVisualizzato", $IDGet);
 						$riassuntiVisualizzatiElement->insertBefore($newRiassuntoIDVisualizzato);		
 						$path = dirname(__FILE__)."/xml-schema/studenti.xml"; 
@@ -239,11 +255,12 @@ for ($id=0; $id < $riassunti->length; $id++) { //id è l'id del riassunto che au
 						
 						$visualizzazioniRiassunto[$IDGet]->textContent= $visualizzazioniRiassuntoText[$IDGet]+1;
 						$path3 = dirname(__FILE__)."/xml-schema/riassunti.xml"; 
-						$doc3->save($path3);
-						header('Location: visualizza-riassunto.php?IDRiassunto='.$IDGet);
+						$doc3->save($path3); 
+						header('Location: visualizza-riassunto.php?IDRiassunto='.$IDGet); //Aggiorniamo per visualizzarlo correttamente con il DOM aggiornato
 					}
 				}
-				else { //Se si hanno abbastanza coin per visualizzarlo...
+				else { //Se si hanno abbastanza coin per visualizzarlo, visualizziamolo e aggiungiamolo ai riassunti visti.
+					//In seguito dovremo togliere un coin dall'account
 					$newRiassuntoIDVisualizzato = $doc->createElement("riassuntoIDVisualizzato", $IDGet);
 					$riassuntiVisualizzatiElement->insertBefore($newRiassuntoIDVisualizzato);		
 					$path = dirname(__FILE__)."/xml-schema/studenti.xml"; 
@@ -253,13 +270,15 @@ for ($id=0; $id < $riassunti->length; $id++) { //id è l'id del riassunto che au
 					
 					$path3 = dirname(__FILE__)."/xml-schema/riassunti.xml"; 
 					$doc3->save($path3);
-					header('Location: visualizza-riassunto.php?IDRiassunto='.$IDGet);
+					header('Location: visualizza-riassunto.php?IDRiassunto='.$IDGet); //Aggiorniamo per visualizzarlo correttamente con il DOM aggiornato
 
 				}
 			}
-		}
-
+		} //In tutti gli altri casi possiamo visualizzare il riassunto! E' nostro o è stato visualizzato
+		
+		//Se abbiamo premuto il pulsante preferito
 		if (isset($_GET['preferito'])) {
+			//Il pulsante rimanda 1 quando non è ancora tra i preferiti
 			if ($_GET['preferito'] == 1 && !$preferito) { //Aggiungiamo il riassunto ai preferiti
 				$newRiassuntoIDPreferito = $doc->createElement("riassuntoIDPreferito", $IDGet);
 				$riassuntiPreferitiElement->insertBefore($newRiassuntoIDPreferito);					
@@ -273,6 +292,7 @@ for ($id=0; $id < $riassunti->length; $id++) { //id è l'id del riassunto che au
 
 				header('Location: visualizza-riassunto.php?IDRiassunto='.$IDGet);
 			}
+			//Il pulsante rimanda 0 quando lo abbiamo tra i preferiti
 			else if ($_GET['preferito'] == 0 && $preferito) { //Togliamo il riassunto dai preferiti
 				$riassuntoPreferito = $studente->getElementsByTagName('riassuntoIDPreferito')->item($indicePreferito);
 				$riassuntoPreferito->parentNode->removeChild($riassuntoPreferito); //Serve perchè altrimenti da errore!
@@ -287,6 +307,7 @@ for ($id=0; $id < $riassunti->length; $id++) { //id è l'id del riassunto che au
 				header('Location: visualizza-riassunto.php?IDRiassunto='.$IDGet);
 			}
 		}
+		//Da qui in poi visualizziamo il riassunto
 		?>
         <div id="visualizzaRiassunto">
             <div id="nomeMateria">

@@ -107,7 +107,7 @@ for ($i=0; $i < $studenti->length; $i++) {
 			<a href="#"><img src="images/iconRiassuntiCreati.png">Riassunti creati</a>
 			<a href="#"><img src="images/iconRiassuntiVisualizzati.png">Riassunti visualizzati</a>
 			<a href="#"><img src="images/iconRiassuntiPreferiti.png">Riassunti preferiti</a>
-			<form action="<?php $_SERVER["PHP_SELF"] ?>" method="get" id="cercaRiassunti">		
+			<form action="cerca-riassunti.php" method="get" id="cercaRiassunti">		
 				<input type="text" name="tagRicercato" placeholder=" Cerca riassunti" />
 				<input type="image" src="images/iconCercaRiassunti.png" alt="Submit Form" />
 			</form>
@@ -251,7 +251,10 @@ for ($i=0; $i < $studenti->length; $i++) {
 					}
 				}
 
-				//Da qui $IDRiassuntoText[ $riassunti->length -1 ] +1 corrisponde all'ID che noi vogliamo inserire...
+				/*Da qui $IDRiassuntoText[ $riassunti->length -1 ] +1 corrisponde all'ID che noi vogliamo inserire...
+				 *Non c'è bisogno di fare come cerca-riassunti e visualizza-riassunto perchè non dobbiamo operare sugli altri oggetti del DOM ma solo
+				 *aggiungerne uno in più all'ultimo della fila.
+				 */
 				$id = $IDRiassuntoText[ $riassunti->length -1 ] +1;
 
 				$newRiassunto = $doc3->createElement("riassunto");
