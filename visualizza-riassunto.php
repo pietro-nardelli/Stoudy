@@ -345,7 +345,7 @@ foreach ($IDRiassuntoLista as $count => $id) {
 					<?php
 				}
 				?>
-					<a id="segnalaRiassunto" href="#">Segnala riassunto </a>
+					<a id="segnalaRiassunto" href="segnala-riassunto.php?<?php echo "IDRiassunto=".urlencode($IDGet)."&emailStudente=".urlencode($_SESSION['email']).""; ?>">Segnala riassunto </a>
 				</div>
 				
         </div>

@@ -3,8 +3,9 @@
 
 	<!-- definition of simple element -->
 	<xsd:element name="riassuntoID" type="xsd:string" />
-	<xsd:element name="emailStudente" type="xsd:string" />
 	<xsd:element name="emailAdmin" type="xsd:string" />
+	<xsd:element name="emailStudente" type="xsd:string" />
+
 
 	<!-- definition of attributes -->
 	<!-- definition of complex elements -->
