@@ -87,18 +87,29 @@ for ($i=0; $i < $segnalazioni->length; $i++) {
     $riassuntoID[$i] = $segnalazione->firstChild; 
     $riassuntoIDText[$i] = $riassuntoID[$i]->textContent;
 
+    /*Procedura di eliminazione dalla lista dei riassunti segnalati, se un riassunto non è più presente in riassunti.xml*/
+    if (isset($_SESSION['eliminato'])) {//Se è stato emesso un cookie con valueID
+        if ($_SESSION['eliminato'] == $riassuntoIDText[$i]) { 
+            //Eliminiamo la segnalazione corrispondente che possiede un ID non più valido
+            $segnalazione->parentNode->removeChild($segnalazione);
+            $path4 = dirname(__FILE__)."/xml-schema/segnalazioni.xml"; 
+            $doc4->save($path4);
+            unset($_SESSION['eliminato']);
+            header('Location: home-admin.php');
+            exit();
+        }
+    }
+
     $emailAdmin[$i] = $riassuntoID[$i]->nextSibling;
     $emailAdminText[$i] = $emailAdmin[$i]->textContent;
+    //Se l'admin è stato assegnato ad una segnalazione...
     if (strcasecmp ($emailAdminText[$i], $_SESSION['email']) == 0 ) {
         $trovato = true; //Almeno un riassunto trovato
-        $riassuntoIDSegnalati [] = $riassuntoIDText[$i];
+        $riassuntoIDSegnalato [] = $riassuntoIDText[$i]; //Inseriamo nell'array  l'ID dei riassunti ad esso assegnati
     }
-    $emailStudenteLista[$i] = $segnalazione->getElementsByTagName('emailStudente');
-    /*foreach ($emailStudenteLista[$i] as $key => $value) { 
-    }*/
+    //Contiene la lista delle segnalazioni, all'indice riassuntoID
+    $emailStudenteLista[$riassuntoIDText[$i]] = $segnalazione->getElementsByTagName('emailStudente'); 
 }
-
-
 ?>
 
 	<div id="lateralHomeStudente">
@@ -116,19 +127,27 @@ for ($i=0; $i < $segnalazioni->length; $i++) {
 	</div>
     <div id="main">
         <?php 
-        if ($trovato) {
-            foreach ($riassuntoIDSegnalati as $key=>$valueID) {
-                $valueIDArray [] = $valueID;
-				$riassuntoTrovatoTitolo[] = $titoloRiassuntoText[$valueID];
-				$riassuntoTrovatoEmail[] = $emailStudenteRiassuntoText[$valueID];
-				$riassuntoTrovatoData [] = $dataRiassuntoText[$valueID];
-				$riassuntoTrovatoOrario [] = $orarioRiassuntoText[$valueID];
-				$riassuntoTrovatoVisualizzazioni []= $visualizzazioniRiassuntoText[$valueID];
-				$riassuntoTrovatoPreferiti [] =  $preferitiRiassunto[$valueID]->length;
+        if ($trovato) { //Se abbiamo trovato almeno un riassunto in quelli segnalati...
+            foreach ($riassuntoIDSegnalato as $key=>$valueID) {
+                if (isset ($titoloRiassuntoText[$valueID])) { //Se il riassunto segnalato non è stato cancellato...
+                    $valueIDArray [] = $valueID;
+                    //Trovato = Segnalato
+                    $riassuntoTrovatoTitolo[] = $titoloRiassuntoText[$valueID];
+                    $riassuntoTrovatoEmail[] = $emailStudenteRiassuntoText[$valueID];
+                    $riassuntoTrovatoData [] = $dataRiassuntoText[$valueID];
+                    $riassuntoTrovatoOrario [] = $orarioRiassuntoText[$valueID];
+                    $riassuntoTrovatoVisualizzazioni []= $visualizzazioniRiassuntoText[$valueID];
+                    $riassuntoTrovatoPreferiti [] =  $preferitiRiassunto[$valueID]->length;
+                }
+                else { //Se invece è stato cancellato bisogna eliminarlo da segnalazioni.xml
+                    $_SESSION['eliminato'] = $valueID; //Emettiamo un cookie con valueID
+                    header('Location: home-admin.php');
+                    exit();
+                }
 			}		
 			?>
 			<div id="riassuntoTrovato">
-				<div id="risultatoRicercaAlto"><b><?php echo $_SESSION['email']; ?>: </b>dovresti analizzare <b><?php echo sizeof($riassuntoIDSegnalati);?> riassunti</b> </div><hr />
+				<div id="risultatoRicercaAlto"><b><?php echo $_SESSION['email']; ?>: </b>dovresti analizzare <b><?php echo sizeof($valueIDArray);?> riassunti</b> </div><hr />
 				<?php
 				$pageLength = 2;
 				if (isset($_GET['next'])) {
@@ -145,14 +164,15 @@ for ($i=0; $i < $segnalazioni->length; $i++) {
 				}
 				for ($key = $first; $key < $last ; $key++) { 
 					$valueID = $valueIDArray[$key];
-					echo "<a id ='titoloRiassuntoTrovato' href='visualizza-riassunto.php?IDRiassunto=".urlencode($valueID)."' >".$riassuntoTrovatoTitolo[$key]."</a>";
-					echo "<span id ='visualizzazioniPreferitiRiassuntoTrovato'>".$riassuntoTrovatoVisualizzazioni[$key]." <img src='images/iconViews.png' /> ".$riassuntoTrovatoPreferiti[$key]." <img src='images/iconFavorites.png' /></span>";
+					echo "<a id ='titoloRiassuntoTrovato' href='visualizza-riassunto-admin.php?IDRiassunto=".urlencode($valueID)."' >".$riassuntoTrovatoTitolo[$key]."</a>";
+                    echo "<span id ='visualizzazioniPreferitiRiassuntoTrovato'>".$riassuntoTrovatoVisualizzazioni[$key]." <img src='images/iconViews.png' /> ".$riassuntoTrovatoPreferiti[$key]." <img src='images/iconFavorites.png' /></span>";
 					echo "<br /><span id='emailRiassuntoTrovato'><i> Creato da ".$riassuntoTrovatoEmail[$key]." il ".$riassuntoTrovatoData[$key]." alle ore ".$riassuntoTrovatoOrario[$key]."</i></span>";
 					foreach ($tagsRiassunto[$valueID] as $j => $value) {
 						$nomeTagRiassunto = $tagsRiassunto[$valueID]->item($j);
 						$nomeTagRiassuntoText[$j] = $nomeTagRiassunto->textContent;
 						echo "<a id='tagRiassuntoTrovato' href='cerca-riassunti.php?tagRicercato=".urlencode($nomeTagRiassuntoText[$j])."'>".$nomeTagRiassuntoText[$j]."</a>";
-					}
+                    }
+                    echo  "(".$emailStudenteLista[$valueID]->length." segnalazioni)<br/>";
 					echo "<hr />";
 				}
 				$totPagine =  round ( (sizeof($valueIDArray) / $pageLength));
@@ -183,7 +203,8 @@ for ($i=0; $i < $segnalazioni->length; $i++) {
 				</div>
 				<?php
         }
-        else {?>
+        else { //Se non è stato assegnato alcun riassunto...
+            ?>
         	<div id="riassuntoTrovato">
                 <div id="risultatoRicercaAlto"><b><?php echo $_SESSION['email']; ?>: </b> non ci sono riassunti da analizzare!</div>
             </div>
