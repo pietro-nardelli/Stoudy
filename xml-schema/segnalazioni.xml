@@ -1,2 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<segnalazioni xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="segnalazioni.xsd"><segnalazione><riassuntoID>123412</riassuntoID><emailAdmin>admin2@gmail.com</emailAdmin><emailStudente>marco@gmail.com</emailStudente></segnalazione><segnalazione><riassuntoID>123491</riassuntoID><emailAdmin>admin2@gmail.com</emailAdmin><emailStudente>mario@gmail.com</emailStudente><emailStudente>maria@gmail.com</emailStudente></segnalazione><segnalazione><riassuntoID>123411</riassuntoID><emailAdmin>admin1@gmail.com</emailAdmin><emailStudente>pietro@gmail.com</emailStudente><emailStudente>filippo@gmail.com</emailStudente><emailStudente>gianna@gmail.com</emailStudente></segnalazione><segnalazione><riassuntoID>3</riassuntoID><emailAdmin>admin1@gmail.com</emailAdmin><emailStudente>filippo@gmail.com</emailStudente><emailStudente>gianna@gmail.com</emailStudente><emailStudente>pietro.nardelliz@gmail.com</emailStudente></segnalazione><segnalazione><riassuntoID>4</riassuntoID><emailAdmin>admin2@gmail.com</emailAdmin><emailStudente>pietro.nardelliz@gmail.com</emailStudente></segnalazione></segnalazioni>
+<segnalazioni xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="segnalazioni.xsd">
+	<segnalazione>
+		<riassuntoID>1</riassuntoID>
+		<emailAdmin>admin2@gmail.com</emailAdmin>
+		<emailStudente>marco@gmail.com</emailStudente>
+	</segnalazione>
+	<segnalazione>
+		<riassuntoID>2</riassuntoID>
+		<emailAdmin>admin2@gmail.com</emailAdmin>
+		<emailStudente>mario@gmail.com</emailStudente>
+		<emailStudente>maria@gmail.com</emailStudente>
+	</segnalazione>
+	
+	<segnalazione>
+		<riassuntoID>0</riassuntoID>
+		<emailAdmin>admin1@gmail.com</emailAdmin>
+		<emailStudente>pietro@gmail.com</emailStudente>
+		<emailStudente>filippo@gmail.com</emailStudente>
+		<emailStudente>gianna@gmail.com</emailStudente>
+	</segnalazione>
+
+	<segnalazione>
+		<riassuntoID>4</riassuntoID>
+		<emailAdmin>admin1@gmail.com</emailAdmin>
+		<emailStudente>filippo@gmail.com</emailStudente>
+		<emailStudente>gianna@gmail.com</emailStudente>
+	</segnalazione>
+</segnalazioni>
