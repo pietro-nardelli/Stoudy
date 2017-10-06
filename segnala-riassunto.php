@@ -14,6 +14,7 @@
 <body>
 <?php
 session_start();
+$trovato = false;
 
 if (!isset($_SESSION['accessoPermesso'])) {
     header('Location: login.php');
@@ -53,7 +54,6 @@ if (!empty($_GET['IDRiassunto']) && !empty($_GET['emailStudente'])) {
             $i++;
        }
        $indexAdmin = rand(0, $i-1); //Scegliamo un admin a caso tra quelli presenti nella tabella admins.sql
-       echo $admins[$indexAdmin];
     }
     else { //Altrimenti abbiamo sbagliato qualcosa nel login
             echo "Problemi nel segnalare il riassunto";
@@ -65,8 +65,8 @@ else {	//Se alcuni campi non sono stati compilati...
 
 
 /*Inizializziamo il file segnalazioni.xml*/
-/*$xmlString4 = ""; 
-foreach (file("xml-schema/riassunti.xml") as $node4) { 
+$xmlString4 = ""; 
+foreach (file("xml-schema/segnalazioni.xml") as $node4) { 
 	$xmlString4 .= trim($node4); 
 }
 $doc4 = new DOMDocument(); 
@@ -75,8 +75,57 @@ $root4 = $doc4->documentElement;
 $segnalazioni = $root4->childNodes;
 
 for ($i=0; $i < $segnalazioni->length; $i++) {
-    
-}*/
+    $segnalazione = $segnalazioni->item ($i);
+    $riassuntoID[$i] = $segnalazione->firstChild; 
+    $riassuntoIDText[$i] = $riassuntoID[$i]->textContent;
+
+    $emailAdmin[$i] = $riassuntoID[$i]->nextSibling;
+    $emailAdminText[$i] = $emailAdmin[$i]->textContent;
+
+    $emailStudenteLista[$i] = $segnalazione->getElementsByTagName('emailStudente');
+    foreach ($emailStudenteLista[$i] as $key => $value) { 
+        //Se l'ID del riassunto coincide, quel riassunto è stato già segnalato
+        if ( !strcasecmp ($_GET['IDRiassunto'], $riassuntoIDText[$i]) ) {
+            $trovato = true; 
+            //Controlliamo se lo studente non abbia già fatto una segnalazione per quel riassunto, in tal caso errore.
+            if (!strcasecmp ($emailStudenteLista[$i]->item($key)->textContent, $_SESSION['email'])) {
+                echo "E' stata già emessa una segnalazione per quel riassunto";
+                header("refresh:3; url=visualizza-riassunto.php?IDRiassunto=".$_GET['IDRiassunto']."");
+                exit();
+            }
+        }
+    }
+    if ($trovato) { //Se la segnalazione è stata fatta ma lo studente ancora non l'ha segnalato aggiungiamo emailStudente a quel riassunto
+        $newEmailStudente = $doc4->createElement("emailStudente", $_SESSION['email']);
+        $segnalazione->appendChild($newEmailStudente);
+
+        $path4 = dirname(__FILE__)."/xml-schema/segnalazioni.xml"; //Troviamo un percorso assoluto al file xml di riferimento
+        $doc4->save($path4); //Sovrascriviamolo
+        echo "E' stata emessa una segnalazione per quel riassunto";
+        header("refresh:3; url=visualizza-riassunto.php?IDRiassunto=".$_GET['IDRiassunto']."");
+        exit();
+    }
+}
+
+//Nel caso in cui non sia stato trovato nulla e abbiamo ciclato per tutte le segnalazioni...
+$newSegnalazione = $doc4->createElement("segnalazione");
+$newRiassuntoID = $doc4->createElement("riassuntoID", $_GET['IDRiassunto']);
+$newEmailAdmin = $doc4->createElement("emailAdmin", $admins[$indexAdmin]);
+$newEmailStudente = $doc4->createElement("emailStudente", $_SESSION['email']);
+            
+$newSegnalazione->appendChild($newRiassuntoID);
+$newSegnalazione->appendChild($newEmailAdmin);	
+$newSegnalazione->appendChild($newEmailStudente);	
+   
+$root4->appendChild($newSegnalazione);
+   
+$path4 = dirname(__FILE__)."/xml-schema/segnalazioni.xml"; //Troviamo un percorso assoluto al file xml di riferimento
+$doc4->save($path4); //Sovrascriviamolo
+
+echo "E' stata emessa una segnalazione per quel riassunto";
+header("refresh:3; url=visualizza-riassunto.php?IDRiassunto=".$_GET['IDRiassunto']."");
+exit();
+
 
 
 
