@@ -31,7 +31,7 @@
 	if (mysqli_connect_errno()) { 
 		?>
 		<h1>Impossibile collegarsi al server!
-			<div style="font-size: 75%; font-weight: normal;">Per favore riprovare pi� tardi.</div>
+			<div style="font-size: 75%; font-weight: normal;">Per favore riprovare più tardi.</div>
 		</h1>
 		<?php
 		exit();
@@ -41,7 +41,7 @@
 	if (!mysqli_select_db ($connection, $db_name)) { 
 		?>
 		<h1>Problemi nel selezionare il database!
-			<div style="font-size: 75%; font-weight: normal;">Per favore riprovare pi� tardi.</div>
+			<div style="font-size: 75%; font-weight: normal;">Per favore riprovare più tardi.</div>
 		</h1>
 		<?php
 		exit();
@@ -58,12 +58,15 @@
 		<!-- placeholder : ci permette di rendere il valore del text semitrasparente e invisibile quando ci scriviamo sopra-->
 		<?php
 		if (isset($_POST['submit'])) {				
-			if (!empty($_POST['email']) && !empty($_POST['password'])) { /*Va utilizzato questo anzich� isset perch� il post � sempre set, anche se empty*/
+			if (!empty($_POST['email']) && !empty($_POST['password'])) { /*Va utilizzato questo anzichè isset perchè il post è sempre set, anche se empty*/
 				//Con trim() togliamo gli spazi inseriti per sbaglio nel form (alla fine e all'inizio di ogni input)
 				$email = trim($_POST['email']);
 				$password = trim($_POST['password']);							
 				$sql = "SELECT email, password FROM studenti WHERE email ='".$email."' AND password ='".$password."'";
 				$queryResult = mysqli_query($connection, $sql);
+
+				$sql2 = "SELECT email, password FROM admins WHERE email ='".$email."' AND password ='".$password."'";
+				$queryResult2 = mysqli_query($connection, $sql2);
 				if ( mysqli_num_rows($queryResult) ) { //Se l'indirizzo email e la password sono presenti nel database
 					/*Avviamo la sessione per mantere la login nella home-studente*/
 					session_start();
@@ -71,6 +74,15 @@
 					$_SESSION['accessoPermesso']= 1000;
 				
 					header("Location: home-studente.php");
+					exit();
+				}
+				else if (mysqli_num_rows($queryResult2)) {
+					/*Avviamo la sessione per mantere la login nella home-admin*/
+					session_start();
+					$_SESSION['email']= $email;
+					$_SESSION['accessoPermessoAdmin']= 1000;
+				
+					header("Location: home-admin.php");
 					exit();
 				}
 				else { //Altrimenti abbiamo sbagliato qualcosa nel login
