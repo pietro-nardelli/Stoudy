@@ -335,6 +335,13 @@ input[type="submit"]:focus {
 	background-color: #FF0000; /*quando ci passiamo sopra con il mouse diventa bianco*/
 }
 
+/* VISUALIZZA RIASSUNTO ADMIN */
+#tuttoOk:hover,
+#tuttoOk:focus { 
+	background-color: #00F899;
+}
+
+
 /*DA QUI IN POI CERCA RIASSUNTO*/
 
 #riassuntoTrovato {

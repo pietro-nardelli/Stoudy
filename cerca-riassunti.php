@@ -163,7 +163,11 @@ $trovato = false;
         if (!empty ($_GET['tagRicercato'])) {
             if (stripos($nomeTagText[$k], $_GET['tagRicercato']) !== false) {
                 $trovato = true;
-                $riassuntoIDTrovatoLista = $tag->getElementsByTagName('riassuntoID');
+				$riassuntoIDTrovatoLista = $tag->getElementsByTagName('riassuntoID');
+				//Potrebbe darsi che un tag sia rimasto senza riassunti per via di eliminazioni, in questo caso rimanda false in trovato
+				if ($riassuntoIDTrovatoLista->length == 0) {
+					$trovato = false;
+				}
                 foreach ($riassuntoIDTrovatoLista as $key => $value) { //Inseriamo nell'array riassuntoIDTrovato ognuno degli ID del tag ricercato
                     $riassuntoIDTrovato[] = $riassuntoIDTrovatoLista->item($key)->textContent;
                 }

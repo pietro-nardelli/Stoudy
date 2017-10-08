@@ -114,7 +114,7 @@ for ($i=0; $i < $segnalazioni->length; $i++) {
 
 	<div id="lateralHomeStudente">
 		<div id="logoHomeStudente">
-			<a href="home-studente.php">
+			<a href="home-admin.php">
 				<!-- il logo prende l'intera grandezza del div logo stabilito dai css -->
 				<img src="images/logoHome.png" style="width: 100%;"/>
 			</a>
@@ -170,7 +170,7 @@ for ($i=0; $i < $segnalazioni->length; $i++) {
 					foreach ($tagsRiassunto[$valueID] as $j => $value) {
 						$nomeTagRiassunto = $tagsRiassunto[$valueID]->item($j);
 						$nomeTagRiassuntoText[$j] = $nomeTagRiassunto->textContent;
-						echo "<a id='tagRiassuntoTrovato' href='cerca-riassunti.php?tagRicercato=".urlencode($nomeTagRiassuntoText[$j])."'>".$nomeTagRiassuntoText[$j]."</a>";
+						echo "<a id='tagRiassuntoTrovato' href='#'>".$nomeTagRiassuntoText[$j]."</a>";
                     }
                     echo  "(".$emailStudenteLista[$valueID]->length." segnalazioni)<br/>";
 					echo "<hr />";
