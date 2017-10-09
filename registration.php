@@ -22,7 +22,7 @@
 	</div>
 	<?php 
 	error_reporting(E_ALL);
-	$db_name = "stoudy";
+	$db_name = "lweb7";
 	$table_name = "studenti";
 	$connection = new mysqli("127.0.0.1", "root", ""); //$connection = new mysqli("localhost", "lweb7", "lweb7");
 

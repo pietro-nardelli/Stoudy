@@ -113,35 +113,37 @@ for ($cRiass=0; $cRiass < $riassunti->length; $cRiass++) {
  *Se non lo facessimo quando andremo cercare per ID per operare su quel determinato oggetto
  *non lo troveremo. 
  */
-foreach ($IDRiassuntoLista as $count => $id) {
-	$riassunto = $riassunti->item($count); 
-	$condivisioneRiassuntoText[$id] = $riassunto->getAttribute('condivisione');
-	$IDRiassunto[$id] = $riassunto->firstChild; 
-	$IDRiassuntoText[$id] = $IDRiassunto[$id]->textContent;
+if ($riassunti->length) { //Altrimenti restituisce errore se non ci sono riassunti nel file xml
+	foreach ($IDRiassuntoLista as $count => $id) {
+		$riassunto = $riassunti->item($count); 
+		$condivisioneRiassuntoText[$id] = $riassunto->getAttribute('condivisione');
+		$IDRiassunto[$id] = $riassunto->firstChild; 
+		$IDRiassuntoText[$id] = $IDRiassunto[$id]->textContent;
 
-	$titoloRiassunto[$id] = $IDRiassunto[$id]->nextSibling;
-	$titoloRiassuntoText[$id] = $titoloRiassunto[$id]->textContent;
+		$titoloRiassunto[$id] = $IDRiassunto[$id]->nextSibling;
+		$titoloRiassuntoText[$id] = $titoloRiassunto[$id]->textContent;
 
-	$emailStudenteRiassunto[$id] = $titoloRiassunto[$id]->nextSibling;
-	$emailStudenteRiassuntoText[$id] = $emailStudenteRiassunto[$id]->textContent;
+		$emailStudenteRiassunto[$id] = $titoloRiassunto[$id]->nextSibling;
+		$emailStudenteRiassuntoText[$id] = $emailStudenteRiassunto[$id]->textContent;
 
-	$dataRiassunto[$id] = $emailStudenteRiassunto[$id]->nextSibling;
-	$dataRiassuntoText[$id] = $dataRiassunto[$id]->textContent;
+		$dataRiassunto[$id] = $emailStudenteRiassunto[$id]->nextSibling;
+		$dataRiassuntoText[$id] = $dataRiassunto[$id]->textContent;
 
-	$orarioRiassunto[$id] = $dataRiassunto[$id]->nextSibling;
-	$orarioRiassuntoText[$id] = $orarioRiassunto[$id]->textContent;
+		$orarioRiassunto[$id] = $dataRiassunto[$id]->nextSibling;
+		$orarioRiassuntoText[$id] = $orarioRiassunto[$id]->textContent;
 
-	$testoRiassunto[$id] = $orarioRiassunto[$id]->nextSibling;
-	$testoRiassuntoText[$id] = $testoRiassunto[$id]->textContent;
+		$testoRiassunto[$id] = $orarioRiassunto[$id]->nextSibling;
+		$testoRiassuntoText[$id] = $testoRiassunto[$id]->textContent;
 
-	$visualizzazioniRiassunto[$id] = $testoRiassunto[$id]->nextSibling;
-	$visualizzazioniRiassuntoText[$id] = $visualizzazioniRiassunto[$id]->textContent;
+		$visualizzazioniRiassunto[$id] = $testoRiassunto[$id]->nextSibling;
+		$visualizzazioniRiassuntoText[$id] = $visualizzazioniRiassunto[$id]->textContent;
 
-	$tagsRiassuntoElement[$id] = $visualizzazioniRiassunto[$id]->nextSibling;
-	$tagsRiassunto[$id] = $tagsRiassuntoElement[$id]->childNodes;
+		$tagsRiassuntoElement[$id] = $visualizzazioniRiassunto[$id]->nextSibling;
+		$tagsRiassunto[$id] = $tagsRiassuntoElement[$id]->childNodes;
 
-	$preferitiRiassuntoElement[$id] = $tagsRiassuntoElement[$id]->nextSibling;
-	$preferitiRiassunto[$id] = $preferitiRiassuntoElement[$id]->childNodes;
+		$preferitiRiassuntoElement[$id] = $tagsRiassuntoElement[$id]->nextSibling;
+		$preferitiRiassunto[$id] = $preferitiRiassuntoElement[$id]->childNodes;
+	}
 }
 /***/
 

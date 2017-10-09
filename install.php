@@ -68,6 +68,7 @@ if (!mysqli_query($connection, $sql2)) {
 	
 echo "Creazione database andata a buon fine.";
 
+/*
 for ($i = 0; $i < 3; $i++) {
 	$sql = "INSERT INTO studenti (email, password) VALUES ('studente".$i."@gmail.com', 'studente".$i."');";
 	$queryResult = mysqli_query($connection, $sql);
@@ -76,8 +77,8 @@ for ($i = 0; $i < 3; $i++) {
 		exit();
 	}
 }
-
-for ($i = 0; $i < 3; $i++) {
+*/
+for ($i = 1; $i < 3; $i++) {
 	$sql = "INSERT INTO admins (email, password) VALUES ('admin".$i."@gmail.com', 'admin".$i."');";
 	$queryResult = mysqli_query($connection, $sql);
 	if (!$queryResult) {
