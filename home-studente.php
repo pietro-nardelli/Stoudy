@@ -151,6 +151,11 @@ for ($i=0; $i < $studenti->length; $i++) {
 			$dataStudiatoOggiText[$k] = $dataStudiatoOggi[$k]->textContent;
 			$path = dirname(__FILE__)."/xml-schema/studenti.xml"; //Troviamo un percorso assoluto al file xml di riferimento
 			$doc->save($path); //Sovrascriviamolo
+			//Va fatto un refresh con il meta perchè abbiamo già mandato l'html in output in precedenza.
+			?>
+			<meta http-equiv="refresh" content="0;URL='home-studente.php'">
+			<?php
+			exit();
 		}
 		/*Se la data in cui l'ultima volta è stato inserito lo studio e la data attuale sono diverse
 		 *allora aggiorna il valoreStudiato (aggiornamento dopo la mezzanotte). Inoltre
@@ -187,8 +192,20 @@ for ($i=0; $i < $studenti->length; $i++) {
 					</div>
 					<?php 
 					$giorniDisponibili = giorniDisponibili ($dataScadenzaText[$k], $nGiorniRipassoText[$k]);
+					//Se la materia pianificata ha terminato i giorni in cui è possibile studiare (dal giorno dell'esame in poi)
+					//dobbiamo trasformarla in una materia non pianificata.
+					if ($giorniDisponibili <= 0) {
+						$materia->setAttribute('status','unplanned');
+						$path = dirname(__FILE__)."/xml-schema/studenti.xml"; //Troviamo un percorso assoluto al file xml di riferimento
+						$doc->save($path); //Sovrascriviamolo
+
+						?>
+						<meta http-equiv="refresh" content="0;URL='home-studente.php'">
+						<?php
+						exit();
+					}
 					$valoreDaStudiareOggi = valoreDaStudiareOggi($giorniDisponibili ,$valoreDaStudiareText[$k], $valoreStudiatoText[$k]);
-	
+
 					$percentuale = ($valoreStudiatoOggiText[$k]/$valoreDaStudiareOggi)*100;
 					$percentuale = round ($percentuale, 1);
 					?>

@@ -308,7 +308,7 @@ for ($i=0; $i < $studenti->length; $i++) {
 						$dataScadenza = $dateTime->format('Y-m-d'); //Trasformiamo dataScadenza nel formato corretto per la funzione
 
 						//Se non ci sono abbastanza giorni disponibili, compresi i giorni di ripasso...
-						if (giorniDisponibili($dataScadenza, $_POST['nGiorniRipasso']) < 0) {
+						if (giorniDisponibili($dataScadenza, $_POST['nGiorniRipasso']) <= 0) {
 							unset($_SESSION['valoreDaStudiare']);
 							unset($_SESSION['dataScadenza']);
 							unset($_SESSION['nGiorniRipasso']);
