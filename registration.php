@@ -113,7 +113,7 @@
 						$newStudente->appendChild($newReputation);
 						$newStudente->appendChild($newCoins);
 						/*Inseriamo il nodo che abbiamo creato, prima del primo elemento della lista di elementi dopo root*/
-						$root->insertBefore($newStudente, $elementi->item(0));
+						$root->insertBefore($newStudente);
 						$path = dirname(__FILE__)."/xml-schema/studenti.xml"; //Troviamo un percorso assoluto al file xml di riferimento
 						$doc->save($path); //Sovrascriviamolo
 						/***/
