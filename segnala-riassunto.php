@@ -20,9 +20,9 @@ if (!isset($_SESSION['accessoPermesso'])) {
     header('Location: login.php');
 }
 error_reporting(E_ALL);
-$db_name = "stoudy";
-$table_name = "studenti";
-$connection = new mysqli("127.0.0.1", "root", "");
+$db_name = "lweb7";
+$table_name = "admins";
+$connection = new mysqli("127.0.0.1", "root", ""); //$connection = new mysqli("localhost", "lweb7", "lweb7");
 
 //Se non si connette al server, usciamo subito
 if (mysqli_connect_errno()) { 
