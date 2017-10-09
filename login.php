@@ -25,7 +25,7 @@
 	error_reporting(E_ALL);
 	$db_name = "stoudy";
 	$table_name = "studenti";
-	$connection = new mysqli("127.0.0.1", "root", "");
+	$connection = new mysqli("127.0.0.1", "root", ""); //$connection = new mysqli("localhost", "lweb7", "lweb7");
 
 	//Se non si connette al server, usciamo subito
 	if (mysqli_connect_errno()) { 
@@ -52,8 +52,8 @@
 		Entra nel tuo account
 		</div>
 		<p>
-		Il tuo account e' il portale per realizzare i tuoi sogni. <br />
-		Entrando avrai modo di apprendere in maniera efficace e rimanere al passo con il tuo programma di studi!
+		Tramite il tuo account potrai rimanere al passo con il tuo programma di studi. <br />
+		Entrando avrai inoltre la possibilità di creare e pubblicare i riassunti delle tue materie o leggere quelli degli altri utenti!
 		</p>
 		<!-- placeholder : ci permette di rendere il valore del text semitrasparente e invisibile quando ci scriviamo sopra-->
 		<?php
