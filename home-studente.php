@@ -8,7 +8,7 @@
 	<!--<meta name="keywords" content="">-->
 
 	<style type="text/css">
-		@import url("home-studente.css");
+		@import url("css/home-studente.css");
 	</style>	
 </head>
 <body>
