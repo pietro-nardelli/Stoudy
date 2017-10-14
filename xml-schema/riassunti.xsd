@@ -6,7 +6,8 @@
 	<xsd:element name="emailStudente" type="xsd:string" />
 	<xsd:element name="data" type="xsd:date" />
 	<xsd:element name="orario" type="xsd:time" />
-	<xsd:element name="testo" type="xsd:string" />
+	<xsd:element name="descrizione" type="xsd:string" />
+	<xsd:element name="linkDocumento" type="xsd:string" />
 	<xsd:element name="emailPreferiti" type="xsd:string" />
 	<xsd:element name="visualizzazioni" type="xsd:nonNegativeInteger" />
 	<xsd:element name="nomeTag" type="xsd:string" />
@@ -54,7 +55,8 @@
 				<xsd:element ref="emailStudente" />
 				<xsd:element ref="data" />
 				<xsd:element ref="orario" />
-				<xsd:element ref="testo" />
+				<xsd:element ref="descrizione" />
+				<xsd:element ref="linkDocumento" />
 				<xsd:element ref="visualizzazioni" />
 				<xsd:element ref="tags" />
 				<xsd:element ref="preferiti" />

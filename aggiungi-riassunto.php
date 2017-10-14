@@ -14,6 +14,7 @@
 <body>
 <?php
 session_start();
+include 'functions/upload.php';
 
 if (!isset($_SESSION['accessoPermesso'])) {
     header('Location: login.php');
@@ -145,9 +146,10 @@ for ($i=0; $i < $studenti->length; $i++) {
 					echo '<p style="color: red;">Titolo troppo corto / lungo.</p>';
 					$errore = 1; 
 				}
-				//Testo almeno 100 caratteri e massimo 1000 caratteri
-				if (strlen($_POST['testoRiassuntoForm']) < 100 || strlen($_POST['titoloRiassuntoForm']) > 1000) {
-					echo '<p style="color: red;">Riassunto troppo corto / lungo.</p>';
+				//Descrizione massimo 500 caratteri
+				if (strlen($_POST['descrizioneRiassuntoForm']) > 500) {
+					echo '<p style="color: red;">Descrizione troppo lunga.</p>';
+					$errore = 1;
 				}
 				
 				/* Assegnamo ogni tag all'array tagsRiassuntoNuovo */
@@ -183,19 +185,26 @@ for ($i=0; $i < $studenti->length; $i++) {
 					$errore = 1;
 				}
 
-				//Se $errore = 0 allora assegna i cookie corrispondenti
+				//Se è stato compilato correttamente il form...
 				if ($errore == 0) {	
-					$_SESSION['nowDate'] = date("Y-m-d"); //Data odierna
-					$_SESSION['nowTime'] = date("H:i:s"); //Ora odierna
-					$_SESSION['titoloRiassunto'] = $_POST['titoloRiassuntoForm'];
-					$_SESSION['testoRiassunto'] = $_POST['testoRiassuntoForm'];
-					$_SESSION['condivisioneRiassunto'] = $_POST['condivisioneRiassuntoForm'];
-					$_SESSION['tagsRiassuntoNuovo'] = $tagsRiassuntoNuovo; //Questa è una variabile session che gestisce l'array dei tags
-					$_SESSION['aggiungiRiassunto'] = 1000; //Bisogna fare unset dopo aver aggiornato il DOM
-					header($_SERVER["PHP_SELF"]);
+					$linkDocumento = upload (); //Proviamo a caricare il pdf
+					if (is_numeric($linkDocumento)) { //Se produce un numero (zero) allora c'è errore, altrimenti restituirebbe il link al PDF caricato
+						echo '<p style="color: red;">Errore nel caricamento!</p>';
+					}
+					else { //Se $errore = 0 e il documento è stato caricato correttamente...allora assegna i cookie corrispondenti
+						$_SESSION['nowDate'] = date("Y-m-d"); //Data odierna
+						$_SESSION['nowTime'] = date("H:i:s"); //Ora odierna
+						$_SESSION['titoloRiassunto'] = $_POST['titoloRiassuntoForm'];
+						$_SESSION['descrizioneRiassunto'] = $_POST['descrizioneRiassuntoForm'];
+						$_SESSION['linkDocumentoRiassunto'] = $linkDocumento;
+						$_SESSION['condivisioneRiassunto'] = $_POST['condivisioneRiassuntoForm'];
+						$_SESSION['tagsRiassuntoNuovo'] = $tagsRiassuntoNuovo; //Questa è una variabile session che gestisce l'array dei tags
+						$_SESSION['aggiungiRiassunto'] = 1000; //Bisogna fare unset dopo aver aggiornato il DOM
+						header($_SERVER["PHP_SELF"]); //Ricarichiamo la pagina
+					}
 				}
 			}
-
+			//Dopo aver caricato il pdf e compilato correttamente il form, possiamo aggiornare il DOM
 			if (isset($_SESSION['aggiungiRiassunto'])) {
 				//DA QUI IN AVANTI SI AGGIORNA IL DOM
 								
@@ -230,10 +239,13 @@ for ($i=0; $i < $studenti->length; $i++) {
 					$orarioRiassunto[$cRiass] = $dataRiassunto[$cRiass]->nextSibling;
 					$orarioriassuntoText[$cRiass] = $orarioRiassunto[$cRiass]->textContent;
 
-					$testoRiassunto[$cRiass] = $orarioRiassunto[$cRiass]->nextSibling;
-					$testoRiassuntoText[$cRiass] = $testoRiassunto[$cRiass]->textContent;
+					$descrizioneRiassunto[$cRiass] = $orarioRiassunto[$cRiass]->nextSibling;
+					$descrizioneRiassuntoText[$cRiass] = $descrizioneRiassunto[$cRiass]->textContent;
 
-					$visualizzazioniRiassunto[$cRiass] = $testoRiassunto[$cRiass]->nextSibling;
+					$linkDocumentoRiassunto[$cRiass] = $descrizioneRiassunto[$cRiass]->nextSibling;
+					$linkDocumentoRiassuntoText[$cRiass] = $linkDocumentoRiassunto[$cRiass]->textContent;
+
+					$visualizzazioniRiassunto[$cRiass] = $linkDocumentoRiassunto[$cRiass]->nextSibling;
 					$visualizzazioniRiassuntoText[$cRiass] = $visualizzazioniRiassunto[$cRiass]->textContent;
 
 					$tagsRiassuntoElement[$cRiass] = $visualizzazioniRiassunto[$cRiass]->nextSibling;
@@ -263,7 +275,8 @@ for ($i=0; $i < $studenti->length; $i++) {
 				$newEmailStudenteRiassunto = $doc3->createElement("emailStudente", $_SESSION['email']);
 				$newDataRiassunto = $doc3->createElement("data", $_SESSION['nowDate']);
 				$newOrarioRiassunto = $doc3->createElement("orario", $_SESSION['nowTime']);
-				$newTestoRiassunto = $doc3->createElement("testo", $_SESSION['testoRiassunto']);
+				$newDescrizioneRiassunto = $doc3->createElement("descrizione", $_SESSION['descrizioneRiassunto']);
+				$newLinkDocumentoRiassunto = $doc3->createElement("linkDocumento", $_SESSION['linkDocumentoRiassunto']);				
 				$newVisualizzazioniRiassunto = $doc3->createElement("visualizzazioni","0");
 				$newTagsRiassunto = $doc3->createElement("tags");
 				$newPreferitiRiassunto = $doc3->createElement("preferiti");
@@ -273,7 +286,8 @@ for ($i=0; $i < $studenti->length; $i++) {
 				$newRiassunto->appendChild($newEmailStudenteRiassunto);
 				$newRiassunto->appendChild($newDataRiassunto);
 				$newRiassunto->appendChild($newOrarioRiassunto);
-				$newRiassunto->appendChild($newTestoRiassunto);
+				$newRiassunto->appendChild($newDescrizioneRiassunto);
+				$newRiassunto->appendChild($newLinkDocumentoRiassunto);
 				$newRiassunto->appendChild($newVisualizzazioniRiassunto);
 				$newRiassunto->appendChild($newTagsRiassunto);
 				$newRiassunto->appendChild($newPreferitiRiassunto);
@@ -355,7 +369,8 @@ for ($i=0; $i < $studenti->length; $i++) {
 				unset($_SESSION['nowDate']);
 				unset($_SESSION['nowTime']);
 				unset($_SESSION['titoloRiassunto']);
-				unset($_SESSION['testoRiassunto']);
+				unset($_SESSION['descrizioneRiassunto']);
+				unset($_SESSION['linkDocumento']);
 				unset($_SESSION['condivisioneRiassunto']);
 				unset($_SESSION['tagsRiassuntoNuovo']); //Questa è una variabile session che gestisce l'array dei tags
 				unset($_SESSION['aggiungiRiassunto']); //Bisogna fare unset dopo aver aggiornato il DOM
@@ -364,9 +379,13 @@ for ($i=0; $i < $studenti->length; $i++) {
 			}
 
 			?>
-            <form action="<?php $_SERVER["PHP_SELF"] ?>" method="POST">
+            <form action="<?php $_SERVER["PHP_SELF"] ?>" method="POST" enctype="multipart/form-data">
                 <input type="text" name="titoloRiassuntoForm" placeholder=" Inserisci un titolo" /><br /><br />
-                <textarea rows="4" name="testoRiassuntoForm" placeholder=" Inserisci un contenuto"></textarea><br /><br />
+				<textarea rows="2" name="descrizioneRiassuntoForm" placeholder=" Inserisci una descrizione (optional)"></textarea><br /><br />
+				<label><img src="images/iconCaricaPdf.png" style="width: 16px;"> carica un PDF... 
+				<input type="file" name="fileToUpload" />
+				</label>
+				<br /><br />
 				<input type="text" name="tagsRiassuntoForm" placeholder =" Inserisci tag (max 5) divisi da virgole" /><br /><br />
 				<input type="radio" name="condivisioneRiassuntoForm" value="pubblico"> Pubblico
 				<input type="radio" name="condivisioneRiassuntoForm" value="privato"> Privato <br />

@@ -100,10 +100,13 @@ foreach ($IDRiassuntoLista as $count => $id) {
 	$orarioRiassunto[$id] = $dataRiassunto[$id]->nextSibling;
 	$orarioRiassuntoText[$id] = $orarioRiassunto[$id]->textContent;
 
-	$testoRiassunto[$id] = $orarioRiassunto[$id]->nextSibling;
-	$testoRiassuntoText[$id] = $testoRiassunto[$id]->textContent;
+	$descrizioneRiassunto[$id] = $orarioRiassunto[$id]->nextSibling;
+    $descrizioneRiassuntoText[$id] = $descrizioneRiassunto[$id]->textContent;
 
-	$visualizzazioniRiassunto[$id] = $testoRiassunto[$id]->nextSibling;
+    $linkDocumentoRiassunto[$id] = $descrizioneRiassunto[$id]->nextSibling;
+	$linkDocumentoRiassuntoText[$id] = $linkDocumentoRiassunto[$id]->textContent;   
+
+	$visualizzazioniRiassunto[$id] = $linkDocumentoRiassunto[$id]->nextSibling;
 	$visualizzazioniRiassuntoText[$id] = $visualizzazioniRiassunto[$id]->textContent;
 
 	$tagsRiassuntoElement[$id] = $visualizzazioniRiassunto[$id]->nextSibling;
@@ -176,7 +179,12 @@ foreach ($IDRiassuntoLista as $count => $id) {
 			<div>
 				<?php 
 				echo "<br />";
-				echo nl2br($testoRiassuntoText[$IDGet])."<br /><hr style='width: 95%;'/><hr id='lista' />";
+                echo nl2br($descrizioneRiassuntoText[$IDGet])."<br />";?>
+				<br />
+				<embed src="<?php echo $linkDocumentoRiassuntoText[$IDGet]; ?>" width="100%" height="500" type='application/pdf'>
+				<br /><br />
+				<hr style='width: 95%;'/><hr id='lista' />
+				<?php
 				echo "<b>Autore</b>: ".$emailStudenteRiassuntoText[$IDGet]."<br /><hr id='lista' />";
 				echo "<b>Data </b>: ".$dataRiassuntoText[$IDGet]." <b>Ora </b>: ".$orarioRiassuntoText[$IDGet]."<br /> <hr id='lista' />";
 				echo "<b>Tags</b>: ";

@@ -141,44 +141,49 @@ for ($cRiass=0; $cRiass < $riassunti->length; $cRiass++) {
  *Se non lo facessimo quando andremo cercare per ID per operare su quel determinato oggetto
  *non lo troveremo. 
  */
-foreach ($IDRiassuntoLista as $count => $id) {
-	$riassunto = $riassunti->item($count); 
-	$condivisioneRiassuntoText[$id] = $riassunto->getAttribute('condivisione');
-	$IDRiassunto[$id] = $riassunto->firstChild; 
-	$IDRiassuntoText[$id] = $IDRiassunto[$id]->textContent;
+if ($riassunti->length) { //Altrimenti restituisce errore se non ci sono riassunti nel file xml
+	foreach ($IDRiassuntoLista as $count => $id) {
+		$riassunto = $riassunti->item($count); 
+		$condivisioneRiassuntoText[$id] = $riassunto->getAttribute('condivisione');
+		$IDRiassunto[$id] = $riassunto->firstChild; 
+		$IDRiassuntoText[$id] = $IDRiassunto[$id]->textContent;
 
-	$titoloRiassunto[$id] = $IDRiassunto[$id]->nextSibling;
-	$titoloRiassuntoText[$id] = $titoloRiassunto[$id]->textContent;
+		$titoloRiassunto[$id] = $IDRiassunto[$id]->nextSibling;
+		$titoloRiassuntoText[$id] = $titoloRiassunto[$id]->textContent;
 
-	$emailStudenteRiassunto[$id] = $titoloRiassunto[$id]->nextSibling;
-	$emailStudenteRiassuntoText[$id] = $emailStudenteRiassunto[$id]->textContent;
+		$emailStudenteRiassunto[$id] = $titoloRiassunto[$id]->nextSibling;
+		$emailStudenteRiassuntoText[$id] = $emailStudenteRiassunto[$id]->textContent;
 
-	$dataRiassunto[$id] = $emailStudenteRiassunto[$id]->nextSibling;
-	$dataRiassuntoText[$id] = $dataRiassunto[$id]->textContent;
+		$dataRiassunto[$id] = $emailStudenteRiassunto[$id]->nextSibling;
+		$dataRiassuntoText[$id] = $dataRiassunto[$id]->textContent;
 
-	$orarioRiassunto[$id] = $dataRiassunto[$id]->nextSibling;
-	$orarioRiassuntoText[$id] = $orarioRiassunto[$id]->textContent;
+		$orarioRiassunto[$id] = $dataRiassunto[$id]->nextSibling;
+		$orarioRiassuntoText[$id] = $orarioRiassunto[$id]->textContent;
 
-	$testoRiassunto[$id] = $orarioRiassunto[$id]->nextSibling;
-	$testoRiassuntoText[$id] = $testoRiassunto[$id]->textContent;
+		$descrizioneRiassunto[$id] = $orarioRiassunto[$id]->nextSibling;
+		$descrizioneRiassuntoText[$id] = $descrizioneRiassunto[$id]->textContent;
 
-	$visualizzazioniRiassunto[$id] = $testoRiassunto[$id]->nextSibling;
-	$visualizzazioniRiassuntoText[$id] = $visualizzazioniRiassunto[$id]->textContent;
+		$linkDocumentoRiassunto[$id] = $descrizioneRiassunto[$id]->nextSibling;
+		$linkDocumentoRiassuntoText[$id] = $linkDocumentoRiassunto[$id]->textContent;
 
-	$tagsRiassuntoElement[$id] = $visualizzazioniRiassunto[$id]->nextSibling;
-	$tagsRiassunto[$id] = $tagsRiassuntoElement[$id]->childNodes;
-	for ($k=0; $k < $tagsRiassunto[$id]->length; $k++) { 	
-		$nomeTagRiassunto = $tagsRiassunto[$id]->item($k);
-		$nomeTagRiassuntoText[$k] = $nomeTagRiassunto->textContent;
-	}
+		$visualizzazioniRiassunto[$id] = $linkDocumentoRiassunto[$id]->nextSibling;
+		$visualizzazioniRiassuntoText[$id] = $visualizzazioniRiassunto[$id]->textContent;
 
-	$preferitiRiassuntoElement[$id] = $tagsRiassuntoElement[$id]->nextSibling;
-	$preferitiRiassunto[$id] = $preferitiRiassuntoElement[$id]->childNodes;
-	for ($k=0; $k < $preferitiRiassunto[$id]->length; $k++) {	
-		$emailPreferitiRiassunto = $preferitiRiassunto[$id]->item($k);
-		$emailPreferitiRiassuntoText[$k] = $emailPreferitiRiassunto->textContent;
-		if (strcasecmp($_SESSION['email'], $emailPreferitiRiassuntoText[$k]) == 0) {
-			$indiceEmailPreferito = $k;
+		$tagsRiassuntoElement[$id] = $visualizzazioniRiassunto[$id]->nextSibling;
+		$tagsRiassunto[$id] = $tagsRiassuntoElement[$id]->childNodes;
+		for ($k=0; $k < $tagsRiassunto[$id]->length; $k++) { 	
+			$nomeTagRiassunto = $tagsRiassunto[$id]->item($k);
+			$nomeTagRiassuntoText[$k] = $nomeTagRiassunto->textContent;
+		}
+
+		$preferitiRiassuntoElement[$id] = $tagsRiassuntoElement[$id]->nextSibling;
+		$preferitiRiassunto[$id] = $preferitiRiassuntoElement[$id]->childNodes;
+		for ($k=0; $k < $preferitiRiassunto[$id]->length; $k++) {	
+			$emailPreferitiRiassunto = $preferitiRiassunto[$id]->item($k);
+			$emailPreferitiRiassuntoText[$k] = $emailPreferitiRiassunto->textContent;
+			if (strcasecmp($_SESSION['email'], $emailPreferitiRiassuntoText[$k]) == 0) {
+				$indiceEmailPreferito = $k;
+			}
 		}
 	}
 }
@@ -316,7 +321,12 @@ foreach ($IDRiassuntoLista as $count => $id) {
 			<div>
 				<?php 
 				echo "<br />";
-				echo nl2br($testoRiassuntoText[$IDGet])."<br /><hr style='width: 95%;'/><hr id='lista' />";
+				echo nl2br($descrizioneRiassuntoText[$IDGet])."<br />";?>
+				<br />
+				<embed src="<?php echo $linkDocumentoRiassuntoText[$IDGet]; ?>" width="100%" height="500" type='application/pdf'>
+				<br /><br />
+				<hr style='width: 95%;'/><hr id='lista' />
+				<?php
 				echo "<b>Autore</b>: ".$emailStudenteRiassuntoText[$IDGet]."<br /><hr id='lista' />";
 				echo "<b>Data </b>: ".$dataRiassuntoText[$IDGet]." <b>Ora </b>: ".$orarioRiassuntoText[$IDGet]."<br /> <hr id='lista' />";
 				echo "<b>Tags</b>: ";

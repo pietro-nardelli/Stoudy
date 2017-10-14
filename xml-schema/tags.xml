@@ -1,2 +1,2 @@
 <?xml version="1.0"?>
-<tags xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="tags.xsd"></tags>
+<tags xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="tags.xsd"><tag><nome>prova</nome><riassuntoID>1</riassuntoID><riassuntoID>4</riassuntoID></tag><tag><nome>riassunto</nome><riassuntoID>1</riassuntoID></tag><tag><nome>boarding pass</nome><riassuntoID>2</riassuntoID></tag><tag><nome>asdfaf</nome><riassuntoID>3</riassuntoID></tag><tag><nome>ciao</nome><riassuntoID>4</riassuntoID></tag></tags>

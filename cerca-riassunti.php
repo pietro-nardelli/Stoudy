@@ -132,10 +132,13 @@ if ($riassunti->length) { //Altrimenti restituisce errore se non ci sono riassun
 		$orarioRiassunto[$id] = $dataRiassunto[$id]->nextSibling;
 		$orarioRiassuntoText[$id] = $orarioRiassunto[$id]->textContent;
 
-		$testoRiassunto[$id] = $orarioRiassunto[$id]->nextSibling;
-		$testoRiassuntoText[$id] = $testoRiassunto[$id]->textContent;
-
-		$visualizzazioniRiassunto[$id] = $testoRiassunto[$id]->nextSibling;
+		$descrizioneRiassunto[$id] = $orarioRiassunto[$id]->nextSibling;
+		$descrizioneRiassuntoText[$id] = $descrizioneRiassunto[$id]->textContent;
+	
+		$linkDocumentoRiassunto[$id] = $descrizioneRiassunto[$id]->nextSibling;
+		$linkDocumentoRiassuntoText[$id] = $linkDocumentoRiassunto[$id]->textContent;   
+	
+		$visualizzazioniRiassunto[$id] = $linkDocumentoRiassunto[$id]->nextSibling;
 		$visualizzazioniRiassuntoText[$id] = $visualizzazioniRiassunto[$id]->textContent;
 
 		$tagsRiassuntoElement[$id] = $visualizzazioniRiassunto[$id]->nextSibling;

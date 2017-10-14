@@ -102,7 +102,7 @@ body {
 
 #cercaRiassunti input[type="text"] {
 	position: relative;
-	width: 85%;
+	width: 84%;
 	font-family: rawengulk, Helvetica, Arial;
 	font-size: 0.9em;
 	line-height: 1.8em;
@@ -120,7 +120,7 @@ body {
 
 #cercaRiassunti input[type="image"] {
 	position:relative;
-	width:10%;
+	width: 10%;
 	top: 7px;
 	opacity: 0.25;
 	-webkit-transition: all 0.3s ease-in-out;
