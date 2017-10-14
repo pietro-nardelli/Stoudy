@@ -65,7 +65,7 @@
 				$password = trim($_POST['password']);									
 				$sql = "SELECT email FROM studenti WHERE email ='".$email."'";
 				$queryResult = mysqli_query($connection, $sql);
-				if ( mysqli_num_rows($queryResult) ) { //Se l'indirizzo email è già presente nel database
+				if ($queryResult && mysqli_num_rows($queryResult) ) { //Se l'indirizzo email è già presente nel database
 					echo '<p style="color: red;">Indirizzo email già registrato!</p>';
 				}
 				else { //Altrimenti possiamo aggiungerlo al database senza problemi

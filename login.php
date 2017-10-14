@@ -67,7 +67,7 @@
 
 				$sql2 = "SELECT email, password FROM admins WHERE email ='".$email."' AND password ='".$password."'";
 				$queryResult2 = mysqli_query($connection, $sql2);
-				if ( mysqli_num_rows($queryResult) ) { //Se l'indirizzo email e la password sono presenti nel database
+				if ( $queryResult && mysqli_num_rows($queryResult) ) { //Se l'indirizzo email e la password sono presenti nel database
 					/*Avviamo la sessione per mantere la login nella home-studente*/
 					session_start();
 					$_SESSION['email']= $email;
@@ -76,7 +76,7 @@
 					header("Location: home-studente.php");
 					exit();
 				}
-				else if (mysqli_num_rows($queryResult2)) {
+				else if ($queryResult2 && mysqli_num_rows($queryResult2)) {
 					/*Avviamo la sessione per mantere la login nella home-admin*/
 					session_start();
 					$_SESSION['email']= $email;
