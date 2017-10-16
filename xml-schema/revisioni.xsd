@@ -3,26 +3,28 @@
 
 	<!-- definition of simple element -->
 	<xsd:element name="riassuntoID" type="xsd:string" />
+    <xsd:element name="modificaEstratto" type="xsd:string" />
 	<xsd:element name="emailAdmin" type="xsd:string" />
 	<xsd:element name="emailStudente" type="xsd:string" />
 
 
 	<!-- definition of attributes -->
 	<!-- definition of complex elements -->
-	<xsd:element name="segnalazione">
+	<xsd:element name="revisione">
 		<xsd:complexType>
 			<xsd:sequence>
-				<xsd:element ref="riassuntoID" />
+				<xsd:element ref="tagID" />
 				<xsd:element ref="emailAdmin" />
-				<xsd:element ref="emailStudente" minOccurs="1" maxOccurs="unbounded" />
+                <xsd:element ref="modificaEstratto" />
+                <xsd:element ref="emailStudente" />
 			</xsd:sequence>
 		</xsd:complexType>
 	</xsd:element>
 
-	<xsd:element name="segnalazioni">
+	<xsd:element name="revisioni">
 		<xsd:complexType>
 			<xsd:sequence>
-				<xsd:element ref="segnalazione"  minOccurs="0" maxOccurs="unbounded" />
+				<xsd:element ref="revisione"  minOccurs="0" maxOccurs="unbounded" />
 			</xsd:sequence>
 		</xsd:complexType>
 	</xsd:element>

@@ -3,6 +3,7 @@
 
 	<!-- definition of simple element -->
 	<xsd:element name="nome" type="xsd:string" />
+	<xsd:element name="estratto" type="xsd:string" />
 	<xsd:element name="riassuntoID" type="xsd:string" />
 
 	<!-- definition of attributes -->
@@ -11,7 +12,8 @@
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element ref="nome" />
-				<xsd:element ref="riassuntoID" minOccurs="1" maxOccurs="unbounded"/>
+				<xsd:element ref="estratto" />
+				<xsd:element ref="riassuntoID" minOccurs="0" maxOccurs="unbounded"/>
 			</xsd:sequence>
 		</xsd:complexType>
 	</xsd:element>
