@@ -44,7 +44,7 @@ if (!mysqli_select_db ($connection, $db_name)) {
     exit();
 }
 
-if (!empty($_GET['IDRiassunto']) && !empty($_GET['emailStudente'])) { 
+if (!empty($_GET['IDRiassunto'])) { 
     $sql = "SELECT email FROM admins";
     $queryResult = mysqli_query($connection, $sql);
     if ( mysqli_num_rows($queryResult) ) { 

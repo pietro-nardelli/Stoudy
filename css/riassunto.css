@@ -389,10 +389,25 @@ input[type="submit"]:focus {
 	box-shadow:  2px 2px 10px 2px rgb(182, 182, 182);
 }	
 
-/*Corrisponde a nomeMateria*/
+
 #risultatoRicercaAlto {
 	font-size: 1.5em;
 	padding: 5px;
+}
+
+#estratto{
+	position: relative;
+	font-size: 0.9em;
+	color: black;
+	font-weight: normal;
+	width: 99%;
+}
+
+#estratto a {
+	position: relative;
+	font-size: 0.8em;
+	color: black;
+	font-weight: normal;
 }
 
 #titoloRiassuntoTrovato {
@@ -403,7 +418,6 @@ input[type="submit"]:focus {
 	width: 75%;
 	text-decoration: none;
 	color: black;
-	font-weight: normal;
 
 	-webkit-transition: all 0.3s ease-in-out;
 	-moz-transition: all 0.3s ease-in-out;
@@ -515,3 +529,69 @@ input[type="submit"]:focus {
 	background-color: rgba(254, 126, 6, 1);
 	box-shadow:  2px 2px 10px 2px rgb(182, 182, 182);
 }
+
+/* DA QUI IN POI MODIFICA ESTRATTO */
+
+/*Possiede lo stesso stile di riassuntoTrovato*/
+#modificaEstratto {
+	position: relative;
+	width: 800px;
+	margin-left: 50%;
+	left: -400px;
+	background-color: white;
+	top: 50px;
+	margin-bottom: 20px;
+	padding: 5px;
+
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	box-shadow:  2px 2px 10px 2px rgb(182, 182, 182);
+}	
+
+#modificaEstratto textarea {
+	position: relative;
+	width: 99%;
+	font-family: rawengulk, Helvetica, Arial;
+	font-size: 0.9em;
+	line-height: 1.5em;
+		
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+}
+
+
+#modificaEstratto input[type="submit"] {
+	position: relative;
+	padding: 10px 18px;
+	margin-top:-5px;
+	margin-bottom: 5px;
+	width: 200px;
+	white-space: nowrap;
+	margin-left: 50%;
+	left: -100px;
+
+	font-family: rawengulk, Helvetica, Arial;
+	font-size: 1.15em;
+	line-height: 1;
+	color: white;
+	border: none;
+	background-color: rgb(41,151,293);
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+	-webkit-box-shadow: 0 1px 2px rgb(0, 0, 0, 0.5);
+	-moz-box-shadow: 0 1px 2px rgb(0, 0, 0, 0.5);
+	box-shadow: 0 1px 2px rgb(0, 0, 0, 0.5);
+}
+
+#modificaEstratto textArea:hover,
+#modificaEstratto textArea:focus { /*passandoci sopra si illuminano*/
+	border-color: rgba(41,151,293, 0.8);
+	}	
+
+#modificaEstratto input[type="submit"]:hover,
+#modificaEstratto input[type="submit"]:focus {
+	background-color: rgba(41,151,293, 0.80);
+	}

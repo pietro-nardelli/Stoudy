@@ -328,7 +328,9 @@ for ($i=0; $i < $studenti->length; $i++) {
 					$tag = $tags->item($k); 
 					$nomeTag[$k] = $tag->firstChild; 
 					$nomeTagText[$k] = $nomeTag[$k]->textContent;
-					$riassuntoID[$k] = $nomeTag[$k] ->nextSibling;
+					$estrattoTag[$k] = $nomeTag[$k]->nextSibling;
+                    $estrattoTagText[$k] = $estrattoTag[$k]->textContent;
+					$riassuntoID[$k] = $estrattoTag[$k] ->nextSibling;
 					
 					
 					 /*$l è l'indice del tag, tra quelli inseriti. 
@@ -352,9 +354,11 @@ for ($i=0; $i < $studenti->length; $i++) {
 					if (empty($indiceTrovato[$p]) ||  $indiceTrovato[$p] != -1) {
 						$newTag = $doc2->createElement("tag");
 						$newNome = $doc2->createElement("nome", $value);
+						$newEstratto = $doc2->createElement("estratto", "");
 						$newRiassuntoID = $doc2->createElement("riassuntoID", $id);
 						
 						$newTag->appendChild($newNome);
+						$newTag->appendChild($newEstratto);
 						$newTag->appendChild($newRiassuntoID);	
 	
 						$root2->appendChild($newTag);

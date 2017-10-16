@@ -67,6 +67,8 @@ foreach ($IDRiassuntoLista as $count => $id) {
                     $tag = $tags->item($k); 
                     $nomeTag[$k] = $tag->firstChild; 
                     $nomeTagText[$k] = $nomeTag[$k]->textContent;
+                    $estrattoTag[$k] = $nomeTag[$k]->nextSibling;
+                    $estrattoTagText[$k] = $estrattoTag[$k]->textContent;
                     //Controlla se c'è una sottostringa nel nomeTagText[$k]
                     $riassuntoIDLista = $tag->getElementsByTagName('riassuntoID');
                     foreach ($riassuntoIDLista as $key => $value) { //Inseriamo nell'array riassuntoIDTrovato ognuno degli ID del tag ricercato

@@ -1,2 +1,2 @@
 <?xml version="1.0"?>
-<tags xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="tags.xsd"></tags>
+<tags xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="tags.xsd"><tag><nome>ciao</nome><estratto>Questo estratto &#xE8; riferito al tag ciao che significa blabla e che non avevo voglia di scrivere altro perch&#xE8; poi mi rompevo le palle.</estratto><riassuntoID>5</riassuntoID><riassuntoID>6</riassuntoID></tag><tag><nome>cazzo</nome><estratto/><riassuntoID>6</riassuntoID></tag><tag><nome>ciao2</nome><estratto/><riassuntoID>7</riassuntoID></tag></tags>
