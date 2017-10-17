@@ -595,3 +595,118 @@ input[type="submit"]:focus {
 #modificaEstratto input[type="submit"]:focus {
 	background-color: rgba(41,151,293, 0.80);
 	}
+/*DA QUI IN POI ANTEPRIMA RIASSUNTO*/
+#tagAnteprima {
+	position: relative;
+	display: inline-block;
+	margin-right: 2px;
+	margin-top: 5px;
+	font-size: 0.9em;
+	text-decoration: none;
+	color: white;
+	background-color: rgba(28,38,47, 0.7);
+	padding: 1px;
+
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+	-webkit-transition: all 0.3s ease-in-out;
+	-moz-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+}
+
+#tagRiassuntoTrovato:hover,
+#tagRiassuntoTrovato:focus { 
+	background-color: rgba(28,38,47, 1);
+	box-shadow:  2px 2px 10px 2px rgb(182, 182, 182);
+}
+
+#tabellaTagEstratti {
+	position: relative;
+	margin-top: 10px;
+	float: center;
+	left: -45%;
+	margin-left: 50%;
+	width: 90%;
+	border-collapse: collapse;
+}
+#tabellaTagEstratti tr {
+	width: 90%;
+}
+
+#tabellaTagEstratti th {
+	text-align: center;
+}
+/*zebra-striped tables: https://www.w3schools.com/css/css_table.asp */
+tr:nth-child(odd){background-color: #f2f2f2}
+
+
+#pulsantiAnteprima {
+	width: 340px; 
+	position:relative; 
+	margin-left: 50%; 
+	left: -170px; 
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+
+#tornaAdAggiungiRiassunto {
+	position: relative;
+	display: inline-block;
+	padding: 10px 18px;
+	margin-top: 15px;
+	width: 100px;
+	white-space: nowrap;
+	text-decoration: none;
+	text-align: center;
+
+
+	font-size: 1.15em;
+	line-height: 1;
+	color: white;
+	border: none;
+	background-color: rgb(177, 36, 0);
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+	-webkit-box-shadow: 0 1px 2px rgb(0, 0, 0, 0.5);
+	-moz-box-shadow: 0 1px 2px rgb(0, 0, 0, 0.5);
+	box-shadow: 0 1px 2px rgb(0, 0, 0, 0.5);
+
+}
+
+#tornaAdAggiungiRiassunto:hover,
+#tornaAdAggiungiRiassunto:focus {
+	background-color: rgb(183, 76, 48);
+	}
+
+#confermaRiassunto{
+	display: inline-block;
+	position: relative;
+	padding: 10px 18px;
+	margin-top: 15px;
+	width: 160px;
+	text-align: center;
+	white-space: nowrap;
+	text-decoration: none;
+
+	font-family: rawengulk, Helvetica, Arial;
+	font-size: 1.15em;
+	line-height: 1;
+	color: white;
+	border: none;
+	background-color: rgb(41,151,293);
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+	-webkit-box-shadow: 0 1px 2px rgb(0, 0, 0, 0.5);
+	-moz-box-shadow: 0 1px 2px rgb(0, 0, 0, 0.5);
+	box-shadow: 0 1px 2px rgb(0, 0, 0, 0.5);
+}
+
+#confermaRiassunto:hover,
+#confermaRiassunto:focus {
+	background-color: rgba(41,151,293, 0.80);
+	}

@@ -199,204 +199,63 @@ for ($i=0; $i < $studenti->length; $i++) {
 						$_SESSION['linkDocumentoRiassunto'] = $linkDocumento;
 						$_SESSION['condivisioneRiassunto'] = $_POST['condivisioneRiassuntoForm'];
 						$_SESSION['tagsRiassuntoNuovo'] = $tagsRiassuntoNuovo; //Questa è una variabile session che gestisce l'array dei tags
-						$_SESSION['aggiungiRiassunto'] = 1000; //Bisogna fare unset dopo aver aggiornato il DOM
-						header($_SERVER["PHP_SELF"]); //Ricarichiamo la pagina
+						$_SESSION['anteprimaRiassunto'] = 1000;
+						header("Location: anteprima-riassunto.php?nomeMateria=".$_GET['nomeMateria'].""); //Ricarichiamo la pagina
+						exit();
 					}
 				}
 			}
-			//Dopo aver caricato il pdf e compilato correttamente il form, possiamo aggiornare il DOM
-			if (isset($_SESSION['aggiungiRiassunto'])) {
-				//DA QUI IN AVANTI SI AGGIORNA IL DOM
-								
-				/* AGGIORNIAMO IL FILE RIASSUNTI.XML */
-				$xmlString3 = ""; 
-				foreach (file("xml-schema/riassunti.xml") as $node3) { 
-					$xmlString3 .= trim($node3); 
-				}
-				$doc3 = new DOMDocument(); 
-				$doc3->loadXML($xmlString3); 
-				$root3 = $doc3->documentElement; 
-				$riassunti = $root3->childNodes; 
-				/*Il contatore non è l'ID del riassunto in quanto un riassunto potrebbe essere cancellato, 
-				 *e ciò che ne rimane è un posto vuoto!! 
-				 * Se non facessimo così l'ID non sarebbe univoco.
-				 */
-				for ($cRiass=0; $cRiass < $riassunti->length; $cRiass++) {
-					$riassunto = $riassunti->item($cRiass); 
-					$condivisioneRiassuntoText[$cRiass] = $riassunto->getAttribute('condivisione');
-					$IDRiassunto[$cRiass] = $riassunto->firstChild; 
-					$IDRiassuntoText[$cRiass] = $IDRiassunto[$cRiass]->textContent;
-
-					$titoloRiassunto[$cRiass] = $IDRiassunto[$cRiass]->nextSibling;
-					$titoloRiassuntoText[$cRiass] = $titoloRiassunto[$cRiass]->textContent;
-
-					$emailStudenteRiassunto[$cRiass] = $titoloRiassunto[$cRiass]->nextSibling;
-					$emailStudenteRiassuntoText[$cRiass] = $emailStudenteRiassunto[$cRiass]->textContent;
-
-					$dataRiassunto[$cRiass] = $emailStudenteRiassunto[$cRiass]->nextSibling;
-					$dataRiassuntoText[$cRiass] = $dataRiassunto[$cRiass]->textContent;
-
-					$orarioRiassunto[$cRiass] = $dataRiassunto[$cRiass]->nextSibling;
-					$orarioriassuntoText[$cRiass] = $orarioRiassunto[$cRiass]->textContent;
-
-					$descrizioneRiassunto[$cRiass] = $orarioRiassunto[$cRiass]->nextSibling;
-					$descrizioneRiassuntoText[$cRiass] = $descrizioneRiassunto[$cRiass]->textContent;
-
-					$linkDocumentoRiassunto[$cRiass] = $descrizioneRiassunto[$cRiass]->nextSibling;
-					$linkDocumentoRiassuntoText[$cRiass] = $linkDocumentoRiassunto[$cRiass]->textContent;
-
-					$visualizzazioniRiassunto[$cRiass] = $linkDocumentoRiassunto[$cRiass]->nextSibling;
-					$visualizzazioniRiassuntoText[$cRiass] = $visualizzazioniRiassunto[$cRiass]->textContent;
-
-					$tagsRiassuntoElement[$cRiass] = $visualizzazioniRiassunto[$cRiass]->nextSibling;
-					$tagsRiassunto[$cRiass] = $tagsRiassuntoElement[$cRiass]->childNodes;
-					for ($k=0; $k < $tagsRiassunto[$cRiass]->length; $k++) { 	
-						$nomeTagRiassunto = $tagsRiassunto[$cRiass]->item($k);
-						$nomeTagRiassuntoText[$k] = $nomeTagRiassunto->textContent;
+			//Se torniamo dall'anteprima dobbiamo mantenere i valori precedentemente inseriti nel form
+			if (isset($_SESSION['anteprimaRiassunto'])) {
+				?>
+				<form action="<?php $_SERVER["PHP_SELF"] ?>" method="POST" enctype="multipart/form-data">
+					<input type="text" name="titoloRiassuntoForm" placeholder=" Inserisci un titolo" value="<?php echo $_SESSION['titoloRiassunto']; ?>" /><br /><br />
+					<textarea rows="2" name="descrizioneRiassuntoForm" placeholder=" Inserisci una descrizione (optional)"><?php echo $_SESSION['descrizioneRiassunto']; ?></textarea><br /><br />
+					<label><img src="images/iconCaricaPdf.png" style="width: 16px;"> carica un PDF... 
+					<input type="file" name="fileToUpload" />
+					</label>
+					<br /><br />
+					<input type="text" name="tagsRiassuntoForm" placeholder =" Inserisci tag (max 5) divisi da virgole" value="<?php for($k=0;$k<sizeof($_SESSION['tagsRiassuntoNuovo'])-1;$k++) { echo $_SESSION['tagsRiassuntoNuovo'][$k].","; }  echo $_SESSION['tagsRiassuntoNuovo'][$k];?>"/><br /><br />
+					<?php
+					if (strcasecmp($_SESSION['condivisioneRiassunto'], "pubblico") ==0 ) {
+						?>
+						<input type="radio" name="condivisioneRiassuntoForm" value="pubblico" checked> Pubblico
+						<input type="radio" name="condivisioneRiassuntoForm" value="privato"> Privato <br />
+						<?php 
 					}
-
-					$preferitiRiassuntoElement[$cRiass] = $tagsRiassuntoElement[$cRiass]->nextSibling;
-					$preferitiRiassunto[$cRiass] = $preferitiRiassuntoElement[$cRiass]->childNodes;
-					for ($k=0; $k < $preferitiRiassunto[$cRiass]->length; $k++) {	
-						$emailPreferitiRiassunto = $preferitiRiassunto[$cRiass]->item($k);
-						$emailPreferitiRiassuntoText[$k] = $emailPreferitiRiassunto->textContent;
+					?>
+					<?php
+					if (strcasecmp($_SESSION['condivisioneRiassunto'], "privato") ==0 ) {
+						?>
+						<input type="radio" name="condivisioneRiassuntoForm" value="pubblico"> Pubblico
+						<input type="radio" name="condivisioneRiassuntoForm" value="privato" checked> Privato <br />
+						<?php 
 					}
-				}
-
-				/*Da qui $IDRiassuntoText[ $riassunti->length -1 ] +1 corrisponde all'ID che noi vogliamo inserire...
-				 *Non c'è bisogno di fare come cerca-riassunti e visualizza-riassunto perchè non dobbiamo operare sugli altri oggetti del DOM ma solo
-				 *aggiungerne uno in più all'ultimo della fila.
-				 */
-				$id = $IDRiassuntoText[ $riassunti->length -1 ] +1;
-
-				$newRiassunto = $doc3->createElement("riassunto");
-				$newIDRiassunto = $doc3->createElement("ID", $id );		
-				$newTitoloRiassunto = $doc3->createElement("titolo", $_SESSION['titoloRiassunto']);
-				$newEmailStudenteRiassunto = $doc3->createElement("emailStudente", $_SESSION['email']);
-				$newDataRiassunto = $doc3->createElement("data", $_SESSION['nowDate']);
-				$newOrarioRiassunto = $doc3->createElement("orario", $_SESSION['nowTime']);
-				$newDescrizioneRiassunto = $doc3->createElement("descrizione", $_SESSION['descrizioneRiassunto']);
-				$newLinkDocumentoRiassunto = $doc3->createElement("linkDocumento", $_SESSION['linkDocumentoRiassunto']);				
-				$newVisualizzazioniRiassunto = $doc3->createElement("visualizzazioni","0");
-				$newTagsRiassunto = $doc3->createElement("tags");
-				$newPreferitiRiassunto = $doc3->createElement("preferiti");
-
-				$newRiassunto->appendChild($newIDRiassunto);
-				$newRiassunto->appendChild($newTitoloRiassunto);
-				$newRiassunto->appendChild($newEmailStudenteRiassunto);
-				$newRiassunto->appendChild($newDataRiassunto);
-				$newRiassunto->appendChild($newOrarioRiassunto);
-				$newRiassunto->appendChild($newDescrizioneRiassunto);
-				$newRiassunto->appendChild($newLinkDocumentoRiassunto);
-				$newRiassunto->appendChild($newVisualizzazioniRiassunto);
-				$newRiassunto->appendChild($newTagsRiassunto);
-				$newRiassunto->appendChild($newPreferitiRiassunto);
-				foreach ($_SESSION['tagsRiassuntoNuovo'] as $l => $value) {
-					$newNomeTagRiassunto = $doc3->createElement("nomeTag", $value);
-					$newTagsRiassunto->appendChild($newNomeTagRiassunto);
-				}
-				$newRiassunto->setAttribute("condivisione", $_SESSION['condivisioneRiassunto']);
-				
-				$root3->appendChild($newRiassunto); //Va fatto con appendChild altrimenti potrebbe creare problemi...
-				$path3 = dirname(__FILE__)."/xml-schema/riassunti.xml";
-				$doc3->save($path3);
-				/***/
-
-
-				/* AGGIORNIAMO IL FILE RIASSUNTI.XML (solamente riassunti->creati) */ 
-				$riassuntiCreati = $riassuntiStudente->firstChild;
-				
-				$newRiassuntoIDCreato = $doc->createElement("riassuntoIDCreato", $id);
-				$riassuntiCreati->appendChild($newRiassuntoIDCreato); //CHECK SE SERVE QUESTO, visto che c'è già insertBefore		
-				$newRiassuntoIDCreato->setAttribute("materiaRiassunto", $_GET['nomeMateria']);
-				
-				$riassuntiCreati->insertBefore($newRiassuntoIDCreato);
-				$path = dirname(__FILE__)."/xml-schema/studenti.xml"; 
-				$doc->save($path);
-				/***/
-
-				/* AGGIORNIAMO IL FILE TAGS.XML */
-				$xmlString2 = ""; 
-				foreach (file("xml-schema/tags.xml") as $node2) { 
-					$xmlString2 .= trim($node2); 
-				}
-				$doc2 = new DOMDocument();
-				$doc2->loadXML($xmlString2); 
-				$root2 = $doc2->documentElement; 
-				$tags = $root2->childNodes; 
-				for ($k=0; $k < $tags->length; $k++) {	
-					$tag = $tags->item($k); 
-					$nomeTag[$k] = $tag->firstChild; 
-					$nomeTagText[$k] = $nomeTag[$k]->textContent;
-					$estrattoTag[$k] = $nomeTag[$k]->nextSibling;
-                    $estrattoTagText[$k] = $estrattoTag[$k]->textContent;
-					$riassuntoID[$k] = $estrattoTag[$k] ->nextSibling;
-					
-					
-					 /*$l è l'indice del tag, tra quelli inseriti. 
-					 *Se l'array indiceTrovato è pari a -1 => quel tag è già presente nel file.
-					 *Altrimenti => quel tag non è presente nel file e va aggiunto da zero.
-					 */
-
-					 //Confrontiamo ogni tag inserito con quelli già presenti in tags.xml: caso in cui tag già presente.
-					foreach ($_SESSION['tagsRiassuntoNuovo'] as $l => $value) {
-						//Dobbiamo allora semplicemente associare un riassuntoID al tag($k) corrispondente.
-						if (strcasecmp ($value, $nomeTagText[$k]) == 0) {
-							$indiceTrovato[$l] = -1;
-							$newRiassuntoID = $doc2->createElement("riassuntoID", $id);
-							$tag->appendChild($newRiassuntoID);	
-						}
-					}	
-				}
-				//Confrontiamo ogni tag inserito con quelli già presenti in tags.xml: caso in cui tag non è presente.
-				foreach ($_SESSION['tagsRiassuntoNuovo'] as $p => $value) {
-					//Dobbiamo allora semplicemente creare un tag nuovo
-					if (empty($indiceTrovato[$p]) ||  $indiceTrovato[$p] != -1) {
-						$newTag = $doc2->createElement("tag");
-						$newNome = $doc2->createElement("nome", $value);
-						$newEstratto = $doc2->createElement("estratto", "");
-						$newRiassuntoID = $doc2->createElement("riassuntoID", $id);
-						
-						$newTag->appendChild($newNome);
-						$newTag->appendChild($newEstratto);
-						$newTag->appendChild($newRiassuntoID);	
-	
-						$root2->appendChild($newTag);
-					}
-				}
-
-				$path2 = dirname(__FILE__)."/xml-schema/tags.xml"; //Troviamo un percorso assoluto al file xml di riferimento
-				$doc2->save($path2); //Sovrascriviamolo
-				/***/
-
-				
-				unset($_SESSION['nowDate']);
-				unset($_SESSION['nowTime']);
-				unset($_SESSION['titoloRiassunto']);
-				unset($_SESSION['descrizioneRiassunto']);
-				unset($_SESSION['linkDocumento']);
-				unset($_SESSION['condivisioneRiassunto']);
-				unset($_SESSION['tagsRiassuntoNuovo']); //Questa è una variabile session che gestisce l'array dei tags
-				unset($_SESSION['aggiungiRiassunto']); //Bisogna fare unset dopo aver aggiornato il DOM
-				unset($_SESSION['aggiungiRiassunto']);
-				header('Location: visualizza-riassunto.php?IDRiassunto='.$id);
+					?>
+					<input type="submit" name="submit" value="Visualizza anteprima" />
+				</form>
+			<?php
 			}
-
+			else {
+				?>
+				<form action="<?php $_SERVER["PHP_SELF"] ?>" method="POST" enctype="multipart/form-data">
+					<input type="text" name="titoloRiassuntoForm" placeholder=" Inserisci un titolo" /><br /><br />
+					<textarea rows="2" name="descrizioneRiassuntoForm" placeholder=" Inserisci una descrizione (optional)"></textarea><br /><br />
+					<label><img src="images/iconCaricaPdf.png" style="width: 16px;"> carica un PDF... 
+					<input type="file" name="fileToUpload" />
+					</label>
+					<br /><br />
+					<input type="text" name="tagsRiassuntoForm" placeholder =" Inserisci tag (max 5) divisi da virgole" /><br /><br />
+					<input type="radio" name="condivisioneRiassuntoForm" value="pubblico"> Pubblico
+					<input type="radio" name="condivisioneRiassuntoForm" value="privato"> Privato <br />
+					<input type="submit" name="submit" value="Visualizza anteprima" />
+				</form>
+				<?php
+			}
 			?>
-            <form action="<?php $_SERVER["PHP_SELF"] ?>" method="POST" enctype="multipart/form-data">
-                <input type="text" name="titoloRiassuntoForm" placeholder=" Inserisci un titolo" /><br /><br />
-				<textarea rows="2" name="descrizioneRiassuntoForm" placeholder=" Inserisci una descrizione (optional)"></textarea><br /><br />
-				<label><img src="images/iconCaricaPdf.png" style="width: 16px;"> carica un PDF... 
-				<input type="file" name="fileToUpload" />
-				</label>
-				<br /><br />
-				<input type="text" name="tagsRiassuntoForm" placeholder =" Inserisci tag (max 5) divisi da virgole" /><br /><br />
-				<input type="radio" name="condivisioneRiassuntoForm" value="pubblico"> Pubblico
-				<input type="radio" name="condivisioneRiassuntoForm" value="privato"> Privato <br />
-				<input type="submit" name="submit" value="Aggiungi riassunto" />
-			</form>
-        </div>
-		<?php } //Tutto questo è visualizzato solo se c'è nomeMateria nel GET
+        </div> 
+		<?php
+		} //Tutto questo è visualizzato solo se c'è nomeMateria nel GET
 		else {
 			echo "Impossibile aggiungere riassunto senza una materia!";
 		}
