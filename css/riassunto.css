@@ -625,7 +625,6 @@ input[type="submit"]:focus {
 #tabellaTagEstratti {
 	position: relative;
 	margin-top: 10px;
-	float: center;
 	left: -45%;
 	margin-left: 50%;
 	width: 90%;

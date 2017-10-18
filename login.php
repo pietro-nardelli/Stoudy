@@ -92,7 +92,8 @@
 			else {	//Se alcuni campi non sono stati compilati...
 				echo '<p style="color: red;">E necessario compilare tutti i campi.</p>';
 			} 
-		} ?>
+		} 
+		?>
 		<input type="text" name="email" placeholder=" Indirizzo email"/> <br />				
 		<input type="password" name="password" placeholder=" Password" /> <br />		
 		<input type="submit" name="submit" value="ENTRA" />

@@ -77,13 +77,12 @@ for ($i=0; $i < $revisioni->length; $i++) {
     $revisione = $revisioni->item ($i);
     $nomeTagRevisione[$i] = $revisione->firstChild; 
     $nomeTagRevisioneText[$i] = $nomeTagRevisione[$i]->textContent;
-    
-    $modificaEstratto[$i] = $nomeTagRevisione[$i]->nextSibling;
-    $modificaEstrattoText[$i] = $modificaEstratto[$i]->textContent;
 
-
-    $emailAdmin[$i] = $modificaEstratto[$i]->nextSibling;
+    $emailAdmin[$i] = $nomeTagRevisione[$i]->nextSibling;
     $emailAdminText[$i] = $emailAdmin[$i]->textContent;
+
+    $modificaEstratto[$i] = $emailAdmin[$i]->nextSibling;
+    $modificaEstrattoText[$i] = $modificaEstratto[$i]->textContent;
 
     $emailStudente[$i] = $emailAdmin[$i]->nextSibling;
     $emailStudenteText[$i] = $emailStudente[$i]->textContent;
@@ -113,15 +112,13 @@ $root5->appendChild($newRevisione);
 $path5 = dirname(__FILE__)."/xml-schema/revisioni.xml"; //Troviamo un percorso assoluto al file xml di riferimento
 $doc5->save($path5); //Sovrascriviamolo
 
-echo "E' stata emessa una revisione per quell'estratto del tag";
+?>
+E' stata emessa una revisione per quell'estratto del tag
+<?php
 header("refresh:3; url=cerca-riassunti.php?tagRicercato=".$_SESSION['tagRicercato']."");
 unset($_SESSION['tagRicercato']);
 exit();
-
-
-
-
-
-
-
 ?>
+
+</body>
+</html>

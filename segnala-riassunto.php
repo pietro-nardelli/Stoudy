@@ -125,11 +125,6 @@ $doc4->save($path4); //Sovrascriviamolo
 echo "E' stata emessa una segnalazione per quel riassunto";
 header("refresh:3; url=visualizza-riassunto.php?IDRiassunto=".$_GET['IDRiassunto']."");
 exit();
-
-
-
-
-
-
-
 ?>
+</body>
+</html>

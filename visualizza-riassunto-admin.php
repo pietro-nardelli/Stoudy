@@ -20,7 +20,7 @@ if (!isset($_SESSION['accessoPermessoAdmin'])) {
 
 $IDGet = $_GET['IDRiassunto'];
 
-/*Inizializziamo il file riassunti.xml*/
+//Inizializziamo il file riassunti.xml
 $xmlString3 = ""; 
 foreach (file("xml-schema/riassunti.xml") as $node3) { 
 	$xmlString3 .= trim($node3); 
@@ -35,16 +35,17 @@ for ($cRiass=0; $cRiass < $riassunti->length; $cRiass++) {
     $IDRiassuntoLista[$cRiass] = $riassunto->firstChild->textContent;
 }
 
-/*A questo punto possiamo scorrere l'array precedentemente inizializzato tenendo conto che il suo valore $id 
- *è l'indice degli array che andremo ad inizializzare per ogni oggetto nel dom di ogni riassunto.
- *Se non lo facessimo quando andremo cercare per ID per operare su quel determinato oggetto
- *non lo troveremo. 
- */
+//A questo punto possiamo scorrere l'array precedentemente inizializzato tenendo conto che il suo valore $id 
+//è l'indice degli array che andremo ad inizializzare per ogni oggetto nel dom di ogni riassunto.
+//Se non lo facessimo quando andremo cercare per ID per operare su quel determinato oggetto
+//non lo troveremo. 
+
 foreach ($IDRiassuntoLista as $count => $id) {
 	$riassunto = $riassunti->item($count); 
 	$condivisioneRiassuntoText[$id] = $riassunto->getAttribute('condivisione');
 	$IDRiassunto[$id] = $riassunto->firstChild; 
     $IDRiassuntoText[$id] = $IDRiassunto[$id]->textContent;
+
     //Eliminiamo il riassunto dal riassunti.xml se abbiamo premuto "elimina riassunto"
     //Bisogna eliminarlo anche da tags.xml ma non da segnalazioni.xml (a quello ci pensa già la home-admin.php)
     if (isset($IDGet) && !empty($IDRiassunto[$_GET['IDRiassunto']])) { 
@@ -54,7 +55,7 @@ foreach ($IDRiassuntoLista as $count => $id) {
                 $path3 = dirname(__FILE__)."/xml-schema/riassunti.xml"; 
                 $doc3->save($path3);
 
-                /* Inizializziamo il file TAGS.XML */
+                //Inizializziamo il file TAGS.XML
                 $xmlString2 = ""; 
                 foreach (file("xml-schema/tags.xml") as $node2) { 
                     $xmlString2 .= trim($node2); 
@@ -80,10 +81,7 @@ foreach ($IDRiassuntoLista as $count => $id) {
                         }
                     }
                 }	
-                /***/
-
-
-
+                /////
                 header('Location: home-admin.php');
                 exit();
             }
@@ -125,90 +123,59 @@ foreach ($IDRiassuntoLista as $count => $id) {
 		$emailPreferitiRiassuntoText[$k] = $emailPreferitiRiassunto->textContent;
 	}
 }
-/***/
+///////
+
+include("default-code/info-admin.php");
 ?>
-
-
-    <div id="lateralHomeStudente">
-        <div id="logoHomeStudente">
-            <a href="home-admin.php">
-                <!-- il logo prende l'intera grandezza del div logo stabilito dai css -->
-                <img src="images/logoHome.png" style="width: 100%;"/>
-            </a>
-        </div>
-        <!-- Il link del logout si comporta come i precedenti ma si trova in un punto differente quindi bisogna assegnargli
-        uno stile interno particolare -->
-        <div id="navigation" style="top: 90%; height: 40px;">
-            <a href="logout.php"><img src="images/iconLogout.png">Logout</a>
-        </div>
-    </div>
-    <div id="main">
-	<?php 
-	//Se il riassunto ancora esiste...
-	if (isset($IDGet) && !empty($IDRiassunto[$_GET['IDRiassunto']])) { 
-		//Se abbiamo premuto il pulsante tutto ok
-		if (isset($_GET['tuttoOk'])) {
-            /*Inizializziamo il file segnalazioni.xml*/
-            $xmlString4 = ""; 
-            foreach (file("xml-schema/segnalazioni.xml") as $node4) { 
-                $xmlString4 .= trim($node4); 
-            }
-            $doc4 = new DOMDocument(); 
-            $doc4->loadXML($xmlString4); 
-            $root4 = $doc4->documentElement; 
-            $segnalazioni = $root4->childNodes;
-            for ($i=0; $i < $segnalazioni->length; $i++) {
-                $segnalazione = $segnalazioni->item($i);
-                $riassuntoID[$i] = $segnalazione->firstChild; 
-                $riassuntoIDText[$i] = $riassuntoID[$i]->textContent;
-                /*Procedura di eliminazione dalla lista dei riassunti segnalati, se un riassunto non è più presente in riassunti.xml*/
-               if ($_GET['IDRiassunto'] == $riassuntoIDText[$i]) { 
-                    //Eliminiamo la segnalazione corrispondente che possiede un ID non più valido
-                    $segnalazione->parentNode->removeChild($segnalazione);
-                    $path4 = dirname(__FILE__)."/xml-schema/segnalazioni.xml"; 
-                    $doc4->save($path4);
-                    header('Location: home-admin.php');
-                    exit();
-                }
-            }                
+<div id="main">
+<?php 
+//Se il riassunto ancora esiste...
+if (isset($IDGet) && !empty($IDRiassunto[$_GET['IDRiassunto']])) { 
+    //Se abbiamo premuto il pulsante tutto ok
+    if (isset($_GET['tuttoOk'])) {
+        /*Inizializziamo il file segnalazioni.xml*/
+        $xmlString4 = ""; 
+        foreach (file("xml-schema/segnalazioni.xml") as $node4) { 
+            $xmlString4 .= trim($node4); 
         }
-		//Da qui in poi visualizziamo il riassunto
-		?>
-        <div id="visualizzaRiassunto">
-            <div id="nomeMateria">
-                <?php echo "<b>".$titoloRiassuntoText[$IDGet]."</b>"; ?>
-			</div>
-			<div>
-				<?php 
-				echo "<br />";
-                echo nl2br($descrizioneRiassuntoText[$IDGet])."<br />";?>
-				<br />
-				<embed src="<?php echo $linkDocumentoRiassuntoText[$IDGet]; ?>" width="100%" height="500" type='application/pdf'>
-				<br /><br />
-				<hr style='width: 95%;'/><hr id='lista' />
-				<?php
-				echo "<b>Autore</b>: ".$emailStudenteRiassuntoText[$IDGet]."<br /><hr id='lista' />";
-				echo "<b>Data </b>: ".$dataRiassuntoText[$IDGet]." <b>Ora </b>: ".$orarioRiassuntoText[$IDGet]."<br /> <hr id='lista' />";
-				echo "<b>Tags</b>: ";
-				foreach ($tagsRiassunto[$IDGet] as $key=>$value) { 
-					echo $nomeTagRiassuntoText[$key]." | ";
-				}
-				echo "<br /> <hr id='lista' />";
-				echo "<b>Visualizzazioni</b>: ".$visualizzazioniRiassuntoText[$IDGet]." <br />";
-				echo "<b>Preferiti</b>: ";
-				$numeroPreferiti = $preferitiRiassunto[$IDGet] ->length;
-				echo $numeroPreferiti." <hr id='lista' />";
-				?>
-				<div id="opzioniRiassunto">
-					<a id="tuttoOk" href="visualizza-riassunto-admin.php?<?php echo "IDRiassunto=".urlencode($IDGet)."&tuttoOk=".urlencode(1).""; ?>">Tutto ok</a>
-					<a id="segnalaRiassunto" href="visualizza-riassunto-admin.php?<?php echo "IDRiassunto=".urlencode($IDGet)."&elimina=".urlencode(1).""; ?>">Elimina riassunto </a>
-				</div>
-				
+        $doc4 = new DOMDocument(); 
+        $doc4->loadXML($xmlString4); 
+        $root4 = $doc4->documentElement; 
+        $segnalazioni = $root4->childNodes;
+        for ($i=0; $i < $segnalazioni->length; $i++) {
+            $segnalazione = $segnalazioni->item($i);
+            $riassuntoID[$i] = $segnalazione->firstChild; 
+            $riassuntoIDText[$i] = $riassuntoID[$i]->textContent;
+            /*Procedura di eliminazione dalla lista dei riassunti segnalati, se un riassunto non è più presente in riassunti.xml*/
+            if ($_GET['IDRiassunto'] == $riassuntoIDText[$i]) { 
+                //Eliminiamo la segnalazione corrispondente che possiede un ID non più valido
+                $segnalazione->parentNode->removeChild($segnalazione);
+                $path4 = dirname(__FILE__)."/xml-schema/segnalazioni.xml"; 
+                $doc4->save($path4);
+                header('Location: home-admin.php');
+                exit();
+            }
+        }                
+    }
+    //Da qui in poi visualizziamo il riassunto
+    ?>
+    <div id="visualizzaRiassunto">
+        <div id="nomeMateria">
+            <?php echo "<b>".$titoloRiassuntoText[$IDGet]."</b>"; ?>
         </div>
-		<?php } 
-		else {
-			echo "Impossibile visualizzare un riassunto se non viene fornito un ID valido";
-		}?>
+        <?php
+        $numeroPreferiti = $preferitiRiassunto[$IDGet] ->length; //Va messa perchè non abbiamo caricato di default il file riassunti.xml
+        include("default-code/core-visualizza-riassunto.php")
+        ?>
+        <div id="opzioniRiassunto">
+            <a id="tuttoOk" href="visualizza-riassunto-admin.php?<?php echo "IDRiassunto=".urlencode($IDGet)."&tuttoOk=".urlencode(1).""; ?>">Tutto ok</a>
+            <a id="segnalaRiassunto" href="visualizza-riassunto-admin.php?<?php echo "IDRiassunto=".urlencode($IDGet)."&elimina=".urlencode(1).""; ?>">Elimina riassunto </a>
+        </div>
     </div>
+    <?php } 
+    else {
+        echo "Impossibile visualizzare un riassunto se non viene fornito un ID valido";
+    }?>
+</div>
 </body>
 </html>
