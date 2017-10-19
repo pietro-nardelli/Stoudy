@@ -7,6 +7,7 @@ foreach (file("xml-schema/riassunti.xml") as $node3) {
 $doc3 = new DOMDocument(); 
 $doc3->loadXML($xmlString3); 
 $root3 = $doc3->documentElement; 
+$lastIDRiassunto = $root3->getAttribute('lastID');
 $riassunti = $root3->childNodes; 
 //Questo ciclo è necessario per assegnare all'IDRIassuntoLista l'ID di ogni riassunto
 for ($cRiass=0; $cRiass < $riassunti->length; $cRiass++) {

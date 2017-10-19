@@ -86,10 +86,9 @@ include("default-code/caricamento-tags-xml.php");
 								
 				include("default-code/caricamento-riassunti-xml.php"); //Prima carichiamo tutti i riassunti
 				// AGGIORNIAMO IL FILE RIASSUNTI.XML
-				//$id proviene da caricamento-riassunti-xml.php ed è l'ultimo IDRiassunto presente in $riassuntoLista
-				//Da qui $IDRiassuntoText[ $id ] è l'id dell'ultimo riassunto in riassunti.xml. Aggiungendo 1 corrisponde all'ID che noi vogliamo inserire
+				//$lastIDRiassunto proviene da caricamento-riassunti-xml.php ed è l'ultimo IDRiassunto presente (o che lo è stato)
 				//(visto che abbiamo sempre aggiunto e non è possibile che non siano in ordine di grandezza)...
-				$newID = $IDRiassuntoText[ $id ] +1;
+				$newID = $lastIDRiassunto +1;
 
 				$newRiassunto = $doc3->createElement("riassunto");
 				$newIDRiassunto = $doc3->createElement("ID", $newID );		
@@ -118,6 +117,7 @@ include("default-code/caricamento-tags-xml.php");
 					$newTagsRiassunto->appendChild($newNomeTagRiassunto);
 				}
 				$newRiassunto->setAttribute("condivisione", $_SESSION['condivisioneRiassunto']);
+				$root3->setAttribute("lastID", $newID);
 				
 				$root3->appendChild($newRiassunto); //Va fatto con appendChild altrimenti potrebbe creare problemi...
 				$path3 = dirname(__FILE__)."/xml-schema/riassunti.xml";
