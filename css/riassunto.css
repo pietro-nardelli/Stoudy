@@ -370,6 +370,23 @@ input[type="submit"]:focus {
 	background-color: #00F899;
 }
 
+/* HOME-ADMIN */
+#tabellaTagEstrattiAdmin {
+	position: relative;
+	margin-top: 10px;
+	left: -45%;
+	margin-left: 50%;
+	width: 90%;
+	border-collapse: collapse;
+}
+
+#tabellaTagEstrattiAdmin th {
+	text-align: left;
+}
+
+#tabellaTagEstrattiAdmin tr td {
+	text-align: left;
+}
 
 /*DA QUI IN POI CERCA RIASSUNTO*/
 
@@ -630,13 +647,26 @@ input[type="submit"]:focus {
 	width: 90%;
 	border-collapse: collapse;
 }
-#tabellaTagEstratti tr {
-	width: 90%;
-}
 
 #tabellaTagEstratti th {
 	text-align: center;
 }
+
+#tabellaTagEstratti tr td {
+	text-align: left;
+}
+
+#tabellaTagEstratti tr td + td { /*selezioniamo il fratello di tr td*/
+	text-align: left;
+	width: 100%;
+}
+
+
+#tabellaTagEstratti tr td + td +td { /*selezioniamo il fratello di tr td*/
+	text-align: left;
+	width: 100%;
+}
+
 /*zebra-striped tables: https://www.w3schools.com/css/css_table.asp */
 tr:nth-child(odd){background-color: #f2f2f2}
 

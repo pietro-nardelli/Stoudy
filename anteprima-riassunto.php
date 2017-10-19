@@ -15,6 +15,7 @@
 
 <?php 
 include("default-code/info-studente.php");
+include("default-code/caricamento-tags-xml.php");
 ?>
 
 <div id="main">
@@ -40,27 +41,13 @@ include("default-code/info-studente.php");
 					<table id="tabellaTagEstratti">
 						<tr><th colspan="2">Controllo tag</th></tr>
 						<?php
-						//Carichiamo il file tags.xml per mostrare gli estratti!
-						$xmlString2 = ""; 
-						foreach (file("xml-schema/tags.xml") as $node2) { 
-							$xmlString2 .= trim($node2); 
-						}
-						$doc2 = new DOMDocument();
-						$doc2->loadXML($xmlString2); 
-						$root2 = $doc2->documentElement; 
-						$tags = $root2->childNodes; 
 						foreach ($_SESSION['tagsRiassuntoNuovo'] as $l => $value) {
 							for ($k=0; $k < $tags->length; $k++) {	
-								$tag = $tags->item($k); 
-								$nomeTag[$k] = $tag->firstChild; 
-								$nomeTagText[$k] = $nomeTag[$k]->textContent;
-								$estrattoTag[$k] = $nomeTag[$k]->nextSibling;
-								$estrattoTagText[$k] = $estrattoTag[$k]->textContent;
 								//Confrontiamo ogni tag inserito con quelli già presenti in tags.xml
 								if (strcasecmp ($value, $nomeTagText[$k]) == 0 && !empty($estrattoTagText[$k])) {
 									$indiceTrovato[$l] = -1;
 									?>
-									<tr><td><a id='tagAnteprima' href='#'><?= $value ?></a></td><td ><?= $estrattoTagText[$k] ?></td></tr>
+									<tr><td><a id='tagAnteprima' href='#'><?= $value ?></a></td><td><?= $estrattoTagText[$k] ?></td></tr>
 									<?php
 									break; //Usiamo il break perchè tanto abbiamo trovato ciò che cercavamo nel nostro for annidato
 								}
@@ -73,11 +60,16 @@ include("default-code/info-studente.php");
 								//Dobbiamo allora semplicemente creare un tag nuovo
 								if (empty($indiceTrovato[$p]) ||  $indiceTrovato[$p] != -1) {
 									?>
-									<tr><td><a id='tagAnteprima' href='#'><?= $value ?></a></td><td ><i>estratto mancante...</i></td></tr>
+									<tr><td><a id='tagAnteprima' href='#'><?= $value ?></a></td><td><i>estratto mancante...</i></td></tr>
 									<?php
 									break; //Usiamo il break perchè tanto abbiamo trovato ciò che cercavamo nel nostro for annidato
 								}
 							}
+						}
+						if (!$tags->length) { //Caso in cui non esistono ancora tags
+							?>
+							<tr><td><a id='tagAnteprima' href='#'><?= $value ?></a></td><td><i>estratto mancante...</i></td></tr>
+							<?php
 						}
 						?>
 					</table>
@@ -87,20 +79,20 @@ include("default-code/info-studente.php");
 					<a href="anteprima-riassunto.php?nomeMateria=<?php echo $_GET['nomeMateria']."&conferma=1"; ?>" id="confermaRiassunto">Conferma riassunto</a>	
 				<div>	
 			</div>
-		<?php
+			<?php
 			}
 			else if ($_GET['conferma'] == 1) {
 				//DA QUI IN AVANTI SI AGGIORNA IL DOM
 								
 				include("default-code/caricamento-riassunti-xml.php"); //Prima carichiamo tutti i riassunti
 				// AGGIORNIAMO IL FILE RIASSUNTI.XML
-				//Da qui $IDRiassuntoText[ $riassunti->length -1 ] +1 corrisponde all'ID che noi vogliamo inserire...
-				//Non c'è bisogno di fare come cerca-riassunti e visualizza-riassunto perchè non dobbiamo operare sugli altri oggetti del DOM ma solo
-				//aggiungerne uno in più all'ultimo della fila.
-				$id = $IDRiassuntoText[ $riassunti->length -1 ] +1;
+				//$id proviene da caricamento-riassunti-xml.php ed è l'ultimo IDRiassunto presente in $riassuntoLista
+				//Da qui $IDRiassuntoText[ $id ] è l'id dell'ultimo riassunto in riassunti.xml. Aggiungendo 1 corrisponde all'ID che noi vogliamo inserire
+				//(visto che abbiamo sempre aggiunto e non è possibile che non siano in ordine di grandezza)...
+				$newID = $IDRiassuntoText[ $id ] +1;
 
 				$newRiassunto = $doc3->createElement("riassunto");
-				$newIDRiassunto = $doc3->createElement("ID", $id );		
+				$newIDRiassunto = $doc3->createElement("ID", $newID );		
 				$newTitoloRiassunto = $doc3->createElement("titolo", $_SESSION['titoloRiassunto']);
 				$newEmailStudenteRiassunto = $doc3->createElement("emailStudente", $_SESSION['email']);
 				$newDataRiassunto = $doc3->createElement("data", $_SESSION['nowDate']);
@@ -136,7 +128,7 @@ include("default-code/info-studente.php");
 				/* AGGIORNIAMO IL FILE STUDENTI.XML (solamente riassunti->creati) */ 
 				$riassuntiCreati = $riassuntiStudente->firstChild;
 				
-				$newRiassuntoIDCreato = $doc->createElement("riassuntoIDCreato", $id);
+				$newRiassuntoIDCreato = $doc->createElement("riassuntoIDCreato", $newID);
 				$riassuntiCreati->appendChild($newRiassuntoIDCreato); //CHECK SE SERVE QUESTO, visto che c'è già insertBefore		
 				$newRiassuntoIDCreato->setAttribute("materiaRiassunto", $_GET['nomeMateria']);
 				
@@ -146,34 +138,18 @@ include("default-code/info-studente.php");
 				/***/
 
 				/* AGGIORNIAMO IL FILE TAGS.XML */
-				$xmlString2 = ""; 
-				foreach (file("xml-schema/tags.xml") as $node2) { 
-					$xmlString2 .= trim($node2); 
-				}
-				$doc2 = new DOMDocument();
-				$doc2->loadXML($xmlString2); 
-				$root2 = $doc2->documentElement; 
-				$tags = $root2->childNodes; 
-				for ($k=0; $k < $tags->length; $k++) {	
-					$tag = $tags->item($k); 
-					$nomeTag[$k] = $tag->firstChild; 
-					$nomeTagText[$k] = $nomeTag[$k]->textContent;
-					$estrattoTag[$k] = $nomeTag[$k]->nextSibling;
-					$estrattoTagText[$k] = $estrattoTag[$k]->textContent;
-					$riassuntoID[$k] = $estrattoTag[$k] ->nextSibling;
+				for ($k=0; $k < $tags->length; $k++) {
+					$tag = $tags->item($k);						
+					//$l è l'indice del tag, tra quelli inseriti. 
+					//Se l'array indiceTrovato è pari a -1 => quel tag è già presente nel file.
+					//Altrimenti => quel tag non è presente nel file e va aggiunto da zero.
 					
-					
-					/*$l è l'indice del tag, tra quelli inseriti. 
-					*Se l'array indiceTrovato è pari a -1 => quel tag è già presente nel file.
-					*Altrimenti => quel tag non è presente nel file e va aggiunto da zero.
-					*/
-
 					//Confrontiamo ogni tag inserito con quelli già presenti in tags.xml: caso in cui tag già presente.
 					foreach ($_SESSION['tagsRiassuntoNuovo'] as $l => $value) {
 						//Dobbiamo allora semplicemente associare un riassuntoID al tag($k) corrispondente.
 						if (strcasecmp ($value, $nomeTagText[$k]) == 0) {
 							$indiceTrovato[$l] = -1;
-							$newRiassuntoID = $doc2->createElement("riassuntoID", $id);
+							$newRiassuntoID = $doc2->createElement("riassuntoID", $newID);
 							$tag->appendChild($newRiassuntoID);	
 						}
 					}	
@@ -185,7 +161,7 @@ include("default-code/info-studente.php");
 						$newTag = $doc2->createElement("tag");
 						$newNome = $doc2->createElement("nome", $value);
 						$newEstratto = $doc2->createElement("estratto", "");
-						$newRiassuntoID = $doc2->createElement("riassuntoID", $id);
+						$newRiassuntoID = $doc2->createElement("riassuntoID", $newID);
 						
 						$newTag->appendChild($newNome);
 						$newTag->appendChild($newEstratto);
@@ -210,7 +186,7 @@ include("default-code/info-studente.php");
 				unset($_SESSION['aggiungiRiassunto']); //Bisogna fare unset dopo aver aggiornato il DOM
 				unset($_SESSION['aggiungiRiassunto']);
 				unset($_SESSION['anteprimaRiassunto']);
-				header('Location: visualizza-riassunto.php?IDRiassunto='.$id);
+				header('Location: visualizza-riassunto.php?IDRiassunto='.$newID);
 			}
 			else { //Se conferma c'è ma è diversa da 1 (ovvero 0)
 				unlink ($_SESSION['linkDocumentoRiassunto']);

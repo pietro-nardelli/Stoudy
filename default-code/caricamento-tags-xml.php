@@ -13,5 +13,6 @@ $xmlString2 = "";
 		$nomeTagText[$k] = $nomeTag[$k]->textContent;
 		$estrattoTag[$k] = $nomeTag[$k]->nextSibling;
 		$estrattoTagText[$k] = $estrattoTag[$k]->textContent;
+		//$riassuntoIDLista = $tag->getElementsByTagName('riassuntoID');
     }
 ?>

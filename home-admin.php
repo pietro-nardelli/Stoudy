@@ -20,21 +20,9 @@ if (!isset($_SESSION['accessoPermessoAdmin'])) {
 
 $trovato = false; //Neanche un riassunto trovato
 include("default-code/caricamento-riassunti-xml.php");
-
-/*Inizializziamo il file segnalazioni.xml*/
-$xmlString4 = ""; 
-foreach (file("xml-schema/segnalazioni.xml") as $node4) { 
-	$xmlString4 .= trim($node4); 
-}
-$doc4 = new DOMDocument(); 
-$doc4->loadXML($xmlString4); 
-$root4 = $doc4->documentElement; 
-$segnalazioni = $root4->childNodes;
+include("default-code/caricamento-segnalazioni-xml.php");
 for ($i=0; $i < $segnalazioni->length; $i++) {
-    $segnalazione = $segnalazioni->item($i);
-    $riassuntoID[$i] = $segnalazione->firstChild; 
-    $riassuntoIDText[$i] = $riassuntoID[$i]->textContent;
-
+	$segnalazione = $segnalazioni->item($i);
     /*Procedura di eliminazione dalla lista dei riassunti segnalati, se un riassunto non è più presente in riassunti.xml*/
     if (isset($_SESSION['eliminato'])) {//Se è stato emesso un cookie con valueID
         if ($_SESSION['eliminato'] == $riassuntoIDText[$i]) { 
@@ -47,19 +35,17 @@ for ($i=0; $i < $segnalazioni->length; $i++) {
             exit();
         }
     }
-
-    $emailAdmin[$i] = $riassuntoID[$i]->nextSibling;
-    $emailAdminText[$i] = $emailAdmin[$i]->textContent;
-    //Se l'admin è stato assegnato ad una segnalazione...
     if (strcasecmp ($emailAdminText[$i], $_SESSION['email']) == 0 ) {
         $trovato = true; //Almeno un riassunto trovato
         $riassuntoIDSegnalato [] = $riassuntoIDText[$i]; //Inseriamo nell'array  l'ID dei riassunti ad esso assegnati
     }
-    //Contiene la lista delle segnalazioni, all'indice riassuntoID
-    $emailStudenteLista[$riassuntoIDText[$i]] = $segnalazione->getElementsByTagName('emailStudente'); 
 }
+
 include("default-code/info-admin.php");
+include("default-code/caricamento-tags-xml.php");
+include("default-code/caricamento-revisioni-xml.php");
 ?>
+
 <div id="main">
 	<?php 
 	if ($trovato) { //Se abbiamo trovato almeno un riassunto in quelli segnalati...
@@ -101,31 +87,10 @@ include("default-code/info-admin.php");
 	}
 	?>
 	<div id="riassuntoTrovato">
-		<table id="tabellaTagEstratti">
-			<tr><th style="text-align: left;">Tag</th><th style="text-align: left;">Old estratto</th><th style="text-align: left;">New estratto</th></tr>
+		<table id="tabellaTagEstrattiAdmin">
+			<tr><th>Tag</th><th>Old estratto</th><th>New estratto</th></tr>
 			<?php
-			include("default-code/caricamento-tags-xml.php");
-			
-			/*Inizializziamo il file revisioni.xml*/
-			$xmlString5 = ""; 
-			foreach (file("xml-schema/revisioni.xml") as $node5) { 
-				$xmlString5 .= trim($node5); 
-			}
-			$doc5 = new DOMDocument(); 
-			$doc5->loadXML($xmlString5); 
-			$root5 = $doc5->documentElement; 
-			$revisioni = $root5->childNodes;
-
 			for ($i=0; $i < $revisioni->length; $i++) {
-				$revisione = $revisioni->item ($i);
-				$nomeTagRevisione[$i] = $revisione->firstChild; 
-				$nomeTagRevisioneText[$i] = $nomeTagRevisione[$i]->textContent;
-
-				$emailAdmin[$i] = $nomeTagRevisione[$i]->nextSibling;
-				$emailAdminText[$i] = $emailAdmin[$i]->textContent;
-			
-				$modificaEstratto[$i] = $emailAdmin[$i]->nextSibling;
-				$modificaEstrattoText[$i] = $modificaEstratto[$i]->textContent;	
 				//Se il tag è già presente nelle revisioni allora non può essere revisionato nuovamente
 				foreach($nomeTagText as $j=>$value) {
 					if ( strcasecmp ($_SESSION['email'], $emailAdminText[$i]) == 0 ) {

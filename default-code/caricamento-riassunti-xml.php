@@ -19,6 +19,8 @@ for ($cRiass=0; $cRiass < $riassunti->length; $cRiass++) {
  *Se non lo facessimo quando andremo cercare per ID per operare su quel determinato oggetto
  *non lo troveremo. 
  */
+
+ //Quindi $id; $IDRiassuntoText[$id]; sono la stessa cosa!
 if ($riassunti->length) { //Altrimenti restituisce errore se non ci sono riassunti nel file xml
 	foreach ($IDRiassuntoLista as $count => $id) {
 		$riassunto = $riassunti->item($count); 

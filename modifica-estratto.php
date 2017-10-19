@@ -15,33 +15,19 @@
 <?php
 $trovatoEsatto = -1;
 $tagRicercato = $_GET['tagRicercato'];
-include("default-code/info-studente.php");
-
-
-/* Inizializziamo il file TAGS.XML */
-$xmlString2 = ""; 
-foreach (file("xml-schema/tags.xml") as $node2) { 
-	$xmlString2 .= trim($node2); 
-}
-$doc2 = new DOMDocument();
-$doc2->loadXML($xmlString2); 
-$root2 = $doc2->documentElement; 
-$tags = $root2->childNodes; 
 $trovato = false;
-	for ($k=0; $k < $tags->length; $k++) {	
-    	$tag = $tags->item($k); 
-		$nomeTag[$k] = $tag->firstChild; 
-		$nomeTagText[$k] = $nomeTag[$k]->textContent;
-		$estrattoTag[$k] = $nomeTag[$k]->nextSibling;
-		$estrattoTagText[$k] = $estrattoTag[$k]->textContent;
-        //Controlla se c'è una sottostringa nel nomeTagText[$k]
-        if (!empty ($_GET['tagRicercato'])) {
-			if (strcasecmp($nomeTagText[$k], $_GET['tagRicercato']) == 0) { //Controlliamo se il tag cercato è ESATTAMENTE un tag
-				$trovatoEsatto = $k; //Associamo alla flag l'indice del tag presente in lista così lo usiamo dopo per mostrare l'estratto
-			}
-        }
-    }
-/***/
+include("default-code/info-studente.php");
+include("default-code/caricamento-tags-xml.php");
+
+
+for ($k=0; $k < $tags->length; $k++) {	
+	//Controlla se c'è una sottostringa nel nomeTagText[$k]
+	if (!empty ($_GET['tagRicercato'])) {
+		if (strcasecmp($nomeTagText[$k], $_GET['tagRicercato']) == 0) { //Controlliamo se il tag cercato è ESATTAMENTE un tag
+			$trovatoEsatto = $k; //Associamo alla flag l'indice del tag presente in lista così lo usiamo dopo per mostrare l'estratto
+		}
+	}
+}
 
 
 ?>

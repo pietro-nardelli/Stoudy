@@ -21,13 +21,13 @@ $riassuntoProprio = false;
 
 include("default-code/info-studente.php");
 include("default-code/caricamento-riassunti-xml.php");
-$numeroPreferiti = $preferitiRiassunto[$IDGet] ->length;
 ?>
 
 <div id="main">
 <?php 
 //Se id è valido e se abbiamo usato il "motore" di ricerca...
 if (isset($IDGet) && !empty($IDRiassunto[$_GET['IDRiassunto']])) { 
+	$numeroPreferiti = $preferitiRiassunto[$IDGet] ->length;
 	include("default-code/gestione-eventi-riassunto.php")
 	//Da qui in poi visualizziamo il riassunto
 	?>

@@ -62,30 +62,8 @@ else {	//Se alcuni campi non sono stati compilati...
     echo "Impossibile revisionare l'estratto";
 } 
 
-
-/*Inizializziamo il file revisioni.xml*/
-$xmlString5 = ""; 
-foreach (file("xml-schema/revisioni.xml") as $node5) { 
-	$xmlString5 .= trim($node5); 
-}
-$doc5 = new DOMDocument(); 
-$doc5->loadXML($xmlString5); 
-$root5 = $doc5->documentElement; 
-$revisioni = $root5->childNodes;
-
+include("default-code/caricamento-revisioni-xml.php");
 for ($i=0; $i < $revisioni->length; $i++) {
-    $revisione = $revisioni->item ($i);
-    $nomeTagRevisione[$i] = $revisione->firstChild; 
-    $nomeTagRevisioneText[$i] = $nomeTagRevisione[$i]->textContent;
-
-    $emailAdmin[$i] = $nomeTagRevisione[$i]->nextSibling;
-    $emailAdminText[$i] = $emailAdmin[$i]->textContent;
-
-    $modificaEstratto[$i] = $emailAdmin[$i]->nextSibling;
-    $modificaEstrattoText[$i] = $modificaEstratto[$i]->textContent;
-
-    $emailStudente[$i] = $emailAdmin[$i]->nextSibling;
-    $emailStudenteText[$i] = $emailStudente[$i]->textContent;
     //Se il tag è già presente nelle revisioni allora non può essere revisionato nuovamente
     if ( !strcasecmp ($_SESSION['tagRicercato'], $nomeTagRevisioneText[$i]) ) {
         echo "E' stata già emessa una revisione per quel tag";

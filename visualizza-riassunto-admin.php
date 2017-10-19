@@ -19,57 +19,25 @@ if (!isset($_SESSION['accessoPermessoAdmin'])) {
 }
 
 $IDGet = $_GET['IDRiassunto'];
-
-//Inizializziamo il file riassunti.xml
-$xmlString3 = ""; 
-foreach (file("xml-schema/riassunti.xml") as $node3) { 
-	$xmlString3 .= trim($node3); 
-}
-$doc3 = new DOMDocument(); 
-$doc3->loadXML($xmlString3); 
-$root3 = $doc3->documentElement; 
-$riassunti = $root3->childNodes; 
-//Questo ciclo è necessario per assegnare all'IDRIassuntoLista l'ID di ogni riassunto
-for ($cRiass=0; $cRiass < $riassunti->length; $cRiass++) {
-	$riassunto = $riassunti->item($cRiass); 
-    $IDRiassuntoLista[$cRiass] = $riassunto->firstChild->textContent;
-}
-
-//A questo punto possiamo scorrere l'array precedentemente inizializzato tenendo conto che il suo valore $id 
-//è l'indice degli array che andremo ad inizializzare per ogni oggetto nel dom di ogni riassunto.
-//Se non lo facessimo quando andremo cercare per ID per operare su quel determinato oggetto
-//non lo troveremo. 
+include("default-code/caricamento-riassunti-xml.php");
+include("default-code/caricamento-tags-xml.php");
+include("default-code/caricamento-segnalazioni-xml.php");
 
 foreach ($IDRiassuntoLista as $count => $id) {
 	$riassunto = $riassunti->item($count); 
-	$condivisioneRiassuntoText[$id] = $riassunto->getAttribute('condivisione');
-	$IDRiassunto[$id] = $riassunto->firstChild; 
-    $IDRiassuntoText[$id] = $IDRiassunto[$id]->textContent;
-
     //Eliminiamo il riassunto dal riassunti.xml se abbiamo premuto "elimina riassunto"
     //Bisogna eliminarlo anche da tags.xml ma non da segnalazioni.xml (a quello ci pensa già la home-admin.php)
     if (isset($IDGet) && !empty($IDRiassunto[$_GET['IDRiassunto']])) { 
         if (isset($_GET['elimina'])) {
-            if ($IDGet == $IDRiassuntoText[$id]) { 
+            if ($IDGet == $IDRiassuntoText[$id]) {
+                unlink ($linkDocumentoRiassuntoText[$id]);
                 $riassunto->parentNode->removeChild($riassunto);
                 $path3 = dirname(__FILE__)."/xml-schema/riassunti.xml"; 
                 $doc3->save($path3);
 
-                //Inizializziamo il file TAGS.XML
-                $xmlString2 = ""; 
-                foreach (file("xml-schema/tags.xml") as $node2) { 
-                    $xmlString2 .= trim($node2); 
-                }
-                $doc2 = new DOMDocument();
-                $doc2->loadXML($xmlString2); 
-                $root2 = $doc2->documentElement; 
-                $tags = $root2->childNodes; 
+                
                 for ($k=0; $k < $tags->length; $k++) {	
                     $tag = $tags->item($k); 
-                    $nomeTag[$k] = $tag->firstChild; 
-                    $nomeTagText[$k] = $nomeTag[$k]->textContent;
-                    $estrattoTag[$k] = $nomeTag[$k]->nextSibling;
-                    $estrattoTagText[$k] = $estrattoTag[$k]->textContent;
                     //Controlla se c'è una sottostringa nel nomeTagText[$k]
                     $riassuntoIDLista = $tag->getElementsByTagName('riassuntoID');
                     foreach ($riassuntoIDLista as $key => $value) { //Inseriamo nell'array riassuntoIDTrovato ognuno degli ID del tag ricercato
@@ -81,49 +49,12 @@ foreach ($IDRiassuntoLista as $count => $id) {
                         }
                     }
                 }	
-                /////
                 header('Location: home-admin.php');
                 exit();
             }
         }
     }
-
-	$titoloRiassunto[$id] = $IDRiassunto[$id]->nextSibling;
-	$titoloRiassuntoText[$id] = $titoloRiassunto[$id]->textContent;
-
-	$emailStudenteRiassunto[$id] = $titoloRiassunto[$id]->nextSibling;
-	$emailStudenteRiassuntoText[$id] = $emailStudenteRiassunto[$id]->textContent;
-
-	$dataRiassunto[$id] = $emailStudenteRiassunto[$id]->nextSibling;
-	$dataRiassuntoText[$id] = $dataRiassunto[$id]->textContent;
-
-	$orarioRiassunto[$id] = $dataRiassunto[$id]->nextSibling;
-	$orarioRiassuntoText[$id] = $orarioRiassunto[$id]->textContent;
-
-	$descrizioneRiassunto[$id] = $orarioRiassunto[$id]->nextSibling;
-    $descrizioneRiassuntoText[$id] = $descrizioneRiassunto[$id]->textContent;
-
-    $linkDocumentoRiassunto[$id] = $descrizioneRiassunto[$id]->nextSibling;
-	$linkDocumentoRiassuntoText[$id] = $linkDocumentoRiassunto[$id]->textContent;   
-
-	$visualizzazioniRiassunto[$id] = $linkDocumentoRiassunto[$id]->nextSibling;
-	$visualizzazioniRiassuntoText[$id] = $visualizzazioniRiassunto[$id]->textContent;
-
-	$tagsRiassuntoElement[$id] = $visualizzazioniRiassunto[$id]->nextSibling;
-	$tagsRiassunto[$id] = $tagsRiassuntoElement[$id]->childNodes;
-	for ($k=0; $k < $tagsRiassunto[$id]->length; $k++) { 	
-		$nomeTagRiassunto = $tagsRiassunto[$id]->item($k);
-		$nomeTagRiassuntoText[$k] = $nomeTagRiassunto->textContent;
-	}
-
-	$preferitiRiassuntoElement[$id] = $tagsRiassuntoElement[$id]->nextSibling;
-	$preferitiRiassunto[$id] = $preferitiRiassuntoElement[$id]->childNodes;
-	for ($k=0; $k < $preferitiRiassunto[$id]->length; $k++) {	
-		$emailPreferitiRiassunto = $preferitiRiassunto[$id]->item($k);
-		$emailPreferitiRiassuntoText[$k] = $emailPreferitiRiassunto->textContent;
-	}
 }
-///////
 
 include("default-code/info-admin.php");
 ?>
@@ -133,20 +64,9 @@ include("default-code/info-admin.php");
 if (isset($IDGet) && !empty($IDRiassunto[$_GET['IDRiassunto']])) { 
     //Se abbiamo premuto il pulsante tutto ok
     if (isset($_GET['tuttoOk'])) {
-        /*Inizializziamo il file segnalazioni.xml*/
-        $xmlString4 = ""; 
-        foreach (file("xml-schema/segnalazioni.xml") as $node4) { 
-            $xmlString4 .= trim($node4); 
-        }
-        $doc4 = new DOMDocument(); 
-        $doc4->loadXML($xmlString4); 
-        $root4 = $doc4->documentElement; 
-        $segnalazioni = $root4->childNodes;
         for ($i=0; $i < $segnalazioni->length; $i++) {
             $segnalazione = $segnalazioni->item($i);
-            $riassuntoID[$i] = $segnalazione->firstChild; 
-            $riassuntoIDText[$i] = $riassuntoID[$i]->textContent;
-            /*Procedura di eliminazione dalla lista dei riassunti segnalati, se un riassunto non è più presente in riassunti.xml*/
+            //Procedura di eliminazione dalla lista dei riassunti segnalati, se un riassunto non è più presente in riassunti.xml
             if ($_GET['IDRiassunto'] == $riassuntoIDText[$i]) { 
                 //Eliminiamo la segnalazione corrispondente che possiede un ID non più valido
                 $segnalazione->parentNode->removeChild($segnalazione);

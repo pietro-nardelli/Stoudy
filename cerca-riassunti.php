@@ -19,23 +19,10 @@ $trovato = false;
 
 include('default-code/info-studente.php');
 include('default-code/caricamento-riassunti-xml.php');
-
-//Inizializziamo il file tags.xml
-$xmlString2 = ""; 
-foreach (file("xml-schema/tags.xml") as $node2) { 
-	$xmlString2 .= trim($node2); 
-}
-$doc2 = new DOMDocument();
-$doc2->loadXML($xmlString2); 
-$root2 = $doc2->documentElement; 
-$tags = $root2->childNodes; 
-
+include("default-code/caricamento-tags-xml.php");
+include("default-code/caricamento-revisioni-xml.php");
 for ($k=0; $k < $tags->length; $k++) {	
 	$tag = $tags->item($k); 
-	$nomeTag[$k] = $tag->firstChild; 
-	$nomeTagText[$k] = $nomeTag[$k]->textContent;
-	$estrattoTag[$k] = $nomeTag[$k]->nextSibling;
-	$estrattoTagText[$k] = $estrattoTag[$k]->textContent;
 	//Controlla se c'è una sottostringa nel nomeTagText[$k]
 	if (!empty ($_GET['tagRicercato'])) {
 		if (stripos($nomeTagText[$k], $_GET['tagRicercato']) !== false) {
@@ -47,7 +34,6 @@ for ($k=0; $k < $tags->length; $k++) {
 			if ($riassuntoIDTrovatoLista->length == 0) {
 				$trovato = false;
 			}
-
 			foreach ($riassuntoIDTrovatoLista as $key => $value) { //Inseriamo nell'array riassuntoIDTrovato ognuno degli ID del tag ricercato
 				//Se il riassunto è public lo aggiungiamo, ovvero basta un solo riassunto public nel tag per averlo trovato.
 				if (strcasecmp($condivisioneRiassuntoText[$riassuntoIDTrovatoLista->item($key)->textContent], "privato") != 0) {
@@ -57,53 +43,41 @@ for ($k=0; $k < $tags->length; $k++) {
 			}
 		}
 	}
-}	
-/////////
-
-//Inizializziamo il file revisioni.xml
-$xmlString5 = ""; 
-foreach (file("xml-schema/revisioni.xml") as $node5) { 
-	$xmlString5 .= trim($node5); 
 }
-$doc5 = new DOMDocument(); 
-$doc5->loadXML($xmlString5); 
-$root5 = $doc5->documentElement; 
-$revisioni = $root5->childNodes;
 
 for ($i=0; $i < $revisioni->length; $i++) {
-    $revisione = $revisioni->item ($i);
-    $nomeTagRevisione[$i] = $revisione->firstChild; 
-    $nomeTagRevisioneText[$i] = $nomeTagRevisione[$i]->textContent;
-    
-    $modificaEstratto[$i] = $nomeTagRevisione[$i]->nextSibling;
-    $modificaEstrattoText[$i] = $modificaEstratto[$i]->textContent;
-
-
-    $emailAdmin[$i] = $modificaEstratto[$i]->nextSibling;
-    $emailAdminText[$i] = $emailAdmin[$i]->textContent;
-
-    $emailStudente[$i] = $emailAdmin[$i]->nextSibling;
-    $emailStudenteText[$i] = $emailStudente[$i]->textContent;
     //Se il tag è già presente nelle revisioni allora non può essere revisionato nuovamente
     if ( strcasecmp ($_GET['tagRicercato'], $nomeTagRevisioneText[$i]) == 0 ) {
         $editImpossibile = true;
     }
 }
-/***/
 
 
 ?>
 <div id="main">
 	<?php 
 	if ($trovato) {
+		//Procedura per associare all'array di riassunti non doppioni: scorrendo tutto l'array, se non c'è un doppione si aggiunge
+		/*Ad esempio: riassunto 1 ha tag1; riassunto 2 ha tag1 e tag2. Cercando "tag", se non controllassimo i doppioni, 
+		 *restituirebbe una lista con: riassunto 1, riassunto 2, riassunto 2: errata.
+		 */
 		foreach ($riassuntoIDTrovato as $key=>$valueID) {
-			$valueIDArray [] = $valueID;
-			$riassuntoTrovatoTitolo[] = $titoloRiassuntoText[$valueID];
-			$riassuntoTrovatoEmail[] = $emailStudenteRiassuntoText[$valueID];
-			$riassuntoTrovatoData [] = $dataRiassuntoText[$valueID];
-			$riassuntoTrovatoOrario [] = $orarioRiassuntoText[$valueID];
-			$riassuntoTrovatoVisualizzazioni []= $visualizzazioniRiassuntoText[$valueID];
-			$riassuntoTrovatoPreferiti [] =  $preferitiRiassunto[$valueID]->length;
+			$doppione = false; 
+			for ($i = $key+1; $i < sizeof($riassuntoIDTrovato); $i++) {
+				if ($valueID == $riassuntoIDTrovato[$i]) {
+					$doppione = true;
+				}
+			}
+			if (!$doppione) {
+				$valueIDArray [] = $valueID;
+				$riassuntoTrovatoTitolo[] = $titoloRiassuntoText[$valueID];
+				$riassuntoTrovatoEmail[] = $emailStudenteRiassuntoText[$valueID];
+				$riassuntoTrovatoData [] = $dataRiassuntoText[$valueID];
+				$riassuntoTrovatoOrario [] = $orarioRiassuntoText[$valueID];
+				$riassuntoTrovatoVisualizzazioni []= $visualizzazioniRiassuntoText[$valueID];
+				$riassuntoTrovatoPreferiti [] =  $preferitiRiassunto[$valueID]->length;
+				$doppione = false;
+			}
 		}		
 		?>
 		<div id="riassuntoTrovato">

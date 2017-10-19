@@ -1,5 +1,5 @@
 <?php
-$pageLength = 2;
+$pageLength = 20;
 if (isset($_GET['next'])) {
     $first = $_GET['next'];
 }
