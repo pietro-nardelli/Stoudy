@@ -57,7 +57,7 @@ for ($k=0; $k < $tags->length; $k++) {
 				}
 				?>
 				<form action="<?php $_SERVER["PHP_SELF"] ?>" method="POST">
-					<textarea rows="2" name="modificaEstratto"><?php echo $estrattoTagText[$trovatoEsatto]; ?></textarea><br /><br />
+					<textarea rows="2" name="modificaEstratto"><?php echo $estrattoTagText[$trovatoEsatto]; ?> <?php if (isset($_POST['modificaEstratto'])){ echo $_POST['modificaEstratto']; } ?></textarea><br /><br />
 					<input type="submit" name="submit" value="Modifica estratto" />
 				</form>
 			</div>

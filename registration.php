@@ -135,10 +135,10 @@
 			} 
 		}
 		 ?>
-		<input type="text" name="nome" placeholder=" Nome" />
-		<input type="text" name="cognome" placeholder=" Cognome" /> <br />		
-		<input type="text" name="email" placeholder=" Indirizzo email"/> <br />				
-		<input type="password" name="password" placeholder=" Password" /> <br />		
+		<input type="text" name="nome" placeholder=" Nome" <?php if (isset($_POST['nome'])){ echo 'value="'.$_POST['nome'].'"'; } ?> />
+		<input type="text" name="cognome" placeholder=" Cognome" <?php if (isset($_POST['cognome'])){ echo 'value="'.$_POST['cognome'].'"'; } ?> /> <br />		
+		<input type="text" name="email" placeholder=" Indirizzo email" <?php if (isset($_POST['email'])){ echo 'value="'.$_POST['email'].'"'; } ?> /> <br />				
+		<input type="password" name="password" placeholder=" Password" <?php if (isset($_POST['password'])){ echo 'value="'.$_POST['password'].'"'; } ?>/> <br />		
 		<input type="submit" name="submit" value="REGISTRATI" />
 	</form>	
 	

@@ -94,8 +94,8 @@
 			} 
 		} 
 		?>
-		<input type="text" name="email" placeholder=" Indirizzo email"/> <br />				
-		<input type="password" name="password" placeholder=" Password" /> <br />		
+		<input type="text" name="email" placeholder=" Indirizzo email" <?php if (isset($_POST['email'])){ echo 'value="'.$_POST['email'].'"'; } ?> /> <br />				
+		<input type="password" name="password" placeholder=" Password" <?php if (isset($_POST['password'])){ echo 'value="'.$_POST['password'].'"'; } ?> /> <br />		
 		<input type="submit" name="submit" value="ENTRA" />
 	</form>	
 	

@@ -134,19 +134,21 @@ include("default-code/info-studente.php");
 					<input type="submit" name="submit" value="Visualizza anteprima" />
 				</form>
 			<?php
+			//Si fa unset altrimenti non si possono mantenere i dati modificati successivamente
+			unset($_SESSION['anteprimaRiassunto']);
 			}
 			else {
 				?>
 				<form action="<?php $_SERVER["PHP_SELF"] ?>" method="POST" enctype="multipart/form-data">
-					<input type="text" name="titoloRiassuntoForm" placeholder=" Inserisci un titolo" /><br /><br />
-					<textarea rows="2" name="descrizioneRiassuntoForm" placeholder=" Inserisci una descrizione (optional)"></textarea><br /><br />
+					<input type="text" name="titoloRiassuntoForm" placeholder=" Inserisci un titolo" <?php if (isset($_POST['titoloRiassuntoForm'])){ echo 'value="'.$_POST['titoloRiassuntoForm'].'"'; } ?>/><br /><br />
+					<textarea rows="2" name="descrizioneRiassuntoForm" placeholder=" Inserisci una descrizione (optional)"><?php if (isset($_POST['descrizioneRiassuntoForm'])){ echo $_POST['descrizioneRiassuntoForm']; } ?></textarea><br /><br />
 					<label><img src="images/iconCaricaPdf.png" style="width: 16px;"> carica un PDF... 
 					<input type="file" name="fileToUpload" />
 					</label>
 					<br /><br />
-					<input type="text" name="tagsRiassuntoForm" placeholder =" Inserisci tag (max 5) divisi da virgole" /><br /><br />
-					<input type="radio" name="condivisioneRiassuntoForm" value="pubblico"> Pubblico
-					<input type="radio" name="condivisioneRiassuntoForm" value="privato"> Privato <br />
+					<input type="text" name="tagsRiassuntoForm" placeholder =" Inserisci tag (max 5) divisi da virgole" <?php if (isset($_POST['tagsRiassuntoForm'])){ echo 'value="'.$_POST['tagsRiassuntoForm'].'"'; } ?> /><br /><br />
+					<input type="radio" name="condivisioneRiassuntoForm" value="pubblico" <?php if (isset($_POST['condivisioneRiassuntoForm']) && $_POST['condivisioneRiassuntoForm'] == 'pubblico'){ echo 'checked'; } ?> > Pubblico
+					<input type="radio" name="condivisioneRiassuntoForm" value="privato" <?php if (isset($_POST['condivisioneRiassuntoForm']) && $_POST['condivisioneRiassuntoForm'] == 'privato'){ echo 'checked'; } ?> > Privato <br />
 					<input type="submit" name="submit" value="Visualizza anteprima" />
 				</form>
 				<?php

@@ -61,9 +61,9 @@ include("default-code/info-studente.php");
 			}
 			?>
 
-			<input type="text" name="nomeMateria" placeholder=" Nome della materia" />
-			<input type="radio" name="status" value="planned" /> <label>Pianifica</label>
-			<input type="radio" name="status" value="unplanned" /> <label>Non pianificarla</label><br />
+			<input type="text" name="nomeMateria" placeholder=" Nome della materia" <?php if (isset($_POST['nomeMateria'])){ echo 'value="'.$_POST['nomeMateria'].'"'; } ?> />
+			<input type="radio" name="status" value="planned" <?php if (isset($_POST['status']) && $_POST['status'] == 'planned'){ echo 'checked'; } ?> /> <label>Pianifica</label>
+			<input type="radio" name="status" value="unplanned" <?php if (isset($_POST['status']) && $_POST['status'] == 'unplanned'){ echo 'checked'; } ?> /> <label>Non pianificarla</label><br />
 			<input type="submit" name="submit" value="Continua" />
 		</form>
 	<?php 
@@ -273,10 +273,10 @@ include("default-code/info-studente.php");
 			}
 			?>
 
-			<input type="text" name="valoreDaStudiare" placeholder="Quante/i <?= $_SESSION['oggettoStudio'] ?> devi studiare?" /> <br />				
-			<input type="text" name="dataScadenza" placeholder="Inserire la data dell'esame (yyyy-mm-dd)" /> <br />		
-			<input type="text" name="nGiorniRipasso" placeholder="Quanti giorni si intende ripetere? (optional)" /> <br />	
-			<input type="text" name="valoreStudiato" placeholder="Inserisci quante/i <?= $_SESSION['oggettoStudio'] ?> hai già fatto (optional) " /> <br />
+			<input type="text" name="valoreDaStudiare" placeholder="Quante/i <?= $_SESSION['oggettoStudio'] ?> devi studiare?" <?php if (isset($_POST['valoreDaStudiare'])){ echo 'value="'.$_POST['valoreDaStudiare'].'"'; } ?> /> <br />				
+			<input type="text" name="dataScadenza" placeholder="Inserire la data dell'esame (yyyy-mm-dd)" <?php if (isset($_POST['dataScadenza'])){ echo 'value="'.$_POST['dataScadenza'].'"'; } ?>/> <br />		
+			<input type="text" name="nGiorniRipasso" placeholder="Quanti giorni si intende ripetere? (optional)" <?php if (isset($_POST['nGiorniRipasso'])){ echo 'value="'.$_POST['nGiorniRipasso'].'"'; } ?>/> <br />	
+			<input type="text" name="valoreStudiato" placeholder="Inserisci quante/i <?= $_SESSION['oggettoStudio'] ?> hai già fatto (optional) " <?php if (isset($_POST['valoreStudiato'])){ echo 'value="'.$_POST['valoreStudiato'].'"'; } ?>/> <br />
 			
 			<input type="submit" name="back" value="Indietro" />
 			<input type="submit" name="submit" value="Continua" />
