@@ -17,7 +17,7 @@ session_start();
 if (!isset($_SESSION['accessoPermessoAdmin'])) {
     header('Location: login.php');
 }
-
+/////////////////////////////////// GESTIONE RIASSUNTI /////////////////////////////////
 $trovato = false; //Neanche un riassunto trovato
 include("default-code/caricamento-riassunti-xml.php");
 include("default-code/caricamento-segnalazioni-xml.php");
@@ -85,17 +85,78 @@ include("default-code/caricamento-revisioni-xml.php");
 		</div>
 		<?php
 	}
+
+
+	/////////////////////////////////// GESTIONE REVISIONI /////////////////////////////////
+
+
+	//Abbiamo premuto modifica, andiamo ad eliminarlo da revisioni e a modificarlo da tags
+	if (isset($_POST['modificaEstrattoAdmin'])) {
+		for ($i=0; $i < $revisioni->length; $i++) {
+			$revisione= $revisioni->item($i);
+			if (!strcasecmp($_POST['nomeTag'], $nomeTagRevisioneText[$i])) {				
+				$revisione->parentNode->removeChild($revisione);
+				$path5 = dirname(__FILE__)."/xml-schema/revisioni.xml"; 
+				$doc5->save($path5);
+			}
+		}
+		for ($j= 0; $j < $tags->length; $j++) {
+			$tag= $tags->item($j);
+			if (!strcasecmp ($_POST['nomeTag'], $nomeTagText[$j])) {
+				echo "ciao";
+				$estrattoTag[$j]->textContent = $_POST['modificaEstratto'];
+				$path2 = dirname(__FILE__)."/xml-schema/tags.xml"; //Troviamo un percorso assoluto al file xml di riferimento
+				$doc2->save($path2); //Sovrascriviamolo
+			}
+		}
+		header('Location: home-admin.php');
+		exit();
+	}
+	//Abbiamo premuto annulla, andiamo ad eliminarlo da revisioni.
+	if (isset($_POST['annullaEstrattoAdmin'])) {
+		for ($i=0; $i < $revisioni->length; $i++) {
+			$revisione= $revisioni->item($i);
+			if (!strcasecmp($_POST['nomeTag'], $nomeTagRevisioneText[$i])) {
+				$revisione->parentNode->removeChild($revisione);
+				$path5 = dirname(__FILE__)."/xml-schema/revisioni.xml"; 
+				$doc5->save($path5);
+				header('Location: home-admin.php');
+				exit();
+			}
+		}
+	}
+
 	?>
 	<div id="riassuntoTrovato">
 		<table id="tabellaTagEstrattiAdmin">
-			<tr><th>Tag</th><th>Old estratto</th><th>New estratto</th></tr>
+			<tr>
+				<th>Tag</th>
+				<th>Old estratto</th>
+				<th>New estratto</th>
+				<th></th>
+			</tr>
 			<?php
 			for ($i=0; $i < $revisioni->length; $i++) {
 				//Se il tag è già presente nelle revisioni allora non può essere revisionato nuovamente
 				foreach($nomeTagText as $j=>$value) {
-					if ( strcasecmp ($_SESSION['email'], $emailAdminText[$i]) == 0 ) {
+					if ( strcasecmp ($_SESSION['email'], $emailAdminRevisioneText[$i]) == 0 ) {
 						if (strcasecmp($value, $nomeTagRevisioneText[$i]) == 0) {
-							echo "<tr><td><a id='tagAnteprima' href='#'>".$nomeTagRevisioneText[$i]."</a></td><td>".$estrattoTagText[$j]."</td><td>".$modificaEstrattoText[$i]."</td></tr>";
+							?>
+							<form action="home-admin.php" method="POST">
+								<tr>
+									<td><a id='tagAnteprima' href='#'><?= $nomeTagRevisioneText[$i] ?></a></td>
+									<td><?= $estrattoTagText[$j] ?></td>
+									<td>
+										<textarea rows="2" name="modificaEstratto"><?= $modificaEstrattoText[$i] ?></textarea>
+										<input type="hidden" name="nomeTag" value="<?= $nomeTagRevisioneText[$i] ?>">
+									</td>
+									<td style="width: 120px;">
+										<input type="submit" name="modificaEstrattoAdmin" value="Modifica" />
+										<input type="submit" name="annullaEstrattoAdmin" value="Annulla" />
+									</td>				
+								</tr>
+							</form>
+							<?php
 						}
 					}
 				}

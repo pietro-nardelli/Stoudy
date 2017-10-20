@@ -13,14 +13,14 @@ for ($i=0; $i < $revisioni->length; $i++) {
     $nomeTagRevisione[$i] = $revisione->firstChild; 
     $nomeTagRevisioneText[$i] = $nomeTagRevisione[$i]->textContent;
     
-    $emailAdmin[$i] = $nomeTagRevisione[$i]->nextSibling;
-    $emailAdminText[$i] = $emailAdmin[$i]->textContent;
+    $emailAdminRevisione[$i] = $nomeTagRevisione[$i]->nextSibling;
+    $emailAdminRevisioneText[$i] = $emailAdminRevisione[$i]->textContent;
     
-    $modificaEstratto[$i] = $emailAdmin[$i]->nextSibling;
+    $modificaEstratto[$i] = $emailAdminRevisione[$i]->nextSibling;
     $modificaEstrattoText[$i] = $modificaEstratto[$i]->textContent;
 
-    $emailStudente[$i] = $modificaEstratto[$i]->nextSibling;
-    $emailStudenteText[$i] = $emailStudente[$i]->textContent;
+    $emailStudenteRevisione[$i] = $modificaEstratto[$i]->nextSibling;
+    $emailStudenteRevisioneText[$i] = $emailStudenteRevisione[$i]->textContent;
 }
 /***/
 ?>

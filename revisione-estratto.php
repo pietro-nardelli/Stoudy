@@ -77,13 +77,13 @@ for ($i=0; $i < $revisioni->length; $i++) {
 $newRevisione = $doc5->createElement("revisione");
 $newNomeTagRevisione = $doc5->createElement("nomeTag", $_SESSION['tagRicercato']);
 $newModificaEstratto = $doc5->createElement("modificaEstratto", $_SESSION['modificaEstratto']);
-$newEmailAdmin = $doc5->createElement("emailAdmin", $admins[$indexAdmin]);
-$newEmailStudente = $doc5->createElement("emailStudente", $_SESSION['email']);
+$newEmailAdminRevisione = $doc5->createElement("emailAdmin", $admins[$indexAdmin]);
+$newEmailStudenteRevisione = $doc5->createElement("emailStudente", $_SESSION['email']);
             
 $newRevisione->appendChild($newNomeTagRevisione);
-$newRevisione->appendChild($newEmailAdmin);	
+$newRevisione->appendChild($newEmailAdminRevisione);	
 $newRevisione->appendChild($newModificaEstratto);	
-$newRevisione->appendChild($newEmailStudente);	
+$newRevisione->appendChild($newEmailStudenteRevisione);	
    
 $root5->appendChild($newRevisione);
    

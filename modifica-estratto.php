@@ -25,6 +25,7 @@ for ($k=0; $k < $tags->length; $k++) {
 	if (!empty ($_GET['tagRicercato'])) {
 		if (strcasecmp($nomeTagText[$k], $_GET['tagRicercato']) == 0) { //Controlliamo se il tag cercato è ESATTAMENTE un tag
 			$trovatoEsatto = $k; //Associamo alla flag l'indice del tag presente in lista così lo usiamo dopo per mostrare l'estratto
+			$break;
 		}
 	}
 }
@@ -37,7 +38,7 @@ for ($k=0; $k < $tags->length; $k++) {
 			?>
 			<div id="modificaEstratto">
 				<div id="risultatoRicercaAlto">
-					Modifica estratto per il tag <a id='tagRiassuntoTrovato' href='cerca-riassunti.php?tagRicercato="<?= $tagRicercato?>"'> <?= $tagRicercato ?></a>
+					Modifica estratto per il tag <a id='tagRiassuntoTrovato' href='cerca-riassunti.php?tagRicercato="<?= $nomeTagText[$trovatoEsatto] ?>"'> <?= $nomeTagText[$trovatoEsatto] ?></a>
 					<br />
 				</div>
 				<?php
