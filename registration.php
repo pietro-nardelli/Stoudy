@@ -61,11 +61,19 @@
 				//Con trim() togliamo gli spazi inseriti per sbaglio nel form (alla fine e all'inizio di ogni input)
 				$nome = trim($_POST['nome']);
 				$cognome = trim($_POST['cognome']);
+
 				$email = trim($_POST['email']);
+				$email = filter_var($email, FILTER_SANITIZE_EMAIL);
+
 				$password = trim($_POST['password']);									
 				$sql = "SELECT email FROM studenti WHERE email ='".$email."'";
 				$queryResult = mysqli_query($connection, $sql);
-				if ($queryResult && mysqli_num_rows($queryResult) ) { //Se l'indirizzo email è già presente nel database
+
+				if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+					echo '<p style="color: red;">Indirizzo email non valido!</p>';
+				}
+
+				else if ($queryResult && mysqli_num_rows($queryResult) ) { //Se l'indirizzo email è già presente nel database
 					echo '<p style="color: red;">Indirizzo email già registrato!</p>';
 				}
 				else { //Altrimenti possiamo aggiungerlo al database senza problemi
