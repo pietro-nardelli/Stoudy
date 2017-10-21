@@ -110,7 +110,7 @@ for ($i=0; $i < $revisioni->length; $i++) {
 		<?php
 	}
 	else {
-		echo "Tag non trovato..";
+		echo "Nessun riassunto trovato con il tag inserito..";
 	}
 
 	?>

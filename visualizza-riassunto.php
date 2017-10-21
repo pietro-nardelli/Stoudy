@@ -21,6 +21,7 @@ $riassuntoProprio = false;
 
 include("default-code/info-studente.php");
 include("default-code/caricamento-riassunti-xml.php");
+include("default-code/caricamento-tags-xml.php");
 ?>
 
 <div id="main">
@@ -53,8 +54,17 @@ if (isset($IDGet) && !empty($IDRiassunto[$_GET['IDRiassunto']])) {
 			<a id="togliloDaiPreferiti" href="visualizza-riassunto.php?<?php echo "IDRiassunto=".urlencode($IDGet)."&preferito=".urlencode(0).""; ?>">Toglilo dai preferiti</a>
 			<?php
 		}
-		?>
+		if (!$riassuntoProprio) {
+			?>
 			<a id="segnalaRiassunto" href="segnala-riassunto.php?<?php echo "IDRiassunto=".urlencode($IDGet).""; ?>">Segnala riassunto </a>
+			<?php
+		}
+		else {
+			?>
+			<a id="segnalaRiassunto" href="visualizza-riassunto.php?<?php echo "IDRiassunto=".urlencode($IDGet)."&elimina=".urlencode(1).""; ?>">Elimina riassunto </a>			
+			<?php
+		}
+		?>
 	</div>
 	<?php } 
 	else {

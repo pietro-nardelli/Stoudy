@@ -71,9 +71,14 @@ for ($i=0; $i < $studenti->length; $i++) {
 
 		$riassuntiStudente = $email->nextSibling->nextSibling;
 
-		$riassuntiCreati = $riassuntiStudente->firstChild;
+		$riassuntiCreatiElement = $riassuntiStudente->firstChild;
+		$riassuntiCreati = $riassuntiCreatiElement->childNodes;
+		for ($k=0; $k < $riassuntiCreati->length; $k++) {	
+			$riassuntoIDCreato[$k] = $riassuntiCreati->item ($k);
+			$riassuntoIDCreatoText[$k] = $riassuntoIDCreato[$k]->textContent;
+		}
 
-		$riassuntiVisualizzatiElement = $riassuntiCreati->nextSibling;
+		$riassuntiVisualizzatiElement = $riassuntiCreatiElement->nextSibling;
 		$riassuntiVisualizzati = $riassuntiVisualizzatiElement->childNodes;
 		for ($k=0; $k < $riassuntiVisualizzati->length; $k++) {	
 			$riassuntoIDVisualizzato[$k] = $riassuntiVisualizzati->item ($k);

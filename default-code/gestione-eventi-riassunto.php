@@ -17,6 +17,9 @@ $nowTimeTotal = strtotime($nowTime." ".$nowDate); //Va fatto per ottenere la dif
 $timeTotal = strtotime($dataRiassuntoText[$IDGet]." ".$orarioRiassuntoText[$IDGet]); //Idem sopra
 $diffHours = ($nowTimeTotal - $timeTotal)/3600; //Questa è la differenza in ore tra la data del riassunto e la data attuale
 
+
+
+
 //Controlliamo se abbiamo visualizzato il riassunto
 for ($k=0; $k < $riassuntiVisualizzati->length; $k++) {	
     $riassuntoIDVisualizzato[$k] = $riassuntiVisualizzati->item ($k);
@@ -75,6 +78,55 @@ if (!$riassuntoProprio) {
         }
     }
 } //In tutti gli altri casi possiamo visualizzare il riassunto! E' nostro o è stato visualizzato
+
+if ($riassuntoProprio) {
+    if (isset($_GET['elimina'])) {
+        foreach ($IDRiassuntoLista as $count => $id) {
+            $riassunto = $riassunti->item($count); 
+            //Eliminiamo il riassunto dal riassunti.xml e da creati se abbiamo premuto "elimina riassunto"
+            //Bisogna eliminarlo anche da tags.xml ma non da segnalazioni.xml (a quello ci pensa già la home-admin.php)
+            if (isset($IDGet) && !empty($IDRiassunto[$_GET['IDRiassunto']])) { 
+                if ($IDGet == $IDRiassuntoText[$id]) {
+                    //Eliminiamolo da riassunti.xml
+                    unlink ($linkDocumentoRiassuntoText[$id]);
+                    $riassunto->parentNode->removeChild($riassunto);
+                    $path3 = dirname(__FILE__)."/../xml-schema/riassunti.xml"; 
+                    $doc3->save($path3);
+                    
+                    //Eliminiamolo da tags
+                    for ($k=0; $k < $tags->length; $k++) {	
+                        $tag = $tags->item($k); 
+                        //Controlla se c'è una sottostringa nel nomeTagText[$k]
+                        $riassuntoIDLista = $tag->getElementsByTagName('riassuntoID');
+                        foreach ($riassuntoIDLista as $key => $value) { //Inseriamo nell'array riassuntoIDTrovato ognuno degli ID del tag ricercato
+                            $riassuntoIDTag = $riassuntoIDLista->item($key)->textContent;
+                            if ($riassuntoIDTag == $IDGet) {
+                                $riassuntoIDLista->item($key)->parentNode->removeChild($riassuntoIDLista->item($key));
+                                $path2 = dirname(__FILE__)."/../xml-schema/tags.xml"; 
+                                $doc2->save($path2);
+                            }
+                        }
+                    }
+
+                    //Eliminiamolo dai riassunti creati
+                    for ($k=0; $k < $riassuntiCreati->length; $k++) {	
+                        $riassuntoIDCreato[$k] = $riassuntiCreati->item($k);
+                        if ($IDGet == $riassuntoIDCreatoText[$k]) {
+                            $riassuntoCreato = $studente->getElementsByTagName('riassuntoIDCreato')->item($k);
+                            $riassuntoCreato->parentNode->removeChild($riassuntoCreato); //Serve perchè altrimenti da errore!
+                            $path = dirname(__FILE__)."/../xml-schema/studenti.xml"; //Troviamo un percorso assoluto al file xml di riferimento
+                            $doc->save($path); //Sovrascriviamolo 
+                        }
+                    }
+                    header('Location: home-studente.php');
+                    exit();
+
+
+                }
+            }
+        }
+    }
+}
 
 //Se abbiamo premuto il pulsante preferito
 if (isset($_GET['preferito'])) {
