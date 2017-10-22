@@ -30,10 +30,7 @@ for ($k=0; $k < $tags->length; $k++) {
 				$trovatoEsatto = $k; //Associamo alla flag l'indice del tag presente in lista così lo usiamo dopo per mostrare l'estratto
 			}
 			$riassuntoIDTrovatoLista = $tag->getElementsByTagName('riassuntoID');
-			//Potrebbe darsi che un tag sia rimasto senza riassunti per via di eliminazioni, in questo caso rimanda false in trovato
-			if ($riassuntoIDTrovatoLista->length == 0) {
-				$trovato = false;
-			}
+
 			foreach ($riassuntoIDTrovatoLista as $key => $value) { //Inseriamo nell'array riassuntoIDTrovato ognuno degli ID del tag ricercato
 				//Se il riassunto è public lo aggiungiamo, ovvero basta un solo riassunto public nel tag per averlo trovato.
 				if (strcasecmp($condivisioneRiassuntoText[$riassuntoIDTrovatoLista->item($key)->textContent], "privato") != 0) {
@@ -45,12 +42,17 @@ for ($k=0; $k < $tags->length; $k++) {
 	}
 }
 
+if (isset($riassuntoIDTrovato) == 0) { //Se ci sono tag senza riassunti (per via delle eliminazioni) allora ritorna false
+	$trovato = false;
+} 
+
 for ($i=0; $i < $revisioni->length; $i++) {
     //Se il tag è già presente nelle revisioni allora non può essere revisionato nuovamente
     if ( strcasecmp ($_GET['tagRicercato'], $nomeTagRevisioneText[$i]) == 0 ) {
         $editImpossibile = true;
     }
 }
+
 
 
 ?>

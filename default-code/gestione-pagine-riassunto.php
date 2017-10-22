@@ -30,22 +30,90 @@ $paginaAttuale = ($first / $pageLength)+1;
 ?>
 <div id="pagineRiassuntoTrovato">
     <?php
-    if ($paginaAttuale == 1 && $paginaAttuale == $totPagine) {
-        echo "pagina ".$paginaAttuale." / ".$totPagine;		
-    }
-    else if ($paginaAttuale == 1) {
-        echo "pagina ".$paginaAttuale." / ".$totPagine;												
-        echo "<a id ='pagineNextRiassuntoTrovato' href='cerca-riassunti.php?tagRicercato=".urlencode($_GET['tagRicercato'])."&next=".$last."' >successivo</a>";														
 
+    //GESTIONE DELLE PAGINE IN cerca-riassunti, riassunti-creati, riassunti-visualizzati, riassunti-preferiti
+
+    //Siamo in cerca-riassunti.php
+    if (basename($_SERVER['PHP_SELF']) == "cerca-riassunti.php") {											
+        if ($paginaAttuale == 1 && $paginaAttuale == $totPagine) {
+            echo "pagina ".$paginaAttuale." / ".$totPagine;		
+        }
+        else if ($paginaAttuale == 1) {
+            echo "pagina ".$paginaAttuale." / ".$totPagine;											
+            echo "<a id ='pagineNextRiassuntoTrovato' href='cerca-riassunti.php?tagRicercato=".urlencode($_GET['tagRicercato'])."&next=".$last."' >successivo</a>";														
+        }
+        else if ($paginaAttuale < $totPagine) {
+            echo "<a id ='paginePrevRiassuntoTrovato' href='cerca-riassunti.php?tagRicercato=".urlencode($_GET['tagRicercato'])."&next=".($last-$pageLength-1)."' >precedente</a>";
+            echo "pagina ".$paginaAttuale." / ".$totPagine;												
+            echo "<a id ='pagineNextRiassuntoTrovato' href='cerca-riassunti.php?tagRicercato=".urlencode($_GET['tagRicercato'])."&next=".$last."' >successivo</a>";														
+        }
+        else {
+            echo "<a id ='paginePrevRiassuntoTrovato' href='cerca-riassunti.php?tagRicercato=".urlencode($_GET['tagRicercato'])."&next=".($last-$pageLength-1)."' >precedente</a>";						
+            echo "pagina ".$paginaAttuale." / ".$totPagine;	
+        }
     }
-    else if ($paginaAttuale < $totPagine) {
-        echo "<a id ='paginePrevRiassuntoTrovato' href='cerca-riassunti.php?tagRicercato=".urlencode($_GET['tagRicercato'])."&next=".($last-$pageLength-1)."' >precedente</a>";
-        echo "pagina ".$paginaAttuale." / ".$totPagine;												
-        echo "<a id ='pagineNextRiassuntoTrovato' href='cerca-riassunti.php?tagRicercato=".urlencode($_GET['tagRicercato'])."&next=".$last."' >successivo</a>";														
+
+    //Siamo in riassunti creati
+    if (basename($_SERVER['PHP_SELF']) == "riassunti-creati.php") {	
+        if ($paginaAttuale == 1 && $paginaAttuale == $totPagine) {
+            echo "pagina ".$paginaAttuale." / ".$totPagine;		
+        }
+        else if ($paginaAttuale == 1) {
+            echo "pagina ".$paginaAttuale." / ".$totPagine;											
+            echo "<a id ='pagineNextRiassuntoTrovato' href='riassunti-creati.php?next=".$last."' >successivo</a>";														
+        }
+        else if ($paginaAttuale < $totPagine) {
+            echo "<a id ='paginePrevRiassuntoTrovato' href='riassunti-creati.php?next=".($last-$pageLength-1)."' >precedente</a>";
+            echo "pagina ".$paginaAttuale." / ".$totPagine;												
+            echo "<a id ='pagineNextRiassuntoTrovato' href='riassunti-creati.php?next=".$last."' >successivo</a>";														
+        }
+        else {
+            echo "<a id ='paginePrevRiassuntoTrovato' href='riassunti-creati.php?next=".($last-$pageLength-1)."' >precedente</a>";						
+            echo "pagina ".$paginaAttuale." / ".$totPagine;	
+        }
     }
-    else {
-        echo "<a id ='paginePrevRiassuntoTrovato' href='cerca-riassunti.php?tagRicercato=".urlencode($_GET['tagRicercato'])."&next=".($last-$pageLength-1)."' >precedente</a>";						
-        echo "pagina ".$paginaAttuale." / ".$totPagine;	
+
+    //Siamo in riassunti visualizzati
+    if (basename($_SERVER['PHP_SELF']) == "riassunti-visualizzati.php") {	
+        if ($paginaAttuale == 1 && $paginaAttuale == $totPagine) {
+            echo "pagina ".$paginaAttuale." / ".$totPagine;		
+        }
+        else if ($paginaAttuale == 1) {
+            echo "pagina ".$paginaAttuale." / ".$totPagine;											
+            echo "<a id ='pagineNextRiassuntoTrovato' href='riassunti-visualizzati.php?next=".$last."' >successivo</a>";														
+        }
+        else if ($paginaAttuale < $totPagine) {
+            echo "<a id ='paginePrevRiassuntoTrovato' href='riassunti-visualizzati.php?next=".($last-$pageLength-1)."' >precedente</a>";
+            echo "pagina ".$paginaAttuale." / ".$totPagine;												
+            echo "<a id ='pagineNextRiassuntoTrovato' href='riassunti-visualizzati.php?next=".$last."' >successivo</a>";														
+        }
+        else {
+            echo "<a id ='paginePrevRiassuntoTrovato' href='riassunti-visualizzati.php?next=".($last-$pageLength-1)."' >precedente</a>";						
+            echo "pagina ".$paginaAttuale." / ".$totPagine;	
+        }
     }
+
+    //Siamo in riassunti preferiti
+    if (basename($_SERVER['PHP_SELF']) == "riassunti-preferiti.php") {	
+        if ($paginaAttuale == 1 && $paginaAttuale == $totPagine) {
+            echo "pagina ".$paginaAttuale." / ".$totPagine;		
+        }
+        else if ($paginaAttuale == 1) {
+            echo "pagina ".$paginaAttuale." / ".$totPagine;											
+            echo "<a id ='pagineNextRiassuntoTrovato' href='riassunti-preferiti.php?next=".$last."' >successivo</a>";														
+        }
+        else if ($paginaAttuale < $totPagine) {
+            echo "<a id ='paginePrevRiassuntoTrovato' href='riassunti-preferiti.php?next=".($last-$pageLength-1)."' >precedente</a>";
+            echo "pagina ".$paginaAttuale." / ".$totPagine;												
+            echo "<a id ='pagineNextRiassuntoTrovato' href='riassunti-preferiti.php?next=".$last."' >successivo</a>";														
+        }
+        else {
+            echo "<a id ='paginePrevRiassuntoTrovato' href='riassunti-preferiti.php?next=".($last-$pageLength-1)."' >precedente</a>";						
+            echo "pagina ".$paginaAttuale." / ".$totPagine;	
+        }
+    }
+
+    
+
     ?>
 </div>

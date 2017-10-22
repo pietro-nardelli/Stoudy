@@ -109,9 +109,9 @@ for ($i=0; $i < $studenti->length; $i++) {
 	</div>
 	<div id="navigation">
 		<a href="aggiungi-materia.php"><img src="images/iconAggiungiMateria.png">Nuova materia</a>
-		<a href="#"><img src="images/iconRiassuntiCreati.png">Riassunti creati</a>
-		<a href="#"><img src="images/iconRiassuntiVisualizzati.png">Riassunti visualizzati</a>
-		<a href="#"><img src="images/iconRiassuntiPreferiti.png">Riassunti preferiti</a>
+		<a href="riassunti-creati.php"><img src="images/iconRiassuntiCreati.png">Riassunti creati</a>
+		<a href="riassunti-visualizzati.php"><img src="images/iconRiassuntiVisualizzati.png">Riassunti visualizzati</a>
+		<a href="riassunti-preferiti.php"><img src="images/iconRiassuntiPreferiti.png">Riassunti preferiti</a>
 		<form action="cerca-riassunti.php" method="get" id="cercaRiassunti">		
 			<input type="text" name="tagRicercato" placeholder=" Cerca riassunti" />
 			<input type="image" src="images/iconCercaRiassunti.png" alt="Submit Form" />
