@@ -70,7 +70,7 @@ include("default-code/caricamento-tags-xml.php");
         <?php
     }
     else {
-        echo "Non hai visualizzato alcun riassunto...";
+        echo "Non hai ancora messo un riassunto tra i preferiti...";
     }
     ?>
 

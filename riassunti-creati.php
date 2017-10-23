@@ -35,7 +35,7 @@ include("default-code/caricamento-tags-xml.php");
                 $path = dirname(__FILE__)."/xml-schema/studenti.xml"; 
                 $doc->save($path);
                 unset($_SESSION['eliminato']);
-                header('Location: riassunti-preferiti.php');
+                header('Location: riassunti-creati.php');
                 exit();
             }
 
