@@ -1,22 +1,28 @@
 <?php
-$pageLength = 20;
+//Per stampare i riassunti dal più recente al più vecchio...
+$valueIDArray = array_reverse($valueIDArray);
+
+
+$pageLength = 6;
 if (isset($_GET['next'])) {
     $first = $_GET['next'];
 }
 else {
     $first = 0;
 }
+
 if (sizeof($valueIDArray) - $first < $pageLength ) {
     $last = sizeof($valueIDArray);
 }
 else {
     $last = $first+$pageLength;
 }
+
 for ($key = $first; $key < $last ; $key++) { 
     $valueID = $valueIDArray[$key];
-    echo "<a id ='titoloRiassuntoTrovato' href='visualizza-riassunto.php?IDRiassunto=".urlencode($valueID)."' >".$riassuntoTrovatoTitolo[$key]."</a>";
-    echo "<span id ='visualizzazioniPreferitiRiassuntoTrovato'>".$riassuntoTrovatoVisualizzazioni[$key]." <img src='images/iconViews.png' /> ".$riassuntoTrovatoPreferiti[$key]." <img src='images/iconFavorites.png' /></span>";
-    echo "<br /><span id='emailRiassuntoTrovato'><i> Creato da ".$riassuntoTrovatoEmail[$key]." il ".$riassuntoTrovatoData[$key]." alle ore ".$riassuntoTrovatoOrario[$key]."</i></span>";
+    echo "<a id ='titoloRiassuntoTrovato' href='visualizza-riassunto.php?IDRiassunto=".urlencode($valueID)."' >".$titoloRiassuntoText[$valueID]."</a>";
+    echo "<span id ='visualizzazioniPreferitiRiassuntoTrovato'>".$visualizzazioniRiassuntoText[$valueID]." <img src='images/iconViews.png' /> ".$preferitiRiassunto[$valueID]->length." <img src='images/iconFavorites.png' /></span>";
+    echo "<br /><span id='emailRiassuntoTrovato'><i> Creato da ".$emailStudenteRiassuntoText[$valueID]." il ".$dataRiassuntoText[$valueID]." alle ore ".$orarioRiassuntoText[$valueID]."</i></span>";
     foreach ($tagsRiassunto[$valueID] as $j => $value) {
         $nomeTagRiassunto = $tagsRiassunto[$valueID]->item($j);
         $nomeTagRiassuntoText[$j] = $nomeTagRiassunto->textContent;
@@ -24,7 +30,7 @@ for ($key = $first; $key < $last ; $key++) {
     }
     echo "<hr />";
 }
-$totPagine =  round ( (sizeof($valueIDArray) / $pageLength));
+$totPagine =  ceil ( (sizeof($valueIDArray) / $pageLength));
 $paginaAttuale = ($first / $pageLength)+1;
 
 ?>
@@ -43,12 +49,12 @@ $paginaAttuale = ($first / $pageLength)+1;
             echo "<a id ='pagineNextRiassuntoTrovato' href='cerca-riassunti.php?tagRicercato=".urlencode($_GET['tagRicercato'])."&next=".$last."' >successivo</a>";														
         }
         else if ($paginaAttuale < $totPagine) {
-            echo "<a id ='paginePrevRiassuntoTrovato' href='cerca-riassunti.php?tagRicercato=".urlencode($_GET['tagRicercato'])."&next=".($last-$pageLength-1)."' >precedente</a>";
+            echo "<a id ='paginePrevRiassuntoTrovato' href='cerca-riassunti.php?tagRicercato=".urlencode($_GET['tagRicercato'])."&next=".($first-$pageLength)."' >precedente</a>";
             echo "pagina ".$paginaAttuale." / ".$totPagine;												
             echo "<a id ='pagineNextRiassuntoTrovato' href='cerca-riassunti.php?tagRicercato=".urlencode($_GET['tagRicercato'])."&next=".$last."' >successivo</a>";														
         }
         else {
-            echo "<a id ='paginePrevRiassuntoTrovato' href='cerca-riassunti.php?tagRicercato=".urlencode($_GET['tagRicercato'])."&next=".($last-$pageLength-1)."' >precedente</a>";						
+            echo "<a id ='paginePrevRiassuntoTrovato' href='cerca-riassunti.php?tagRicercato=".urlencode($_GET['tagRicercato'])."&next=".($first-$pageLength)."' >precedente</a>";						
             echo "pagina ".$paginaAttuale." / ".$totPagine;	
         }
     }
@@ -63,12 +69,12 @@ $paginaAttuale = ($first / $pageLength)+1;
             echo "<a id ='pagineNextRiassuntoTrovato' href='riassunti-creati.php?next=".$last."' >successivo</a>";														
         }
         else if ($paginaAttuale < $totPagine) {
-            echo "<a id ='paginePrevRiassuntoTrovato' href='riassunti-creati.php?next=".($last-$pageLength-1)."' >precedente</a>";
+            echo "<a id ='paginePrevRiassuntoTrovato' href='riassunti-creati.php?next=".($first-$pageLength)."' >precedente</a>";
             echo "pagina ".$paginaAttuale." / ".$totPagine;												
             echo "<a id ='pagineNextRiassuntoTrovato' href='riassunti-creati.php?next=".$last."' >successivo</a>";														
         }
         else {
-            echo "<a id ='paginePrevRiassuntoTrovato' href='riassunti-creati.php?next=".($last-$pageLength-1)."' >precedente</a>";						
+            echo "<a id ='paginePrevRiassuntoTrovato' href='riassunti-creati.php?next=".($first-$pageLength)."' >precedente</a>";						
             echo "pagina ".$paginaAttuale." / ".$totPagine;	
         }
     }
@@ -83,12 +89,12 @@ $paginaAttuale = ($first / $pageLength)+1;
             echo "<a id ='pagineNextRiassuntoTrovato' href='riassunti-visualizzati.php?next=".$last."' >successivo</a>";														
         }
         else if ($paginaAttuale < $totPagine) {
-            echo "<a id ='paginePrevRiassuntoTrovato' href='riassunti-visualizzati.php?next=".($last-$pageLength-1)."' >precedente</a>";
+            echo "<a id ='paginePrevRiassuntoTrovato' href='riassunti-visualizzati.php?next=".($first-$pageLength)."' >precedente</a>";
             echo "pagina ".$paginaAttuale." / ".$totPagine;												
             echo "<a id ='pagineNextRiassuntoTrovato' href='riassunti-visualizzati.php?next=".$last."' >successivo</a>";														
         }
         else {
-            echo "<a id ='paginePrevRiassuntoTrovato' href='riassunti-visualizzati.php?next=".($last-$pageLength-1)."' >precedente</a>";						
+            echo "<a id ='paginePrevRiassuntoTrovato' href='riassunti-visualizzati.php?next=".($first-$pageLength)."' >precedente</a>";						
             echo "pagina ".$paginaAttuale." / ".$totPagine;	
         }
     }
@@ -103,12 +109,12 @@ $paginaAttuale = ($first / $pageLength)+1;
             echo "<a id ='pagineNextRiassuntoTrovato' href='riassunti-preferiti.php?next=".$last."' >successivo</a>";														
         }
         else if ($paginaAttuale < $totPagine) {
-            echo "<a id ='paginePrevRiassuntoTrovato' href='riassunti-preferiti.php?next=".($last-$pageLength-1)."' >precedente</a>";
+            echo "<a id ='paginePrevRiassuntoTrovato' href='riassunti-preferiti.php?next=".($first-$pageLength)."' >precedente</a>";
             echo "pagina ".$paginaAttuale." / ".$totPagine;												
             echo "<a id ='pagineNextRiassuntoTrovato' href='riassunti-preferiti.php?next=".$last."' >successivo</a>";														
         }
         else {
-            echo "<a id ='paginePrevRiassuntoTrovato' href='riassunti-preferiti.php?next=".($last-$pageLength-1)."' >precedente</a>";						
+            echo "<a id ='paginePrevRiassuntoTrovato' href='riassunti-preferiti.php?next=".($first-$pageLength)."' >precedente</a>";						
             echo "pagina ".$paginaAttuale." / ".$totPagine;	
         }
     }

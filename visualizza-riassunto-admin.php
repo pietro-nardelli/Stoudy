@@ -67,7 +67,7 @@ foreach ($IDRiassuntoLista as $count => $id) {
                         }
                     }
                 }	
-                //header('Location: home-admin.php');
+                header('Location: home-admin.php');
                 exit();
             }
         }

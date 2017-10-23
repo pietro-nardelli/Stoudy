@@ -52,13 +52,6 @@ include("default-code/caricamento-revisioni-xml.php");
 		foreach ($riassuntoIDSegnalato as $key=>$valueID) {
 			if (isset ($titoloRiassuntoText[$valueID])) { //Se il riassunto segnalato non è stato cancellato...
 				$valueIDArray [] = $valueID;
-				//Trovato = Segnalato
-				$riassuntoTrovatoTitolo[] = $titoloRiassuntoText[$valueID];
-				$riassuntoTrovatoEmail[] = $emailStudenteRiassuntoText[$valueID];
-				$riassuntoTrovatoData [] = $dataRiassuntoText[$valueID];
-				$riassuntoTrovatoOrario [] = $orarioRiassuntoText[$valueID];
-				$riassuntoTrovatoVisualizzazioni []= $visualizzazioniRiassuntoText[$valueID];
-				$riassuntoTrovatoPreferiti [] =  $preferitiRiassunto[$valueID]->length;
 			}
 			else { //Se invece è stato cancellato bisogna eliminarlo da segnalazioni.xml
 				$_SESSION['eliminato'] = $valueID; //Emettiamo un cookie con valueID
@@ -94,7 +87,25 @@ include("default-code/caricamento-revisioni-xml.php");
 	if (isset($_POST['modificaEstrattoAdmin'])) {
 		for ($i=0; $i < $revisioni->length; $i++) {
 			$revisione= $revisioni->item($i);
-			if (!strcasecmp($_POST['nomeTag'], $nomeTagRevisioneText[$i])) {				
+			if (!strcasecmp($_POST['nomeTag'], $nomeTagRevisioneText[$i])) {
+
+				//Aggiungiamo 2 ai coin presenti
+				$xmlString = "";
+                foreach (file("xml-schema/studenti.xml") as $node) { 
+                    $xmlString .= trim($node); 
+                }
+                $doc = new DOMDocument(); 
+                $doc->loadXML($xmlString); 
+                $root = $doc->documentElement; 
+				$studenti = $root->childNodes;
+				
+				$reputationDaModificare = 2;
+				$emailStudente = $emailStudenteRevisioneText[$i];
+				include ('default-code/modificaReputation.php');
+				$path = dirname(__FILE__)."/xml-schema/studenti.xml"; 
+				$doc->save($path);
+
+
 				$revisione->parentNode->removeChild($revisione);
 				$path5 = dirname(__FILE__)."/xml-schema/revisioni.xml"; 
 				$doc5->save($path5);
@@ -104,12 +115,12 @@ include("default-code/caricamento-revisioni-xml.php");
 		for ($j= 0; $j < $tags->length; $j++) {
 			$tag= $tags->item($j);
 			if (!strcasecmp ($_POST['nomeTag'], $nomeTagText[$j])) {
-				echo "ciao";
 				$estrattoTag[$j]->nodeValue = $_POST['modificaEstratto'];
 				$path2 = dirname(__FILE__)."/xml-schema/tags.xml"; //Troviamo un percorso assoluto al file xml di riferimento
 				$doc2->save($path2); //Sovrascriviamolo
 			}
 		}
+
 		header('Location: home-admin.php');
 		exit();
 	}

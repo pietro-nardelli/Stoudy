@@ -72,12 +72,6 @@ for ($i=0; $i < $revisioni->length; $i++) {
 			}
 			if (!$doppione) {
 				$valueIDArray [] = $valueID;
-				$riassuntoTrovatoTitolo[] = $titoloRiassuntoText[$valueID];
-				$riassuntoTrovatoEmail[] = $emailStudenteRiassuntoText[$valueID];
-				$riassuntoTrovatoData [] = $dataRiassuntoText[$valueID];
-				$riassuntoTrovatoOrario [] = $orarioRiassuntoText[$valueID];
-				$riassuntoTrovatoVisualizzazioni []= $visualizzazioniRiassuntoText[$valueID];
-				$riassuntoTrovatoPreferiti [] =  $preferitiRiassunto[$valueID]->length;
 				$doppione = false;
 			}
 		}		

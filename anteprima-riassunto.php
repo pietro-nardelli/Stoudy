@@ -127,10 +127,12 @@ include("default-code/caricamento-tags-xml.php");
 
 				/* AGGIORNIAMO IL FILE STUDENTI.XML (solamente riassunti->creati e coins) */ 
 				
-				//Aggiungiamo 1 ai coin presenti
-				$reputationDaModificare = 1;
-				$emailStudente = $_SESSION['email'];
-				include ('default-code/modificaReputation.php');
+				//Aggiungiamo 1 ai coin presenti solo se il riassunto è pubblico
+				if (strcasecmp ($_SESSION['condivisioneRiassunto'], "pubblico")) {
+					$reputationDaModificare = 1;
+					$emailStudente = $_SESSION['email'];
+					include ('default-code/modificaReputation.php');
+				}
 
 
 				$riassuntiCreati = $riassuntiStudente->firstChild;

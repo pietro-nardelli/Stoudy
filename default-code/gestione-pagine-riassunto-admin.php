@@ -1,5 +1,8 @@
 <?php
-$pageLength = 2;
+$pageLength = 3;
+
+//Qui non abbiamo la necessità di modificare l'ordine dell'array
+
 if (isset($_GET['next'])) {
     $first = $_GET['next'];
 }
@@ -14,9 +17,9 @@ else {
 }
 for ($key = $first; $key < $last ; $key++) { 
     $valueID = $valueIDArray[$key];
-    echo "<a id ='titoloRiassuntoTrovato' href='visualizza-riassunto-admin.php?IDRiassunto=".urlencode($valueID)."' >".$riassuntoTrovatoTitolo[$key]."</a>";
-    echo "<span id ='visualizzazioniPreferitiRiassuntoTrovato'>".$riassuntoTrovatoVisualizzazioni[$key]." <img src='images/iconViews.png' /> ".$riassuntoTrovatoPreferiti[$key]." <img src='images/iconFavorites.png' /></span>";
-    echo "<br /><span id='emailRiassuntoTrovato'><i> Creato da ".$riassuntoTrovatoEmail[$key]." il ".$riassuntoTrovatoData[$key]." alle ore ".$riassuntoTrovatoOrario[$key]."</i></span>";
+    echo "<a id ='titoloRiassuntoTrovato' href='visualizza-riassunto-admin.php?IDRiassunto=".urlencode($valueID)."' >".$titoloRiassuntoText[$valueID]."</a>";
+    echo "<span id ='visualizzazioniPreferitiRiassuntoTrovato'>".$visualizzazioniRiassuntoText[$valueID]." <img src='images/iconViews.png' /> ".$preferitiRiassunto[$valueID]->length." <img src='images/iconFavorites.png' /></span>";
+    echo "<br /><span id='emailRiassuntoTrovato'><i> Creato da ".$emailStudenteRiassuntoText[$valueID]." il ".$dataRiassuntoText[$valueID]." alle ore ".$orarioRiassuntoText[$valueID]."</i></span>";
     foreach ($tagsRiassunto[$valueID] as $j => $value) {
         $nomeTagRiassunto = $tagsRiassunto[$valueID]->item($j);
         $nomeTagRiassuntoText[$j] = $nomeTagRiassunto->textContent;
@@ -25,7 +28,7 @@ for ($key = $first; $key < $last ; $key++) {
     echo  "(".$emailStudenteLista[$valueID]->length." segnalazioni)<br/>";
     echo "<hr />";
 }
-$totPagine =  round ( (sizeof($valueIDArray) / $pageLength));
+$totPagine =  ceil ( (sizeof($valueIDArray) / $pageLength));
 $paginaAttuale = ($first / $pageLength)+1;
 
 ?>
@@ -40,12 +43,12 @@ $paginaAttuale = ($first / $pageLength)+1;
 
     }
     else if ($paginaAttuale < $totPagine) {
-        echo "<a id ='paginePrevRiassuntoTrovato' href='home-admin.php?next=".($last-$pageLength-1)."' >precedente</a>";
+        echo "<a id ='paginePrevRiassuntoTrovato' href='home-admin.php?next=".($first-$pageLength)."' >precedente</a>";
         echo "pagina ".$paginaAttuale." / ".$totPagine;												
         echo "<a id ='pagineNextRiassuntoTrovato' href='home-admin.php?next=".$last."' >successivo</a>";														
     }
     else {
-        echo "<a id ='paginePrevRiassuntoTrovato' href='home-admin.php?next=".($last-$pageLength-1)."' >precedente</a>";						
+        echo "<a id ='paginePrevRiassuntoTrovato' href='home-admin.php?next=".($first-$pageLength)."' >precedente</a>";						
         echo "pagina ".$paginaAttuale." / ".$totPagine;	
     }
     ?>

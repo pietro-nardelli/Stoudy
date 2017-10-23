@@ -51,30 +51,30 @@ include("default-code/caricamento-tags-xml.php");
             $riassuntoTrovatoPreferiti [] =  $preferitiRiassunto[$valueID]->length;
         }
         else { //Se invece è stato cancellato bisogna eliminarlo dalla lista dei creati
-				$_SESSION['eliminato'] = $valueID; //Emettiamo un cookie con valueID
-				header('Location: riassunti-creati.php');
-				exit();
+			$_SESSION['eliminato'] = $valueID; //Emettiamo un cookie con valueID
+			header('Location: riassunti-creati.php');
+			exit();
         }
         
     }
     ?>
    
-        <?php
-        if ($riassuntiCreati->length) { ?>
-         <div id="riassuntoTrovato">
+    <?php
+    if ($riassuntiCreati->length) { ?>
+        <div id="riassuntoTrovato">
             <div id="risultatoRicercaAlto">
                 I tuoi riassunti creati</a>
             </div>
             <hr />
             <?php include("default-code/gestione-pagine-riassunto.php"); ?>
         </div>
-        <?php
-        }
-        else {
-            echo "Non hai ancora creato alcun riassunto...";
-        }
-        ?>
-    </div>
+    <?php
+    }
+    else {
+        echo "Non hai ancora creato alcun riassunto...";
+    }
+    ?>
 </div>
+
 </body>
 </html>
