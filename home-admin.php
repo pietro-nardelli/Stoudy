@@ -90,7 +90,7 @@ include("default-code/caricamento-revisioni-xml.php");
 	/////////////////////////////////// GESTIONE REVISIONI /////////////////////////////////
 
 
-	//Abbiamo premuto modifica, andiamo ad eliminarlo da revisioni e a modificarlo da tags
+	//Abbiamo premuto modifica, andiamo ad eliminarlo da revisioni...
 	if (isset($_POST['modificaEstrattoAdmin'])) {
 		for ($i=0; $i < $revisioni->length; $i++) {
 			$revisione= $revisioni->item($i);
@@ -100,11 +100,12 @@ include("default-code/caricamento-revisioni-xml.php");
 				$doc5->save($path5);
 			}
 		}
+		//... e a modificarlo da tags
 		for ($j= 0; $j < $tags->length; $j++) {
 			$tag= $tags->item($j);
 			if (!strcasecmp ($_POST['nomeTag'], $nomeTagText[$j])) {
 				echo "ciao";
-				$estrattoTag[$j]->textContent = $_POST['modificaEstratto'];
+				$estrattoTag[$j]->nodeValue = $_POST['modificaEstratto'];
 				$path2 = dirname(__FILE__)."/xml-schema/tags.xml"; //Troviamo un percorso assoluto al file xml di riferimento
 				$doc2->save($path2); //Sovrascriviamolo
 			}

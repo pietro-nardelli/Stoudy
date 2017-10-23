@@ -18,10 +18,11 @@ include 'functions/valoreDaStudiareOggi.php';
 include 'functions/percentualeColori.php';
 include 'functions/giorniDisponibili.php';
 include("default-code/info-studente.php");
-include("default-code/aggiornamento-studio.php");
+
 ?>
 <div id="main">
 	<?php 
+	include("default-code/aggiornamento-studio.php");
 	//Dobbiamo ciclare affinchè si possano scorrere tutte le materie presente negli array creati in precedenza
 	foreach($materie as $k=>$v) { 
 		//Se la materia è PLANNED, allora visualizza il piano di studi

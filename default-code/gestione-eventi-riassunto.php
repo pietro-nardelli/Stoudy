@@ -56,7 +56,7 @@ if (!$riassuntoProprio) {
                 $path = dirname(__FILE__)."/../xml-schema/studenti.xml"; 
                 $doc->save($path);
                 
-                $visualizzazioniRiassunto[$IDGet]->textContent= $visualizzazioniRiassuntoText[$IDGet]+1;
+                $visualizzazioniRiassunto[$IDGet]->nodeValue= $visualizzazioniRiassuntoText[$IDGet]+1;
                 $path3 = dirname(__FILE__)."/../xml-schema/riassunti.xml"; 
                 $doc3->save($path3); 
                 header('Location: visualizza-riassunto.php?IDRiassunto='.$IDGet); //Aggiorniamo per visualizzarlo correttamente con il DOM aggiornato
@@ -69,7 +69,7 @@ if (!$riassuntoProprio) {
             $path = dirname(__FILE__)."/../xml-schema/studenti.xml"; 
             $doc->save($path);
 
-            $visualizzazioniRiassunto[$IDGet]->textContent= $visualizzazioniRiassuntoText[$IDGet]+1;
+            $visualizzazioniRiassunto[$IDGet]->nodeValue = $visualizzazioniRiassuntoText[$IDGet]+1;
             
             $path3 = dirname(__FILE__)."/../xml-schema/riassunti.xml"; 
             $doc3->save($path3);
