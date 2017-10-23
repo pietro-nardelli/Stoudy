@@ -156,7 +156,8 @@ include("default-code/info-studente.php");
 					$dateTime = DateTime::createFromFormat('Y-m-d', $_POST['dataScadenza']);
 					$errors = DateTime::getLastErrors();
 					$now = new DateTime();
-					$oggi = date(); //Questo serve per la funzione giorniDisponibili()
+					$oggi = date('Y-m-d'); //Questo serve per la funzione giorniDisponibili()
+					
 
 					if (empty($errors['warning_count'])) {
 						$_SESSION['dataScadenza'] = $_POST['dataScadenza'];
