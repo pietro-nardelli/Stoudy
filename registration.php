@@ -120,6 +120,9 @@
 						$newRiassunti->appendChild($newPreferiti);
 						$newStudente->appendChild($newReputation);
 						$newStudente->appendChild($newCoins);
+
+						$newStudente->setAttribute("dataUltimoAccesso", date("Y-m-d"));
+
 						/*Inseriamo il nodo che abbiamo creato, prima del primo elemento della lista di elementi dopo root*/
 						$root->insertBefore($newStudente);
 						$path = dirname(__FILE__)."/xml-schema/studenti.xml"; //Troviamo un percorso assoluto al file xml di riferimento

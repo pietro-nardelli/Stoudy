@@ -23,7 +23,6 @@ include("default-code/aggiornamento-studio.php");
 ?>
 <div id="main">
 	<?php 
-
 	//Dobbiamo ciclare affinchè si possano scorrere tutte le materie presente negli array creati in precedenza
 	foreach($materie as $k=>$v) { 
 		//Se la materia è PLANNED, allora visualizza il piano di studi

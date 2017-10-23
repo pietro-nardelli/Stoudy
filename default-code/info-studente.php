@@ -20,6 +20,7 @@ for ($i=0; $i < $studenti->length; $i++) {
 	/*Se l'email derivante dal login coincide con uno studente presente nel file XML, carica tutti i dati relativi*/
 	if ($_SESSION['email'] == $studenti->item($i)->firstChild->nextSibling->nextSibling->textContent){
 		$studente = $studenti->item($i); //questo sarà uno degli studenti e sarà dotato di altri figli.
+	
 		$nome = $studente->firstChild; 
 		$nomeText = $nome->textContent;
 
@@ -97,6 +98,8 @@ for ($i=0; $i < $studenti->length; $i++) {
 
 		$coins = $reputation->nextSibling;
 		$coinsText = $coins->textContent;	
+
+		include("default-code/controllo-accesso-reputation.php");
 	}
 }
 ?>
