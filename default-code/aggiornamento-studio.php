@@ -25,10 +25,32 @@ if (isset($_GET['valoreStudiatoOggiForm']) && is_numeric($_GET['valoreStudiatoOg
 for ($k=0; $k < $materie->length; $k++) {
 	if ($statusText[$k] == 'planned') { //Si deve controllare in primis se è planned altrimenti errori
 		if (strcmp($dataStudiatoOggi[$k]->textContent, date("Y-m-d")) != 0){
+
+			//I valori che andremo ad inizializzare sono da riferisci alla data in cui è stato inserito il valore di studio
+			//Quindi andremo ad aggiornare correttamente se lo studente in quella data ha studiato tutto ciò che doveva studiare, o meno
+			$giorniDisponibili = giorniDisponibili ($dataStudiatoOggiText[$k], $dataScadenzaText[$k], $nGiorniRipassoText[$k]);
+			$valoreDaStudiarePrec = valoreDaStudiareOggi($giorniDisponibili, $valoreDaStudiareText[$k], $valoreStudiatoText[$k]);
+
+
+			//Se abbiamo studiato piu del dovuto
+			if ( $valoreStudiatoOggiText[$k] >= $valoreDaStudiarePrec) { 
+				$reputationDaModificare = 3;
+				$emailStudente = $_SESSION['email'];
+				include ('default-code/modificaReputation.php');
+			}
+			else if ($valoreStudiatoOggiText[$k] != 0) {
+				$reputationDaModificare = 1;
+				$emailStudente = $_SESSION['email'];
+				include ('default-code/modificaReputation.php');
+			}
+			
+
 			$valoreStudiato[$k]->nodeValue = $valoreStudiatoText[$k] + $valoreStudiatoOggiText[$k];
 			$valoreStudiatoOggi[$k]->nodeValue = 0;
 			$dataStudiatoOggi[$k] = $valoreStudiatoOggi[$k]->nextSibling;
 			$dataStudiatoOggi[$k]->nodeValue = date ("Y-m-d");
+
+
 
 			$path = dirname(__FILE__)."/../xml-schema/studenti.xml"; //Troviamo un percorso assoluto al file xml di riferimento
 			$doc->save($path); //Sovrascriviamolo

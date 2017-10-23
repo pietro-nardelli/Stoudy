@@ -30,10 +30,28 @@ foreach ($IDRiassuntoLista as $count => $id) {
     if (isset($IDGet) && !empty($IDRiassunto[$_GET['IDRiassunto']])) { 
         if (isset($_GET['elimina'])) {
             if ($IDGet == $IDRiassuntoText[$id]) {
+                $numeroPreferiti = $preferitiRiassunto[$id]->length; //Questo serve per togliere la reputation dall'utente
+
                 unlink ($linkDocumentoRiassuntoText[$id]);
                 $riassunto->parentNode->removeChild($riassunto);
                 $path3 = dirname(__FILE__)."/xml-schema/riassunti.xml"; 
                 $doc3->save($path3);
+
+                //Togliamo 1 alla e la quantità di preferiti dalla reputation dell'autore
+                $xmlString = "";
+                foreach (file("xml-schema/studenti.xml") as $node) { 
+                    $xmlString .= trim($node); 
+                }
+                $doc = new DOMDocument(); 
+                $doc->loadXML($xmlString); 
+                $root = $doc->documentElement; 
+                $studenti = $root->childNodes;
+
+                $reputationDaModificare = -1-$numeroPreferiti;
+                $emailStudente = $emailStudenteRiassuntoText[$IDGet];
+                include ('default-code/modificaReputation.php');
+                $path = dirname(__FILE__)."/xml-schema/studenti.xml"; 
+                $doc->save($path);
 
                 
                 for ($k=0; $k < $tags->length; $k++) {	
@@ -49,7 +67,7 @@ foreach ($IDRiassuntoLista as $count => $id) {
                         }
                     }
                 }	
-                header('Location: home-admin.php');
+                //header('Location: home-admin.php');
                 exit();
             }
         }

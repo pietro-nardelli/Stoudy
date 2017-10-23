@@ -87,6 +87,8 @@ if ($riassuntoProprio) {
             //Bisogna eliminarlo anche da tags.xml ma non da segnalazioni.xml (a quello ci pensa già la home-admin.php)
             if (isset($IDGet) && !empty($IDRiassunto[$_GET['IDRiassunto']])) { 
                 if ($IDGet == $IDRiassuntoText[$id]) {
+                    $numeroPreferiti = $preferitiRiassunto[$id]->length; //Questo serve per togliere la reputation dall'utente
+
                     //Eliminiamolo da riassunti.xml
                     unlink ($linkDocumentoRiassuntoText[$id]);
                     $riassunto->parentNode->removeChild($riassunto);
@@ -114,6 +116,13 @@ if ($riassuntoProprio) {
                         if ($IDGet == $riassuntoIDCreatoText[$k]) {
                             $riassuntoCreato = $studente->getElementsByTagName('riassuntoIDCreato')->item($k);
                             $riassuntoCreato->parentNode->removeChild($riassuntoCreato); //Serve perchè altrimenti da errore!
+
+                            //Aggiungiamo 1 alla reputation dell'autore
+                            $reputationDaModificare = -1-$numeroPreferiti;
+                            $emailStudente = $emailStudenteRiassuntoText[$IDGet];
+                            include ('default-code/modificaReputation.php');
+
+
                             $path = dirname(__FILE__)."/../xml-schema/studenti.xml"; //Troviamo un percorso assoluto al file xml di riferimento
                             $doc->save($path); //Sovrascriviamolo 
                         }
@@ -129,9 +138,15 @@ if ($riassuntoProprio) {
 }
 
 //Se abbiamo premuto il pulsante preferito
-if (isset($_GET['preferito'])) {
+if (isset($_GET['preferito']) && !$riassuntoProprio) {
     //Il pulsante rimanda 1 quando non è ancora tra i preferiti
     if ($_GET['preferito'] == 1 && !$preferito) { //Aggiungiamo il riassunto ai preferiti
+
+        //Aggiungiamo 1 alla reputation dell'autore
+        $reputationDaModificare = 1;
+        $emailStudente = $emailStudenteRiassuntoText[$IDGet];
+        include ('default-code/modificaReputation.php');
+
         $newRiassuntoIDPreferito = $doc->createElement("riassuntoIDPreferito", $IDGet);
         $riassuntiPreferitiElement->insertBefore($newRiassuntoIDPreferito);					
         $path = dirname(__FILE__)."/../xml-schema/studenti.xml"; 
@@ -146,8 +161,17 @@ if (isset($_GET['preferito'])) {
     }
     //Il pulsante rimanda 0 quando lo abbiamo tra i preferiti
     else if ($_GET['preferito'] == 0 && $preferito) { //Togliamo il riassunto dai preferiti
+        
+
+
         $riassuntoPreferito = $studente->getElementsByTagName('riassuntoIDPreferito')->item($indicePreferito);
         $riassuntoPreferito->parentNode->removeChild($riassuntoPreferito); //Serve perchè altrimenti da errore!
+
+        //Aggiungiamo 1 alla reputation dell'autore
+        $reputationDaModificare = -1;
+        $emailStudente = $emailStudenteRiassuntoText[$IDGet];
+        include ('default-code/modificaReputation.php');
+
         $path = dirname(__FILE__)."/../xml-schema/studenti.xml"; //Troviamo un percorso assoluto al file xml di riferimento
         $doc->save($path); //Sovrascriviamolo 
 

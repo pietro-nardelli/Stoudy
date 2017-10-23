@@ -156,6 +156,7 @@ include("default-code/info-studente.php");
 					$dateTime = DateTime::createFromFormat('Y-m-d', $_POST['dataScadenza']);
 					$errors = DateTime::getLastErrors();
 					$now = new DateTime();
+					$oggi = date(); //Questo serve per la funzione giorniDisponibili()
 
 					if (empty($errors['warning_count'])) {
 						$_SESSION['dataScadenza'] = $_POST['dataScadenza'];
@@ -201,7 +202,7 @@ include("default-code/info-studente.php");
 					$dataScadenza = $dateTime->format('Y-m-d'); //Trasformiamo dataScadenza nel formato corretto per la funzione
 
 					//Se non ci sono abbastanza giorni disponibili, compresi i giorni di ripasso...
-					if (giorniDisponibili($dataScadenza, $_POST['nGiorniRipasso']) <= 0) {
+					if (giorniDisponibili($oggi,$dataScadenza, $_POST['nGiorniRipasso']) <= 0) {
 						unset($_SESSION['valoreDaStudiare']);
 						unset($_SESSION['dataScadenza']);
 						unset($_SESSION['nGiorniRipasso']);

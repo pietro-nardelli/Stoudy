@@ -44,15 +44,17 @@ if (isset($IDGet) && !empty($IDRiassunto[$_GET['IDRiassunto']])) {
 		//Se la variabile preferiti è empty || se è = a 0 allora visualizza questo.
 		//Altrimenti visualizza la stellina che diventa da gialla scura a chiara e la scritta toglilo dai preferiti
 		//In entrambi i casi bisogna procedere all'eliminazione o all'aggiunta tramite DOM
-		if (!$preferito) { 
-			?>
-			<a id="aggiungiAiPreferiti" href="visualizza-riassunto.php?<?php echo "IDRiassunto=".urlencode($IDGet)."&preferito=".urlencode(1).""; ?>">Aggiungilo ai preferiti</a>
-			<?php
-		}
-		else {
-			?>
-			<a id="togliloDaiPreferiti" href="visualizza-riassunto.php?<?php echo "IDRiassunto=".urlencode($IDGet)."&preferito=".urlencode(0).""; ?>">Toglilo dai preferiti</a>
-			<?php
+		if (!$riassuntoProprio) {
+			if (!$preferito) { 
+				?>
+				<a id="aggiungiAiPreferiti" href="visualizza-riassunto.php?<?php echo "IDRiassunto=".urlencode($IDGet)."&preferito=".urlencode(1).""; ?>">Aggiungilo ai preferiti</a>
+				<?php
+			}
+			else {
+				?>
+				<a id="togliloDaiPreferiti" href="visualizza-riassunto.php?<?php echo "IDRiassunto=".urlencode($IDGet)."&preferito=".urlencode(0).""; ?>">Toglilo dai preferiti</a>
+				<?php
+			}
 		}
 		if (!$riassuntoProprio) {
 			?>
