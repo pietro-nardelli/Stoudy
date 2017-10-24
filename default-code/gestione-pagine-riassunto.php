@@ -1,4 +1,5 @@
 <?php
+include 'functions/minutiOreGiorni.php';
 //Per stampare i riassunti dal più recente al più vecchio...
 $valueIDArray = array_reverse($valueIDArray);
 
@@ -22,7 +23,21 @@ for ($key = $first; $key < $last ; $key++) {
     $valueID = $valueIDArray[$key];
     echo "<a id ='titoloRiassuntoTrovato' href='visualizza-riassunto.php?IDRiassunto=".urlencode($valueID)."' >".$titoloRiassuntoText[$valueID]."</a>";
     echo "<span id ='visualizzazioniPreferitiRiassuntoTrovato'>".$visualizzazioniRiassuntoText[$valueID]." <img src='images/iconViews.png' /> ".$preferitiRiassunto[$valueID]->length." <img src='images/iconFavorites.png' /></span>";
-    echo "<br /><span id='emailRiassuntoTrovato'><i> Creato da ".$emailStudenteRiassuntoText[$valueID]." il ".$dataRiassuntoText[$valueID]." alle ore ".$orarioRiassuntoText[$valueID]."</i></span>";
+    for ($i=0; $i < $studenti->length; $i++) {
+        if ($emailStudenteRiassuntoText[$valueID] == $studenti->item($i)->firstChild->nextSibling->nextSibling->textContent){
+            $studenteAutore = $studenti->item($i);
+            
+            $nome = $studenteAutore->firstChild; 
+            $nomeStudenteRiassuntoText = $nome->textContent;
+
+            $cognome = $nome->nextSibling;
+            $cognomeStudenteRiassuntoText = $cognome->textContent;
+
+        }
+    }
+    
+    $minutiOreGiorni = minutiOreGiorni ($dataRiassuntoText[$valueID]." ".$orarioRiassuntoText[$valueID]);
+    echo "<br /><span id='tempoNomeCognomeRiassuntoTrovato'> Creato ".$minutiOreGiorni." da ".$nomeStudenteRiassuntoText." ".$cognomeStudenteRiassuntoText."</span>";
     foreach ($tagsRiassunto[$valueID] as $j => $value) {
         $nomeTagRiassunto = $tagsRiassunto[$valueID]->item($j);
         $nomeTagRiassuntoText[$j] = $nomeTagRiassunto->textContent;

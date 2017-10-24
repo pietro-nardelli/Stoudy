@@ -10,17 +10,32 @@ function upload() {
         $finfo = finfo_open(FILEINFO_MIME_TYPE); //Crea un fileinfo resource con il mime-type
         $mime = finfo_file($finfo, $_FILES['fileToUpload']['tmp_name']); //finfo_file ritorna l'informazione (in questo caso mime-type) del file che si vuole caricare
         if($mime != 'application/pdf') {
+            ?>
+            <p style="color: red;">E' possibile caricare solamente file in formato pdf.</p>
+            <?php
             return 0;
         }
+    }
+    else {
+        ?>
+        <p style="color: red;">Nessun file caricato.</p>
+        <?php
+        return 0;
     }
 
     // Controlliamo che il file abbia anche estensione.pdf (e non solo mime-type)
     if($fileType != "pdf" ) {
+        ?>
+        <p style="color: red;">E' possibile caricare solamente file in formato pdf.</p>
+        <?php
         return 0;
     }
 
     // Check file size (non più grande di 5MB)
     if ($_FILES["fileToUpload"]["size"] > 5000000) {
+        ?>
+        <p style="color: red;">Il file è troppo grande, non può superare i 5MB.</p>
+        <?php
         return 0;
     }
 
@@ -28,6 +43,9 @@ function upload() {
     $target_file = $target_dir . $time .".pdf"; //Rinominiamolo, quindi
     // Ma se esiste già... restituisci errore
     if (file_exists($target_file)) {
+        ?>
+        <p style="color: red;">Errore nel caricamento del pdf. Per favore riprovare.</p>
+        <?php
         return 0;
     }
 
@@ -36,6 +54,9 @@ function upload() {
         return $target_file; //Se tutto ok con il caricamento, allora restituisci il link al PDF
     }
     else { //Se ci sono problemi con il caricamento...
+        ?>
+        <p style="color: red;">Errore nel caricamento del pdf. Per favore riprovare.</p>
+        <?php
         return 0;
     }
 

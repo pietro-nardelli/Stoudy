@@ -64,7 +64,17 @@ for ($k=0; $k < $tags->length; $k++) {
 		<?php
 		}
 		else {
-			echo "Tag non trovato..";
+			?>
+			<div id='message'>
+				<img src="images/iconMessage.png">
+				<div>
+					<strong>Tag non trovato.</strong>
+					<br />
+					Ti stiamo reindirizzando...
+				</div>
+			</div>
+			<?php
+			header("refresh:3; url=home-studente.php");
 		}
 
 		?>

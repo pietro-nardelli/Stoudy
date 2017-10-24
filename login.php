@@ -30,9 +30,12 @@
 	//Se non si connette al server, usciamo subito
 	if (mysqli_connect_errno()) { 
 		?>
-		<h1>Impossibile collegarsi al server!
-			<div style="font-size: 75%; font-weight: normal;">Per favore riprovare più tardi.</div>
-		</h1>
+		<div id='message'>
+			<img src="images/iconMessage.png">
+			<div>
+				<strong>Impossibile connettersi al server. Per favore riprovare più tardi.</strong>
+			</div>
+		</div>
 		<?php
 		exit();
 	}
@@ -40,10 +43,13 @@
 	//Se non viene selezionato alcun database, allora forniamo un errore. 
 	if (!mysqli_select_db ($connection, $db_name)) { 
 		?>
-		<h1>Problemi nel selezionare il database!
-			<div style="font-size: 75%; font-weight: normal;">Per favore riprovare più tardi.</div>
-		</h1>
-		<?php
+		<div id='message'>
+		<img src="images/iconMessage.png">
+		<div>
+			<strong>Problemi nel selezionare il database. Per favore riprovare più tardi.</strong>
+		</div>
+	</div>
+	<?php
 		exit();
 	}
 	?>

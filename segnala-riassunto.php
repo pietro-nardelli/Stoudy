@@ -56,11 +56,31 @@ if (!empty($_GET['IDRiassunto'])) {
        $indexAdmin = rand(0, $i-1); //Scegliamo un admin a caso tra quelli presenti nella tabella admins.sql
     }
     else { //Altrimenti abbiamo sbagliato qualcosa nel login
-            echo "Problemi nel segnalare il riassunto";
-        }
-    }	
+        ?>
+        <div id='message'>
+            <img src="images/iconMessage.png">
+            <div>
+                <strong>Problemi nel segnalare il riassunto.</strong>
+                <br />
+                Ti stiamo reindirizzando...
+            </div>
+        </div>
+        <?php
+        header("refresh:3; url=visualizza-riassunto.php?IDRiassunto=".$_GET['IDRiassunto']."");
+    }
+}	
 else {	//Se alcuni campi non sono stati compilati...
-    echo "Impossibile segnalare riassunto";
+    ?>
+    <div id='message'>
+        <img src="images/iconMessage.png">
+        <div>
+            <strong>Impossibile segnalare il riassunto!</strong>
+            <br />
+            Ti stiamo reindirizzando...
+        </div>
+    </div>
+    <?php
+    header("refresh:3; url=visualizza-riassunto.php?IDRiassunto=".$_GET['IDRiassunto']."");
 } 
 
 include("default-code/caricamento-segnalazioni-xml.php");
@@ -72,7 +92,16 @@ for ($i=0; $i < $segnalazioni->length; $i++) {
             $trovato = true; 
             //Controlliamo se lo studente non abbia già fatto una segnalazione per quel riassunto, in tal caso errore.
             if (!strcasecmp ($emailStudenteLista[$riassuntoIDText[$i]]->item($key)->textContent, $_SESSION['email'])) {
-                echo "E' stata già emessa una segnalazione per quel riassunto";
+                ?>
+                <div id='message'>
+                    <img src="images/iconMessage.png">
+                    <div>
+                        <strong>Hai già segnalato questo riassunto.<br /> Un admin se ne sta già occupando.</strong>
+                        <br />
+                        Ti stiamo reindirizzando...
+                    </div>
+                </div>
+                <?php
                 header("refresh:3; url=visualizza-riassunto.php?IDRiassunto=".$_GET['IDRiassunto']."");
                 exit();
             }
@@ -105,7 +134,16 @@ $root4->appendChild($newSegnalazione);
 $path4 = dirname(__FILE__)."/xml-schema/segnalazioni.xml"; //Troviamo un percorso assoluto al file xml di riferimento
 $doc4->save($path4); //Sovrascriviamolo
 
-echo "E' stata emessa una segnalazione per quel riassunto";
+?>
+<div id='message'>
+    <img src="images/iconMessage.png">
+    <div>
+        <strong>Grazie per aver segnalato il riassunto.<br /> Un admin se ne occuperà nel più breve tempo possibile.</strong>
+        <br />
+        Ti stiamo reindirizzando...
+    </div>
+</div>
+<?php
 header("refresh:3; url=visualizza-riassunto.php?IDRiassunto=".$_GET['IDRiassunto']."");
 exit();
 ?>

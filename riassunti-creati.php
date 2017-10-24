@@ -71,7 +71,16 @@ include("default-code/caricamento-tags-xml.php");
     <?php
     }
     else {
-        echo "Non hai ancora creato alcun riassunto...";
+        ?>
+		<div id='message'>
+			<img src="images/iconMoleskine.png">
+			<div>
+                <strong>Non hai ancora creato alcun riassunto.</strong>
+                <br />
+				Puoi crearne uno premendo l'apposito pulsante nel riquadro della materia da te creata.
+			</div>
+		</div>
+		<?php
     }
     ?>
 </div>

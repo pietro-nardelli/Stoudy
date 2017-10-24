@@ -14,18 +14,34 @@
 <body>
 
 <?php 
+error_reporting(0);
 include 'functions/upload.php';
 include("default-code/info-studente.php");
 ?>
 
 <div id="main">
 <?php
+	//E' l'unico modo per bloccare l'errore rispetto alla grandezza del file caricato!
+	if ($_SERVER['REQUEST_METHOD'] == 'POST' && count($_POST) < 1 ) {
+		$_SESSION['error'] = true;
+		header('Location: '.$_SERVER["PHP_SELF"].'?nomeMateria='.$_GET['nomeMateria'].'');
+		exit();
+	}
 	if (isset($_GET['nomeMateria'])) { ?>
 		<div id="aggiungiRiassunto">
 			<div id="nomeMateria">
 				Aggiungi un riassunto di <b><?= $_GET['nomeMateria'] ?></b>
 			</div>
 			<?php
+			//Gestione errore file per superamento del limite derivante dal file php.ini
+			if (isset($_SESSION['error'])) {
+				?>
+				<p style="color: red;">Il file è troppo grande, non può superare i 5MB.</p>
+				<?php
+				unset($_SESSION['error']);
+				$errore = 1;
+			}
+
 			if (isset($_POST['submit'])) {
 				$erroreTags = 0; //Se rimane 0 tutto ok
 				$errore = 0;
@@ -85,12 +101,7 @@ include("default-code/info-studente.php");
 				//Se è stato compilato correttamente il form...
 				if ($errore == 0) {	
 					$linkDocumento = upload (); //Proviamo a caricare il pdf
-					if (is_numeric($linkDocumento)) { //Se produce un numero (zero) allora c'è errore, altrimenti restituirebbe il link al PDF caricato
-						?>
-						<p style="color: red;">Errore nel caricamento del PDF!</p>
-						<?php
-					}
-					else { //Se $errore = 0 e il documento è stato caricato correttamente...allora assegna i cookie corrispondenti
+					if (!is_numeric($linkDocumento)) { //Se produce un numero (zero) allora c'è errore, altrimenti restituirebbe il link al PDF caricato
 						$_SESSION['nowDate'] = date("Y-m-d"); //Data odierna
 						$_SESSION['nowTime'] = date("H:i:s"); //Ora odierna
 						$_SESSION['titoloRiassunto'] = $_POST['titoloRiassuntoForm'];
@@ -124,7 +135,7 @@ include("default-code/info-studente.php");
 					}
 					?>
 					<?php
-					if (strcasecmp($_SESSION['condivisioneRiassunto'], "privato") ==0 ) {
+					if (strcasecmp($_SESSION['condivisioneRiassunto'], "privato") == 0 ) {
 						?>
 						<input type="radio" name="condivisioneRiassuntoForm" value="pubblico"> Pubblico
 						<input type="radio" name="condivisioneRiassuntoForm" value="privato" checked> Privato <br />
@@ -146,7 +157,7 @@ include("default-code/info-studente.php");
 					<input type="file" name="fileToUpload" />
 					</label>
 					<br /><br />
-					<input type="text" name="tagsRiassuntoForm" placeholder =" Inserisci tag (max 5) divisi da virgole" <?php if (isset($_POST['tagsRiassuntoForm'])){ echo 'value="'.$_POST['tagsRiassuntoForm'].'"'; } ?> /><br /><br />
+					<input type="text" name="tagsRiassuntoForm" placeholder =" Inserisci massimo 5 tag divisi da uno spazio. Se il tag è composto da più parole, dividile con un trattino ' - ' "<?php if (isset($_POST['tagsRiassuntoForm'])){ echo 'value="'.$_POST['tagsRiassuntoForm'].'"'; } ?> /><br /><br />
 					<input type="radio" name="condivisioneRiassuntoForm" value="pubblico" <?php if (isset($_POST['condivisioneRiassuntoForm']) && $_POST['condivisioneRiassuntoForm'] == 'pubblico'){ echo 'checked'; } ?> > Pubblico
 					<input type="radio" name="condivisioneRiassuntoForm" value="privato" <?php if (isset($_POST['condivisioneRiassuntoForm']) && $_POST['condivisioneRiassuntoForm'] == 'privato'){ echo 'checked'; } ?> > Privato <br />
 					<input type="submit" name="submit" value="Visualizza anteprima" />
@@ -158,7 +169,17 @@ include("default-code/info-studente.php");
 	<?php
 	} //Tutto questo è visualizzato solo se c'è nomeMateria nel GET
 	else {
-		echo "Impossibile aggiungere riassunto senza una materia!";
+		?>
+		<div id='message'>
+			<img src="images/iconMessage.png">
+			<div>
+				<strong>Impossibile aggiungere riassunto senza una materia!</strong>
+				<br />
+				Ti stiamo reindirizzando...
+			</div>
+		</div>
+		<?php
+		header("refresh:3; url=home-studente.php");
 	}
 	?>
 </div>

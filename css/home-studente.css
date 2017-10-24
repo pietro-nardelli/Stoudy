@@ -43,6 +43,7 @@ body {
 	padding: 10px;  
 	width: 89%;
 }
+
 /*L'height si basa sul contenuto, non dobbiamo dargliela noi*/
 /*Div principale*/
 #main {
@@ -513,3 +514,29 @@ body {
 #aggiungiMateria input[value="Indietro"]:focus {
 	background-color: rgb(183, 76, 48);
 	}
+
+/* DA QUI MESSAGGIO DI RISPOSTA IN CASO DI ERRORE O DI ATTESA */
+#message {
+	position: relative;
+	width: 600px;
+	font-size: 1.4em;
+	left: -300px;
+	margin-left: 50%;
+	margin-top: 150px;	
+}
+
+#message img {
+	display: inline-block;
+	position: relative;
+	width: 200px;
+	margin-left: 50%;
+	left: -100px;
+}
+
+#message div {
+	display: inline-block;
+	position: relative;
+	width: 600px;
+	white-space: normal;
+	text-align: center;
+}

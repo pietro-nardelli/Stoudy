@@ -70,7 +70,16 @@ include("default-code/caricamento-tags-xml.php");
         <?php
     }
     else {
-        echo "Non hai ancora messo un riassunto tra i preferiti...";
+        ?>
+		<div id='message'>
+			<img src="images/iconMoleskine.png">
+			<div>
+                <strong>La lista di riassunti preferiti è vuota.</strong>
+                <br/>
+				Puoi popolarla premendo l'apposito pulsante nella visualizzazione di un riassunto di un altro studente.
+			</div>
+		</div>
+		<?php
     }
     ?>
 

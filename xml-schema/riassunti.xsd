@@ -22,8 +22,17 @@
 		</xsd:simpleType>
 	</xsd:attribute>
 
+	<xsd:attribute name="lastID">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:pattern value="[0-9][0-9][0-9][0-9][0-9][0-9]"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:attribute>
+
+
 	<!-- definition of complex elements -->
-		<xsd:element name="ID">
+	<xsd:element name="ID">
 		<xsd:simpleType>
 			<xsd:restriction base="xsd:string">
 				<xsd:pattern value="[0-9][0-9][0-9][0-9][0-9][0-9]"/>
@@ -70,6 +79,7 @@
 			<xsd:sequence>
 				<xsd:element ref="riassunto"  minOccurs="0" maxOccurs="unbounded" />
 			</xsd:sequence>
+			<xsd:attribute ref="lastID" />
 		</xsd:complexType>
 	</xsd:element>
 </xsd:schema>

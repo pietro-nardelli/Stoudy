@@ -30,14 +30,16 @@ include("default-code/caricamento-tags-xml.php");
 					<b><?=$_SESSION['titoloRiassunto']?></b>
 				</div>
 				<div>
-					<br />
 					<?php
-					echo nl2br($_SESSION['descrizioneRiassunto'])?>
-					<br />
-					<br />
-					<embed src="<?=$_SESSION['linkDocumentoRiassunto']; ?>" width="100%" height="500" type='application/pdf'>
+					if (!empty ($_SESSION['descrizioneRiassunto'])) {
+						echo "<div style='margin-left: 5px;'>".nl2br($_SESSION['descrizioneRiassunto'])."</div>";
+						?> 
+						<br /><br />
+						<?php
+					}
+					?>
+					<embed src="<?=$_SESSION['linkDocumentoRiassunto']; ?>" width="100%" height="1132px" type='application/pdf'>
 					<br /><br />
-					<hr style='width: 95%;'/>
 					<table id="tabellaTagEstratti">
 						<tr><th colspan="2">Controllo tag</th></tr>
 						<?php
@@ -207,7 +209,17 @@ include("default-code/caricamento-tags-xml.php");
 		}
 	}
 	else { //Se non c'è il get con nomeMateria...
-		echo "Impossibile aggiungere riassunto senza una materia!";
+		?>
+		<div id='message'>
+			<img src="images/iconMessage.png">
+			<div>
+				<strong>Impossibile aggiungere riassunto senza una materia!</strong>
+				<br />
+				Ti stiamo reindirizzando...
+			</div>
+		</div>
+		<?php
+		header("refresh:3; url=home-studente.php");
 	}
 ?>
 </div>

@@ -106,7 +106,14 @@ for ($i=0; $i < $revisioni->length; $i++) {
 		<?php
 	}
 	else {
-		echo "Nessun riassunto trovato con il tag inserito..";
+		?>
+		<div id='message'>
+			<img src="images/iconMessage.png">
+			<div>
+				<strong>Nessun riassunto trovato con il tag inserito.</strong>
+			</div>
+		</div>
+		<?php
 	}
 
 	?>

@@ -91,7 +91,14 @@ $path5 = dirname(__FILE__)."/xml-schema/revisioni.xml"; //Troviamo un percorso a
 $doc5->save($path5); //Sovrascriviamolo
 
 ?>
-E' stata emessa una revisione per quell'estratto del tag
+<div id='message'>
+    <img src="images/iconMessage.png">
+    <div>
+        <strong>E' stata emessa una revisione per quell'estratto.</strong>
+        <br />
+        Ti stiamo reindirizzando...
+    </div>
+</div>
 <?php
 header("refresh:3; url=cerca-riassunti.php?tagRicercato=".$_SESSION['tagRicercato']."");
 unset($_SESSION['tagRicercato']);

@@ -103,7 +103,7 @@ if (isset($IDGet) && !empty($IDRiassunto[$_GET['IDRiassunto']])) {
         </div>
         <?php
         $numeroPreferiti = $preferitiRiassunto[$IDGet] ->length; //Va messa perchè non abbiamo caricato di default il file riassunti.xml
-        include("default-code/core-visualizza-riassunto.php")
+        include("default-code/core-visualizza-riassunto-admin.php")
         ?>
         <div id="opzioniRiassunto">
             <a id="tuttoOk" href="visualizza-riassunto-admin.php?<?php echo "IDRiassunto=".urlencode($IDGet)."&tuttoOk=".urlencode(1).""; ?>">Tutto ok</a>
@@ -112,8 +112,19 @@ if (isset($IDGet) && !empty($IDRiassunto[$_GET['IDRiassunto']])) {
     </div>
     <?php } 
     else {
-        echo "Impossibile visualizzare un riassunto se non viene fornito un ID valido";
-    }?>
+        ?>
+        <div id='message'>
+            <img src="images/iconMessage.png">
+            <div>
+                <strong>Impossibile visualizzare un riassunto se non viene fornito un ID valido.</strong>
+                <br />
+                Ti stiamo reindirizzando...
+            </div>
+        </div>
+        <?php
+        header("refresh:3; url=home-admin.php");
+    }
+    ?>
 </div>
 </body>
 </html>

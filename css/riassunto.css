@@ -258,7 +258,7 @@ label:focus {
 
 input[name="tagsRiassuntoForm"] {
 	position: relative;
-	width: 250px;
+	width: 100%;
 	font-family: rawengulk, Helvetica, Arial;
 	font-size: 0.9em;
 	line-height: 1.5em;
@@ -312,10 +312,10 @@ input[name="tagsRiassuntoForm"] {
 	border-radius: 5px;
 	box-shadow:  5px 5px 25px 5px rgb(182, 182, 182);
 }	
-
-#lista { /*Sarebbe l'hr utilizzato per fare la lista*/
-	float: left;
-	width: 1%;
+#informazioniRiassunto {
+	width: 99%;
+	text-align: left;
+	margin-left: 1%;
 }
 
 #opzioniRiassunto a{
@@ -330,7 +330,7 @@ input[name="tagsRiassuntoForm"] {
 	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
 	text-decoration: none; /*link senza sottolineatura*/
 	border: 1px solid black;
-	left: 1px;
+	left: 1%;
 	
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
@@ -515,20 +515,28 @@ input[name="annullaEstrattoAdmin"]:focus {
 }
 #riassuntoTrovato [src='images/iconViews.png'] {
 	position: relative;
-	width: 25px;
-	top: 2px;
+	width: 30px;
+	top: 10px;
 }
 
 #riassuntoTrovato [src='images/iconFavorites.png'] {
 	position: relative;
-	width: 25px;
-	top: 4px;
+	width: 30px;
+	top: 10px;
 }
 
 #emailRiassuntoTrovato {
 	display: inline-block;
 	width: 100%;
 	margin-top: 5px;
+	font-size: 0.95em;	
+}
+
+#tempoNomeCognomeRiassuntoTrovato {
+	display: inline-block;
+	width: 100%;
+	margin-top: 5px;
+	font-size: 0.95em;
 }
 
 #tagRiassuntoTrovato {
@@ -695,6 +703,15 @@ input[name="annullaEstrattoAdmin"]:focus {
 	transition: all 0.3s ease-in-out;
 }
 
+
+#tagAnteprima:hover,
+#tagAnteprima:focus { 
+	background-color: rgba(28,38,47, 1);
+	box-shadow:  2px 2px 10px 2px rgb(182, 182, 182);
+}
+
+
+
 #tagRiassuntoTrovato:hover,
 #tagRiassuntoTrovato:focus { 
 	background-color: rgba(28,38,47, 1);
@@ -704,9 +721,9 @@ input[name="annullaEstrattoAdmin"]:focus {
 #tabellaTagEstratti {
 	position: relative;
 	margin-top: 10px;
-	left: -45%;
+	left: -49%;
 	margin-left: 50%;
-	width: 90%;
+	width: 98%;
 	border-collapse: collapse;
 }
 
@@ -719,12 +736,6 @@ input[name="annullaEstrattoAdmin"]:focus {
 }
 
 #tabellaTagEstratti tr td + td { /*selezioniamo il fratello di tr td*/
-	text-align: left;
-	width: 100%;
-}
-
-
-#tabellaTagEstratti tr td + td +td { /*selezioniamo il fratello di tr td*/
 	text-align: left;
 	width: 100%;
 }
@@ -801,3 +812,30 @@ tr:nth-child(odd){background-color: #f2f2f2}
 #confermaRiassunto:focus {
 	background-color: rgba(41,151,293, 0.80);
 	}
+
+
+/* DA QUI MESSAGGIO DI RISPOSTA IN CASO DI ERRORE O DI ATTESA */
+#message {
+	position: relative;
+	width: 600px;
+	font-size: 1.4em;
+	left: -300px;
+	margin-left: 50%;
+	margin-top: 150px;	
+}
+
+#message img {
+	display: inline-block;
+	position: relative;
+	width: 200px;
+	margin-left: 50%;
+	left: -100px;
+}
+
+#message div {
+	display: inline-block;
+	position: relative;
+	width: 600px;
+	white-space: normal;
+	text-align: center;
+}

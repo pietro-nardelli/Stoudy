@@ -29,7 +29,7 @@ include("default-code/caricamento-tags-xml.php");
 //Se id è valido e se abbiamo usato il "motore" di ricerca...
 if (isset($IDGet) && !empty($IDRiassunto[$_GET['IDRiassunto']])) { 
 	$numeroPreferiti = $preferitiRiassunto[$IDGet] ->length;
-	include("default-code/gestione-eventi-riassunto.php")
+	include("default-code/gestione-eventi-riassunto.php");
 	//Da qui in poi visualizziamo il riassunto
 	?>
 	<div id="visualizzaRiassunto">
@@ -37,7 +37,7 @@ if (isset($IDGet) && !empty($IDRiassunto[$_GET['IDRiassunto']])) {
 			<b><?= $titoloRiassuntoText[$IDGet] ?></b>
 		</div>
 		<?php
-		include("default-code/core-visualizza-riassunto.php")
+		include("default-code/core-visualizza-riassunto.php");
 		?>
 		<div id="opzioniRiassunto">
 		<?php
@@ -70,9 +70,17 @@ if (isset($IDGet) && !empty($IDRiassunto[$_GET['IDRiassunto']])) {
 	</div>
 	<?php } 
 	else {
-		?>
-		Impossibile visualizzare un riassunto se non viene fornito un ID valido
-		<?php
+        ?>
+        <div id='message'>
+            <img src="images/iconMessage.png">
+            <div>
+                <strong>Impossibile visualizzare un riassunto se non viene fornito un ID valido.</strong>
+                <br />
+                Ti stiamo reindirizzando...
+            </div>
+        </div>
+        <?php
+        header("refresh:3; url=home-studente.php");
 	}
 	?>
 </div>

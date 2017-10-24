@@ -266,3 +266,31 @@ h1 {
 	margin-left: 50%;
 	top: 250px;
 }
+
+
+
+/* DA QUI MESSAGGIO DI RISPOSTA IN CASO DI ERRORE O DI ATTESA */
+#message {
+	position: relative;
+	width: 600px;
+	font-size: 1.4em;
+	left: -300px;
+	margin-left: 50%;
+	margin-top: 150px;	
+}
+
+#message img {
+	display: inline-block;
+	position: relative;
+	width: 200px;
+	margin-left: 50%;
+	left: -100px;
+}
+
+#message div {
+	display: inline-block;
+	position: relative;
+	width: 600px;
+	white-space: normal;
+	text-align: center;
+}

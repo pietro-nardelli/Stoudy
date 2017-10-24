@@ -71,7 +71,16 @@ include("default-code/caricamento-tags-xml.php");
         <?php
     }
     else {
-        echo "Non hai visualizzato alcun riassunto...";
+        ?>
+		<div id='message'>
+			<img src="images/iconMoleskine.png">
+			<div>
+                <strong>La lista di riassunti visualizzati è vuota.</strong>
+                <br/>
+				Puoi popolarla premendo premendo su uno dei riassunti trovati mediante l'apposita barra di ricerca.
+			</div>
+		</div>
+		<?php
     }
     ?>
 

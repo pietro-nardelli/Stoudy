@@ -29,9 +29,12 @@
 	//Se non si connette al server, usciamo subito
 	if (mysqli_connect_errno()) { 
 		?>
-		<h1>Impossibile collegarsi al server!
-			<div style="font-size: 75%; font-weight: normal;">Per favore riprovare più tardi.</div>
-		</h1>
+		<div id='message'>
+			<img src="images/iconMessage.png">
+			<div>
+				<strong>Impossibile connettersi al server. Per favore riprovare più tardi.</strong>
+			</div>
+		</div>
 		<?php
 		exit();
 		}
@@ -39,9 +42,12 @@
 	//Se non viene selezionato alcun database, allora forniamo un errore. 
 	if (!mysqli_select_db ($connection, $db_name)) { 
 		?>
-		<h1>Problemi nel selezionare il database!
-			<div style="font-size: 75%; font-weight: normal;">Per favore riprovare più tardi.</div>
-		</h1>
+		<div id='message'>
+			<img src="images/iconMessage.png">
+			<div>
+				<strong>Impossibile connettersi al server. Per favore riprovare più tardi.</strong>
+			</div>
+		</div>
 		<?php
 		exit();
 	}
@@ -80,7 +86,14 @@
 					$sql = "INSERT INTO studenti (email, password) VALUES ('".$email."', '".$password."');";
 					$queryResult = mysqli_query($connection, $sql);
 					if (!$queryResult) {
-						echo '<p style="color: red;">Prolemi nella registrazione. Riprovare più tardi!</p>';
+						?>
+						<div id='message'>
+							<img src="images/iconMessage.png">
+							<div>
+								<strong>Problemi nella registrazione. Per favore riprovare più tardi.</strong>
+							</div>
+						</div>
+						<?php
 					}
 					else { //Possiamo aggiungere lo studente nel file xml di riferimento
 					

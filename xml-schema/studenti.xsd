@@ -34,6 +34,12 @@
 		</xsd:simpleType>
 	</xsd:attribute>
 
+	<xsd:attribute name="dataUltimoAccesso">
+		<xsd:simpleType>
+			<xsd:restriction base="date" /> 
+		</xsd:simpleType>
+	</xsd:attribute>
+
 	<!-- definition of complex elements -->
 	<xsd:element name="materie">
 		<xsd:complexType>
@@ -117,6 +123,7 @@
 				<xsd:element ref="reputation" />
 				<xsd:element ref="coins" />
 			</xsd:sequence>
+			<xsd:attribute ref="status" />
 		</xsd:complexType>
 	</xsd:element>
 

@@ -21,15 +21,21 @@ include('default-code/info-studente.php');
 		$materia = $materie->item($k);
 		if (strcasecmp($_GET['nomeMateria'] , $nomeMateriaText[$k]) == 0) {
 			$trovato = true;
-			echo "Hai deciso di eliminare ".$materia->firstChild->textContent.". I tuoi riassunti non verranno eliminati.<br />";
-			echo "Redirect tra 5 secondi..."
-			?>
-			<?php
 			$materia = $studente->getElementsByTagName('materia')->item($k);
 			$materia->parentNode->removeChild($materia); //Serve perchè altrimenti da errore!
 			$path = dirname(__FILE__)."/xml-schema/studenti.xml"; //Troviamo un percorso assoluto al file xml di riferimento
 			$doc->save($path); //Sovrascriviamolo 
-			header('refresh:5; url=home-studente.php');
+			?>
+			<div id='message'>
+				<img src="images/iconMessage.png">
+				<div>
+					<strong>Hai deciso di eliminare <?= $materia->firstChild->textContent ?>. I tuoi riassunti non verrano eliminati.</strong>
+					<br />
+					Ti stiamo reindirizzando...
+				</div>
+			</div>
+			<?php
+			header("refresh:3; url=home-studente.php");
 		}
 	}
 	if (!$trovato) {

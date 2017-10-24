@@ -25,6 +25,7 @@ for ($key = $first; $key < $last ; $key++) {
         $nomeTagRiassuntoText[$j] = $nomeTagRiassunto->textContent;
         echo "<a id='tagRiassuntoTrovato' href='#'>".$nomeTagRiassuntoText[$j]."</a>";
     }
+    echo "<br/>";
     echo  "(".$emailStudenteLista[$valueID]->length." segnalazioni)<br/>";
     echo "<hr />";
 }

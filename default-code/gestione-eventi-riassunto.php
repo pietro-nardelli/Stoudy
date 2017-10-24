@@ -3,14 +3,23 @@
 if (strcasecmp($_SESSION['email'], $emailStudenteRiassuntoText[$IDGet]) == 0) {
     $riassuntoProprio = true;
 }
+
 //Se non è nostro ed è privato
 if (!$riassuntoProprio && (strcasecmp($condivisioneRiassuntoText[$IDGet], "privato") == 0) ) {
     ?>
-    Questo riassunto è privato e non può essere visualizzato
+    <div id='message'>
+        <img src="images/iconMessage.png">
+        <div>
+            <strong>Questo riassunto è privato e non può essere visualizzato.</strong>
+            <br />
+            Ti stiamo reindirizzando...
+        </div>
+    </div>
     <?php
-    //REDIRECT DA FARE QUI
+    header("refresh:3; url=home-studente.php");
     exit();
 }
+
 $nowTime = date("H:i:s"); //Ora odierna
 $nowDate = date("Y-m-d"); //Data odierna
 $nowTimeTotal = strtotime($nowTime." ".$nowDate); //Va fatto per ottenere la differenza di orari
@@ -46,9 +55,14 @@ if (!$riassuntoProprio) {
             //Se il riassunto è stato inserito da più di 24 ore, non si hanno coin e non lo abbiamo già visualizzato nè è nostro...
             if ($diffHours > 24) {
                 ?>
-                Questo riassunto non può essere visualizzato. Non hai abbastanza coin
+                <div id='message'>
+                    <img src="images/iconMessage.png">
+                    <div>
+                        <strong>Questo riassunto non può essere visualizzato, non hai abbastanza coin.</strong>
+                    </div>
+                </div>
                 <?php
-                exit();
+            exit();
             }
             else { //Se il riassunto è stato inserito entro 24 ore: visualizziamolo e aggiungiamolo ai riassunti visti
                 $newRiassuntoIDVisualizzato = $doc->createElement("riassuntoIDVisualizzato", $IDGet);
@@ -63,13 +77,15 @@ if (!$riassuntoProprio) {
             }
         }
         else { //Se si hanno abbastanza coin per visualizzarlo, visualizziamolo e aggiungiamolo ai riassunti visti.
-            //In seguito dovremo togliere un coin dall'account
+            $coins->nodeValue = $coins->textContent -1; //Togliamo un coin
+
             $newRiassuntoIDVisualizzato = $doc->createElement("riassuntoIDVisualizzato", $IDGet);
             $riassuntiVisualizzatiElement->insertBefore($newRiassuntoIDVisualizzato);		
             $path = dirname(__FILE__)."/../xml-schema/studenti.xml"; 
             $doc->save($path);
 
-            $visualizzazioniRiassunto[$IDGet]->nodeValue = $visualizzazioniRiassuntoText[$IDGet]+1;
+            $visualizzazioniRiassunto[$IDGet]->nodeValue = $visualizzazioniRiassuntoText[$IDGet]+1; //Aggiungiamo uno alle visualizzazioni
+            
             
             $path3 = dirname(__FILE__)."/../xml-schema/riassunti.xml"; 
             $doc3->save($path3);

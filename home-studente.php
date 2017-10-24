@@ -84,6 +84,18 @@ include("default-code/aggiornamento-studio.php");
 			<?php
 		}
 	}
+	if ($materie->length == 0) {
+		?>
+		<div id='message'>
+			<img src="images/iconBooks.png">
+			<div>
+				<strong>Per iniziare aggiungi una materia.</strong>
+				<br />
+				Premi l'omonimo pulsante che vedi nel menu a sinistra del tuo schermo.
+			</div>
+		</div>
+		<?php
+	}
 	
 	?>
 </div>
