@@ -36,7 +36,7 @@
 
 	<xsd:attribute name="dataUltimoAccesso">
 		<xsd:simpleType>
-			<xsd:restriction base="date" /> 
+			<xsd:restriction base="xsd:date" /> 
 		</xsd:simpleType>
 	</xsd:attribute>
 
@@ -123,7 +123,7 @@
 				<xsd:element ref="reputation" />
 				<xsd:element ref="coins" />
 			</xsd:sequence>
-			<xsd:attribute ref="status" />
+			<xsd:attribute ref="dataUltimoAccesso" />
 		</xsd:complexType>
 	</xsd:element>
 

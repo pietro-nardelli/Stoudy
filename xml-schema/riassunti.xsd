@@ -16,17 +16,15 @@
 	<xsd:attribute name="condivisione">
 		<xsd:simpleType>
 			<xsd:restriction base="xsd:string">
-				<xsd:enumeration value="private" />
-				<xsd:enumeration value="public" />
+				<xsd:enumeration value="privato" />
+				<xsd:enumeration value="pubblico" />
 			</xsd:restriction>
 		</xsd:simpleType>
 	</xsd:attribute>
 
 	<xsd:attribute name="lastID">
 		<xsd:simpleType>
-			<xsd:restriction base="xsd:string">
-				<xsd:pattern value="[0-9][0-9][0-9][0-9][0-9][0-9]"/>
-			</xsd:restriction>
+			<xsd:restriction base="xsd:nonNegativeInteger" />
 		</xsd:simpleType>
 	</xsd:attribute>
 
@@ -34,9 +32,7 @@
 	<!-- definition of complex elements -->
 	<xsd:element name="ID">
 		<xsd:simpleType>
-			<xsd:restriction base="xsd:string">
-				<xsd:pattern value="[0-9][0-9][0-9][0-9][0-9][0-9]"/>
-			</xsd:restriction>
+			<xsd:restriction base="xsd:nonNegativeInteger" />
 		</xsd:simpleType>
 	</xsd:element>
 

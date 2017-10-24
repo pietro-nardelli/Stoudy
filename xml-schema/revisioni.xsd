@@ -2,7 +2,7 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
 	<!-- definition of simple element -->
-	<xsd:element name="riassuntoID" type="xsd:string" />
+	<xsd:element name="nomeTag" type="xsd:string" />
     <xsd:element name="modificaEstratto" type="xsd:string" />
 	<xsd:element name="emailAdmin" type="xsd:string" />
 	<xsd:element name="emailStudente" type="xsd:string" />
@@ -13,7 +13,7 @@
 	<xsd:element name="revisione">
 		<xsd:complexType>
 			<xsd:sequence>
-				<xsd:element ref="tagID" />
+				<xsd:element ref="nomeTag" />
 				<xsd:element ref="emailAdmin" />
                 <xsd:element ref="modificaEstratto" />
                 <xsd:element ref="emailStudente" />
