@@ -57,7 +57,18 @@ for ($k=0; $k < $tags->length; $k++) {
 				}
 				?>
 				<form action="<?php $_SERVER["PHP_SELF"] ?>" method="POST">
-					<textarea rows="2" name="modificaEstratto"><?php echo $estrattoTagText[$trovatoEsatto]; ?> <?php if (isset($_POST['modificaEstratto'])){ echo $_POST['modificaEstratto']; } ?></textarea><br /><br />
+				<?php
+					if (!empty($estrattoTagText[$trovatoEsatto])){ 
+						?>
+						<textarea rows="2" name="modificaEstratto"><?php echo $estrattoTagText[$trovatoEsatto]; ?> <?php if (isset($_POST['modificaEstratto'])){ echo $_POST['modificaEstratto']; } ?></textarea><br /><br />
+					<?php 
+					}
+					else {
+						?>
+						<textarea rows="2" name="modificaEstratto" placeholder=" Inserisci un estratto (descrizione) al tag selezionato. Non può essere più lunga di 500 caratteri."><?php if (isset($_POST['modificaEstratto'])){ echo $_POST['modificaEstratto']; } ?></textarea><br /><br />
+						<?php
+					}
+					?>
 					<input type="submit" name="submit" value="Modifica estratto" />
 				</form>
 			</div>

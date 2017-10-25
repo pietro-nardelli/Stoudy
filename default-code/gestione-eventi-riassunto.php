@@ -58,7 +58,9 @@ if (!$riassuntoProprio) {
                 <div id='message'>
                     <img src="images/iconMessage.png">
                     <div>
-                        <strong>Questo riassunto non può essere visualizzato, non hai abbastanza coin.</strong>
+                        <strong>Questo riassunto non può essere visualizzato.</strong>
+                        <br />
+                        Non hai abbastanza coin.
                     </div>
                 </div>
                 <?php

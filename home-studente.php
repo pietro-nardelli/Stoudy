@@ -18,10 +18,10 @@ include 'functions/valoreDaStudiareOggi.php';
 include 'functions/percentualeColori.php';
 include 'functions/giorniDisponibili.php';
 include("default-code/info-studente.php");
-include("default-code/aggiornamento-studio.php");
 
 ?>
 <div id="main">
+
 	<?php 
 	//Dobbiamo ciclare affinchè si possano scorrere tutte le materie presente negli array creati in precedenza
 	foreach($materie as $k=>$v) { 
@@ -70,8 +70,7 @@ include("default-code/aggiornamento-studio.php");
 				</div>
 				<div>
 					Questa materia non possiede un programma di studio. 
-					<br/>
-					Se ti va, puoi ancora <a href="#" style="color: black; ">pianificarla</a>.
+					<br />
 				</div>
 				<a href="aggiungi-riassunto.php?nomeMateria=<?= $nomeMateriaText[$k] ?>" id="aggiungiRiassuntoUnplanned">	
 					Aggiungi riassunto
@@ -97,6 +96,7 @@ include("default-code/aggiornamento-studio.php");
 		<?php
 	}
 	
+	include("default-code/help.php");
 	?>
 </div>
 

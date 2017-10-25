@@ -29,7 +29,9 @@ include('default-code/info-studente.php');
 			<div id='message'>
 				<img src="images/iconMessage.png">
 				<div>
-					<strong>Hai deciso di eliminare <?= $materia->firstChild->textContent ?>. I tuoi riassunti non verrano eliminati.</strong>
+					<strong>Hai deciso di eliminare <?= $materia->firstChild->textContent ?>. </strong>
+					<br />
+					I tuoi riassunti non verrano eliminati.
 					<br />
 					Ti stiamo reindirizzando...
 				</div>

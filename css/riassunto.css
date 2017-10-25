@@ -690,6 +690,7 @@ input[name="annullaEstrattoAdmin"]:focus {
 	margin-top: 5px;
 	font-size: 0.9em;
 	text-decoration: none;
+	white-space: nowrap;
 	color: white;
 	background-color: rgba(28,38,47, 0.7);
 	padding: 1px;
@@ -736,8 +737,10 @@ input[name="annullaEstrattoAdmin"]:focus {
 }
 
 #tabellaTagEstratti tr td + td { /*selezioniamo il fratello di tr td*/
+	position:relative;
 	text-align: left;
 	width: 100%;
+	padding-top: 5px;
 }
 
 /*zebra-striped tables: https://www.w3schools.com/css/css_table.asp */

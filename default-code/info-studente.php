@@ -99,6 +99,7 @@ for ($i=0; $i < $studenti->length; $i++) {
 		$coins = $reputation->nextSibling;
 		$coinsText = $coins->textContent;	
 
+		include("default-code/aggiornamento-studio.php");
 		include("default-code/controllo-accesso-reputation.php");
 	}
 }

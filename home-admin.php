@@ -74,7 +74,7 @@ include("default-code/caricamento-revisioni-xml.php");
 	else { //Se non è stato assegnato alcun riassunto...
 		?>
 		<div id="riassuntoTrovato">
-			<div id="risultatoRicercaAlto"><b><?= $_SESSION['email'] ?>: </b> non ci sono riassunti da analizzare!</div>
+			<div id="risultatoRicercaAlto"><b>Non ci sono riassunti da analizzare!</div>
 		</div>
 		<?php
 	}
