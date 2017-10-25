@@ -24,7 +24,9 @@
 	error_reporting(E_ALL);
 	$db_name = "lweb7";
 	$table_name = "studenti";
-	$connection = new mysqli("127.0.0.1", "root", ""); //$connection = new mysqli("localhost", "lweb7", "lweb7");
+	include("default-code/connection.php");
+
+	session_start();
 
 	//Se non si connette al server, usciamo subito
 	if (mysqli_connect_errno()) { 
@@ -86,14 +88,7 @@
 					$sql = "INSERT INTO studenti (email, password) VALUES ('".$email."', '".$password."');";
 					$queryResult = mysqli_query($connection, $sql);
 					if (!$queryResult) {
-						?>
-						<div id='message'>
-							<img src="images/iconMessage.png">
-							<div>
-								<strong>Problemi nella registrazione. Per favore riprovare più tardi.</strong>
-							</div>
-						</div>
-						<?php
+						echo '<p style="color: red;">Problemi con la registrazione, per favore riprovare più tardi.!</p>';
 					}
 					else { //Possiamo aggiungere lo studente nel file xml di riferimento
 					
@@ -141,6 +136,8 @@
 						$path = dirname(__FILE__)."/xml-schema/studenti.xml"; //Troviamo un percorso assoluto al file xml di riferimento
 						$doc->save($path); //Sovrascriviamolo
 						/***/
+						
+						$_SESSION['emailDaRegistrazione'] = $email;
 						header("Location: login.php");
 						exit();
 					}
@@ -150,7 +147,7 @@
 				echo '<p style="color: red;">E necessario compilare tutti i campi.</p>';
 			} 
 		}
-		 ?>
+		?>
 		<input type="text" name="nome" placeholder=" Nome" <?php if (isset($_POST['nome'])){ echo 'value="'.$_POST['nome'].'"'; } ?> />
 		<input type="text" name="cognome" placeholder=" Cognome" <?php if (isset($_POST['cognome'])){ echo 'value="'.$_POST['cognome'].'"'; } ?> /> <br />		
 		<input type="text" name="email" placeholder=" Indirizzo email" <?php if (isset($_POST['email'])){ echo 'value="'.$_POST['email'].'"'; } ?> /> <br />				

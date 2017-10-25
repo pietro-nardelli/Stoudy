@@ -145,10 +145,18 @@ if ($riassuntoProprio) {
                             $doc->save($path); //Sovrascriviamolo 
                         }
                     }
-                    header('Location: home-studente.php');
+                    ?>
+                    <div id='message'>
+                        <img src="images/iconMessage.png">
+                        <div>
+                            <strong>Hai appena eliminato il tuo riassunto.</strong>
+                            <br />
+                            Ti stiamo reindirizzando...
+                        </div>
+                    </div>
+                    <?php
+                    header("refresh:3; url=home-studente.php");
                     exit();
-
-
                 }
             }
         }

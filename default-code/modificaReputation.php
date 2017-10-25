@@ -6,6 +6,8 @@ for ($i=0; $i < $studenti->length; $i++) {
 
         $oldReputation = $studente->getElementsByTagName("reputation")->item(0)->textContent;
         $studente->getElementsByTagName("reputation")->item(0)->nodeValue = $oldReputation + $reputationDaModificare;
+
     }
 }
+
 ?>

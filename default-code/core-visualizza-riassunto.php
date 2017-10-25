@@ -49,7 +49,7 @@ if (!empty ($descrizioneRiassuntoText[$IDGet])) {
                 if (strcasecmp ($nomeTagRiassuntoText[$l], $nomeTagText[$k]) == 0 && !empty($estrattoTagText[$k])) {
                     $indiceTrovato[$l] = -1;
                     ?>
-                    <tr><td><a id='tagAnteprima' href='cerca-riassunti.php?tagRicercato=<?= $nomeTagRiassuntoText[$key] ?>'><?= $nomeTagRiassuntoText[$key] ?></a></td><td><?= $estrattoTagText[$k] ?></td></tr>
+                    <tr><td><a id='tagAnteprima' href='cerca-riassunti.php?tagRicercato=<?= $nomeTagRiassuntoText[$l] ?>'><?= $nomeTagRiassuntoText[$l] ?></a></td><td><?= $estrattoTagText[$k] ?></td></tr>
                     <?php
                     break; //Usiamo il break perchè tanto abbiamo trovato ciò che cercavamo nel nostro for annidato
                 }
@@ -62,7 +62,7 @@ if (!empty ($descrizioneRiassuntoText[$IDGet])) {
                 //Dobbiamo allora semplicemente creare un tag nuovo
                 if (empty($indiceTrovato[$p]) ||  $indiceTrovato[$p] != -1) {
                     ?>
-                    <tr><td><a id='tagAnteprima' href='cerca-riassunti.php?tagRicercato=<?= $nomeTagRiassuntoText[$k] ?>'><?= $nomeTagRiassuntoText[$k] ?></a></td><td><i>estratto mancante...</i></td></tr>
+                    <tr><td><a id='tagAnteprima' href='cerca-riassunti.php?tagRicercato=<?= $nomeTagRiassuntoText[$p] ?>'><?= $nomeTagRiassuntoText[$p] ?></a></td><td><i>estratto mancante...</i></td></tr>
                     <?php
                     break; //Usiamo il break perchè tanto abbiamo trovato ciò che cercavamo nel nostro for annidato
                 }

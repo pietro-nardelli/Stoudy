@@ -27,10 +27,9 @@ include("default-code/info-studente.php");
 			Aggiungi una materia
 			</div>
 			<p>
-			Puoi decidere se pianificare una materia sviluppando un <b>piano di studi</b> per arrivare all'esame preparato. 
+			Puoi decidere se pianificare una materia sviluppando un <b>piano di studi</b> per arrivare all'esame preparato.
 			<br />
-			Oppure puoi organizzarti autonomamente, ma in entrambi casi hai la possibilità di scrivere dei <b>riassunti</b>
-			che ti permetteranno di memorizzare in maniera più efficace la materia.
+			Oppure puoi organizzarti autonomamente, ma in entrambi casi hai la possibilità di scrivere dei <b>riassunti</b>.
 			</p>
 			<?php
 			$flagMateriaEsistente = false; //Se questo flag è true allora esiste già una materia con lo stesso nome

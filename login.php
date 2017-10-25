@@ -25,8 +25,10 @@
 	error_reporting(E_ALL);
 	$db_name = "lweb7";
 	$table_name = "studenti";
-	$connection = new mysqli("127.0.0.1", "root", ""); //$connection = new mysqli("localhost", "lweb7", "lweb7");
+	include("default-code/connection.php");
+	
 
+	session_start();
 	//Se non si connette al server, usciamo subito
 	if (mysqli_connect_errno()) { 
 		?>
@@ -88,6 +90,7 @@
 					$_SESSION['email']= $email;
 					$_SESSION['accessoPermessoAdmin']= 1000;
 				
+					unset($_SESSION['emailDaRegistrazione']);
 					header("Location: home-admin.php");
 					exit();
 				}
@@ -98,9 +101,10 @@
 			else {	//Se alcuni campi non sono stati compilati...
 				echo '<p style="color: red;">E necessario compilare tutti i campi.</p>';
 			} 
-		} 
+		}
+
 		?>
-		<input type="text" name="email" placeholder=" Indirizzo email" <?php if (isset($_POST['email'])){ echo 'value="'.$_POST['email'].'"'; } ?> /> <br />				
+		<input type="text" name="email" placeholder=" Indirizzo email" <?php if (isset($_POST['email'])){ echo 'value="'.$_POST['email'].'"'; } ?><?php if (isset($_SESSION['emailDaRegistrazione'])){ echo 'value="'.$_SESSION['emailDaRegistrazione'].'"'; } ?> /> <br />				
 		<input type="password" name="password" placeholder=" Password" <?php if (isset($_POST['password'])){ echo 'value="'.$_POST['password'].'"'; } ?> /> <br />		
 		<input type="submit" name="submit" value="ENTRA" />
 	</form>	

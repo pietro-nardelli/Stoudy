@@ -67,11 +67,11 @@ include("default-code/caricamento-tags-xml.php");
 									break; //Usiamo il break perchè tanto abbiamo trovato ciò che cercavamo nel nostro for annidato
 								}
 							}
-						}
-						if (!$tags->length) { //Caso in cui non esistono ancora tags
-							?>
-							<tr><td><a id='tagAnteprima' href='#'><?= $value ?></a></td><td><i>estratto mancante...</i></td></tr>
-							<?php
+							if (!$tags->length) { //Caso in cui non esistono ancora tags
+								?>
+								<tr><td><a id='tagAnteprima' href='#'><?= $value ?></a></td><td><i>estratto mancante...</i></td></tr>
+								<?php
+							}
 						}
 						?>
 					</table>
@@ -130,12 +130,12 @@ include("default-code/caricamento-tags-xml.php");
 				/* AGGIORNIAMO IL FILE STUDENTI.XML (solamente riassunti->creati e coins) */ 
 				
 				//Aggiungiamo 1 ai coin presenti solo se il riassunto è pubblico
-				if (strcasecmp ($_SESSION['condivisioneRiassunto'], "pubblico")) {
+				if (!strcasecmp ($_SESSION['condivisioneRiassunto'], "pubblico")) {
 					$reputationDaModificare = 1;
 					$emailStudente = $_SESSION['email'];
 					include ('default-code/modificaReputation.php');
 				}
-
+				
 
 				$riassuntiCreati = $riassuntiStudente->firstChild;
 				

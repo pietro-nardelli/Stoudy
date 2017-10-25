@@ -9,7 +9,7 @@
 $db_name = "lweb7";
 $table_name = "studenti";
 $table_name2 = "admins";
-$connection = new mysqli("localhost", "root", ""); //$connection = new mysqli("localhost", "lweb7", "lweb7");
+include("default-code/connection.php");
 //Se non si connette al server, usciamo subito
 if (mysqli_connect_errno()) { 
 	?>
