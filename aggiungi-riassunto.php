@@ -13,10 +13,19 @@
 </head>
 <body>
 
+<script>
+	function setfilename(val) {
+		var fileName = val.substr(val.lastIndexOf("\\")+1, val.length);
+		document.getElementById("uploadFile").innerHTML = fileName;
+	}
+</script>
+
+
 <?php 
 error_reporting(0);
 include 'functions/upload.php';
 include("default-code/info-studente.php");
+$materiaTrovata = false;
 ?>
 
 <div id="main">
@@ -27,7 +36,16 @@ include("default-code/info-studente.php");
 		header('Location: '.$_SERVER["PHP_SELF"].'?nomeMateria='.$_GET['nomeMateria'].'');
 		exit();
 	}
-	if (isset($_GET['nomeMateria'])) { ?>
+	if (isset($_GET['nomeMateria'])) {
+		foreach ($nomeMateriaText as $k=>$v) {
+			if (!strcasecmp($_GET['nomeMateria'], $v) ) {
+				$materiaTrovata = true;
+				break;
+			}
+		}
+	}
+
+	if ($materiaTrovata) { ?>
 		<div id="aggiungiRiassunto">
 			<div id="nomeMateria">
 				Aggiungi un riassunto di <b><?= $_GET['nomeMateria'] ?></b>
@@ -119,10 +137,10 @@ include("default-code/info-studente.php");
 			if (isset($_SESSION['anteprimaRiassunto'])) {
 				?>
 				<form action="<?= $_SERVER["PHP_SELF"].'?nomeMateria='.$_GET['nomeMateria'] ?>" method="POST" enctype="multipart/form-data">
-					<input type="text" name="titoloRiassuntoForm" placeholder=" Inserisci un titolo" value="<?= $_SESSION['titoloRiassunto']; ?>" /><br /><br />
+					<input type="text" name="titoloRiassuntoForm" placeholder=" Inserisci un titolo (almeno 10 caratteri)" value="<?= $_SESSION['titoloRiassunto']; ?>" /><br /><br />
 					<textarea rows="2" name="descrizioneRiassuntoForm" placeholder=" Inserisci una descrizione (optional)"><?= $_SESSION['descrizioneRiassunto']; ?></textarea><br /><br />
-					<label><img src="images/iconCaricaPdf.png" style="width: 16px;"> carica un PDF... 
-					<input type="file" name="fileToUpload" />
+					<label><img src="images/iconCaricaPdf.png" style="width: 16px;"> <span id="uploadFile">carica un PDF...</span> 
+					<input type="file" name="fileToUpload" onchange="setfilename(this.value);"/>
 					</label>
 					<br /><br />
 					<input type="text" name="tagsRiassuntoForm" placeholder =" Inserisci tag (max 5) divisi da virgole" value="<?php for($k=0;$k<sizeof($_SESSION['tagsRiassuntoNuovo'])-1;$k++) { echo $_SESSION['tagsRiassuntoNuovo'][$k]." "; }  echo $_SESSION['tagsRiassuntoNuovo'][$k];?>"/><br /><br />
@@ -151,10 +169,10 @@ include("default-code/info-studente.php");
 			else {
 				?>
 				<form action="<?php $_SERVER["PHP_SELF"] ?>" method="POST" enctype="multipart/form-data">
-					<input type="text" name="titoloRiassuntoForm" placeholder=" Inserisci un titolo" <?php if (isset($_POST['titoloRiassuntoForm'])){ echo 'value="'.$_POST['titoloRiassuntoForm'].'"'; } ?>/><br /><br />
+					<input type="text" name="titoloRiassuntoForm" placeholder=" Inserisci un titolo (almeno 10 caratteri)" <?php if (isset($_POST['titoloRiassuntoForm'])){ echo 'value="'.$_POST['titoloRiassuntoForm'].'"'; } ?>/><br /><br />
 					<textarea rows="2" name="descrizioneRiassuntoForm" placeholder=" Inserisci una descrizione (optional)"><?php if (isset($_POST['descrizioneRiassuntoForm'])){ echo $_POST['descrizioneRiassuntoForm']; } ?></textarea><br /><br />
-					<label><img src="images/iconCaricaPdf.png" style="width: 16px;"> carica un PDF... 
-					<input type="file" name="fileToUpload" />
+					<label><img src="images/iconCaricaPdf.png" style="width: 16px;"> <span id="uploadFile">carica un PDF...</span> 
+						<input type="file" id="fileInput" name="fileToUpload" onchange="setfilename(this.value);" />
 					</label>
 					<br /><br />
 					<input type="text" name="tagsRiassuntoForm" placeholder =" Inserisci massimo 5 tag divisi da uno spazio. Se il tag è composto da più parole, dividile con un trattino ' - ' "<?php if (isset($_POST['tagsRiassuntoForm'])){ echo 'value="'.$_POST['tagsRiassuntoForm'].'"'; } ?> /><br /><br />
@@ -162,18 +180,19 @@ include("default-code/info-studente.php");
 					<input type="radio" name="condivisioneRiassuntoForm" value="privato" <?php if (isset($_POST['condivisioneRiassuntoForm']) && $_POST['condivisioneRiassuntoForm'] == 'privato'){ echo 'checked'; } ?> > Privato <br />
 					<input type="submit" name="submit" value="Visualizza anteprima" />
 				</form>
+			
 				<?php
 			}
 			?>
 		</div> 
 	<?php
-	} //Tutto questo è visualizzato solo se c'è nomeMateria nel GET
+	} //Tutto questo è visualizzato solo se la materia è stata trovata
 	else {
 		?>
 		<div id='message'>
 			<img src="images/iconMessage.png">
 			<div>
-				<strong>Impossibile aggiungere riassunto senza una materia!</strong>
+				<strong>Impossibile aggiungere riassunto senza una materia valida!</strong>
 				<br />
 				Ti stiamo reindirizzando...
 			</div>

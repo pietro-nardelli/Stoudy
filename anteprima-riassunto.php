@@ -202,10 +202,12 @@ include("default-code/caricamento-tags-xml.php");
 			else { //Se conferma c'è ma è diversa da 1 (ovvero 0)
 				unlink ($_SESSION['linkDocumentoRiassunto']);
 				header("Location: aggiungi-riassunto.php?nomeMateria=".$_GET['nomeMateria']."");
+				exit();
 			}
 		} 
 		else { //Se non c'è la sessione, c'è stato un errore e non potevamo trovarci in questa pagina...
 			header("Location: aggiungi-riassunto.php?nomeMateria=".$_GET['nomeMateria']."");
+			exit();
 		}
 	}
 	else { //Se non c'è il get con nomeMateria...

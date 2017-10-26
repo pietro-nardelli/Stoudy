@@ -7,17 +7,17 @@
                 <br />
                 Offre sostegno allo studente che non è in grado di organizzare il suo <u>piano di studi</u>,
                 a colui che non è in grado di rispettarlo e/o a coloro che usano i <u>riassunti</u> o gli <u>schemi</u>
-                per apprendere in maniera più efficiente.
+                per apprendere in maniera più efficace.
             </div>
 			<h3>Quali sono i vantaggi nell'utilizzare Stoudy?</h3>
 			<div>
-                Stoudy è uno strumento sviluppato da studenti per gli studenti, basato su solide <u>basi scientifiche</u> e <u>tecniche di studio efficenti</u>.<br />
+                Stoudy è uno strumento sviluppato da studenti per gli studenti, basato su solide <u>basi scientifiche</u> e <u>tecniche di studio efficienti</u>.<br />
                 <ul>
                     <li>    
                         <u>Verrai premiato</u> quando studierai, scriverai un riassunto, quando un riassunto che hai inserito ha ottenuto dei preferiti ecc...
                     </li>
                     <li>
-                        Se vorrai, pianificando lo studio di una materia avrai la possibilità di capire a quanto ammonta la mole di studio giornaliera 
+                        Se vorrai, pianificando lo studio di una materia, avrai la possibilità di capire a quanto ammonta la mole di studio giornaliera 
                         che devi affrontare affinché l’obiettivo che ti sei posto sia <u>completato entro la data prevista</u>.
                     </li>
                     <li>
@@ -40,7 +40,7 @@
 			<h3>Cosa sono la reputation e i coins?</h3>
             <div>
                 Le icone che vedi nel menu di sinistra, sotto il tuo nome e cognome, sono rispettivamente la tua reputation ed i coins.<br />
-                La <u>reputation</u> è un punteggio che ti rappresenta all'interno del sito: più è elevata maggiore e più sono i 
+                La <u>reputation</u> è un punteggio che ti rappresenta all'interno del sito: più è elevata e maggiore sono i 
                 riassunti che potrai leggere durante la tua giornata di studio.
                 La reputation varia in alcune occasioni:
                 <ul>
