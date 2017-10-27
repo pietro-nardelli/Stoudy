@@ -68,6 +68,7 @@ for ($i=0; $i < $revisioni->length; $i++) {
 			for ($i = $key+1; $i < sizeof($riassuntoIDTrovato); $i++) {
 				if ($valueID == $riassuntoIDTrovato[$i]) {
 					$doppione = true;
+					break;
 				}
 			}
 			if (!$doppione) {

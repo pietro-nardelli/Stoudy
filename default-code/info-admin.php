@@ -7,7 +7,7 @@
     </div>
     <!-- Il link del logout si comporta come i precedenti ma si trova in un punto differente quindi bisogna assegnargli
     uno stile interno particolare -->
-	<div id="navigationUser" style="top: 85%; height: 40px;">
+	<div id="navigationUser" style="top: 80%; height: 40px;">
 		<div id="user">
 			<img src="images/iconUtente.png"><?= $_SESSION['email']; ?>
         </div>

@@ -25,22 +25,32 @@ include("default-code/connection.php");
 
 //Se non si connette al server, usciamo subito
 if (mysqli_connect_errno()) { 
-    ?>
-    <h1>Impossibile collegarsi al server!
-        <div style="font-size: 75%; font-weight: normal;">Per favore riprovare più tardi.</div>
-    </h1>
-    <?php
-    exit();
+?>
+<div id='message'>
+    <img src="images/iconMessage.png">
+    <div>
+        <strong>Impossibile collegarsi al server.</strong>
+        <br />
+        Per favore riprovare più tardi.
+    </div>
+</div>
+<?php
+exit();
 }
 
 //Se non viene selezionato alcun database, allora forniamo un errore. 
 if (!mysqli_select_db ($connection, $db_name)) { 
-    ?>
-    <h1>Problemi nel selezionare il database!
-        <div style="font-size: 75%; font-weight: normal;">Per favore riprovare più tardi.</div>
-    </h1>
-    <?php
-    exit();
+?>
+<div id='message'>
+    <img src="images/iconMessage.png">
+    <div>
+        <strong>Problemi nel selezionare il database.</strong>
+        <br />
+        Per favore riprovare più tardi.
+    </div>
+</div>
+<?php
+exit();
 }
 
 if (!empty($_SESSION['tagRicercato'])) { 
@@ -55,20 +65,51 @@ if (!empty($_SESSION['tagRicercato'])) {
        $indexAdmin = rand(0, $i-1); //Scegliamo un admin a caso tra quelli presenti nella tabella admins.sql
     }
     else { //Altrimenti abbiamo sbagliato qualcosa nel login
-            echo "Problemi nel revisionare l'estratto";
-        }
+        ?>
+        <div id='message'>
+            <img src="images/iconMessage.png">
+            <div>
+                <strong>Problemi nel revisionare l'estratto.</strong>
+                <br />
+                Per favore riprovare più tardi.
+                <br />
+                Ti stiamo reindirizzando...
+            </div>
+        </div>
+        <?php
+        header("refresh:3; url=cerca-riassunti.php?tagRicercato=".$_SESSION['tagRicercato']."");
+        exit();
+    }
 }	
 else {	//Se alcuni campi non sono stati compilati...
-    echo "Impossibile revisionare l'estratto";
+    ?>
+    <div id='message'>
+        <img src="images/iconMessage.png">
+        <div>
+            <strong>Impossibile revisionare l'estratto.</strong>
+        </div>
+    </div>
+    
+    <?php
+    unset($_SESSION['tagRicercato']);
+    exit();
 } 
 
 include("default-code/caricamento-revisioni-xml.php");
 for ($i=0; $i < $revisioni->length; $i++) {
     //Se il tag è già presente nelle revisioni allora non può essere revisionato nuovamente
     if ( !strcasecmp ($_SESSION['tagRicercato'], $nomeTagRevisioneText[$i]) ) {
-        echo "E' stata già emessa una revisione per quel tag";
-        header("refresh:3; url=cerca-riassunti.php?tagRicercato=".$_SESSION['tagRicercato']."");
-        unset($_SESSION['tagRicercato']);
+        ?>
+        <div id='message'>
+            <img src="images/iconMessage.png">
+            <div>
+                <strong>Mi dispiace ma è stata già emessa una revisione da un altro studente per quell'estratto.</strong>
+                <br />
+                Ti stiamo reindirizzando...
+            </div>
+        </div>
+        <?php
+        header("refresh:3; url=modifica-estratto.php?tagRicercato=".$_SESSION['tagRicercato']."");
         exit();
     }
 }
@@ -101,6 +142,7 @@ $doc5->save($path5); //Sovrascriviamolo
 </div>
 <?php
 header("refresh:3; url=cerca-riassunti.php?tagRicercato=".$_SESSION['tagRicercato']."");
+unset($_SESSION['modificaEstratto']);
 unset($_SESSION['tagRicercato']);
 exit();
 ?>

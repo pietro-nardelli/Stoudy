@@ -68,21 +68,22 @@ if (!mysqli_query($connection, $sql2)) {
 	
 echo "Creazione database andata a buon fine.";
 
-/*
-for ($i = 0; $i < 3; $i++) {
+
+for ($i = 1; $i <= 3; $i++) {
 	$sql = "INSERT INTO studenti (email, password) VALUES ('studente".$i."@gmail.com', 'studente".$i."');";
 	$queryResult = mysqli_query($connection, $sql);
 	if (!$queryResult) {
-		$error = "<div>Problemi con l'aggiunta del film.</div>";
+		echo "<div>Problemi con la popolazione del database per gli studenti.</div>";	
 		exit();
 	}
 }
-*/
+
+
 for ($i = 1; $i < 3; $i++) {
 	$sql = "INSERT INTO admins (email, password) VALUES ('admin".$i."@gmail.com', 'admin".$i."');";
 	$queryResult = mysqli_query($connection, $sql);
 	if (!$queryResult) {
-		$error = "<div>Problemi con l'aggiunta del film.</div>";
+		$error = "<div>Problemi con la popolazione del database per gli admin.</div>";
 		exit();
 	}
 }

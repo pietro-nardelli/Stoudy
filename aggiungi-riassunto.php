@@ -82,8 +82,8 @@ $materiaTrovata = false;
 				/* Assegnamo ogni tag all'array tagsRiassuntoNuovo */
 				$tagsRiassuntoNuovo = explode(" ", $_POST['tagsRiassuntoForm']); //Divide la stringa in sottostringhe
 				foreach ($tagsRiassuntoNuovo as $t => $value) { 
-					$tagsRiassuntoNuovo[$t] = trim($value); 
-					if (strlen($tagsRiassuntoNuovo[$t]) == 0 || is_numeric($tagsRiassuntoNuovo[$t]) || strlen($tagsRiassuntoNuovo[$t]) > 20)  {
+					$tagsRiassuntoNuovo[$t] = strtolower($value); 
+					if (strlen($tagsRiassuntoNuovo[$t]) == 0 || is_numeric($tagsRiassuntoNuovo[$t]) || strlen($tagsRiassuntoNuovo[$t]) > 30)  {
 						$erroreTags = 1;
 					}
 				}
@@ -96,10 +96,10 @@ $materiaTrovata = false;
 					}
 				}
 
-				//Tag di almeno 1 carattere, massimo 20 non numerico e non uguali...
+				//Tag di almeno 1 carattere, massimo 30 non numerico e non uguali...
 				if ($erroreTags == 1) {
 					?>
-					<p style="color: red;">I tag non devono essere vuoti, devono essere alfanumerici, non più lunghi di 20 caratteri e non possono essercene due uguali.</p>
+					<p style="color: red;">I tag non devono essere vuoti, devono essere alfanumerici, non più lunghi di 30 caratteri e non possono essercene due uguali.</p>
 					<?php
 					$errore = 1;
 				}

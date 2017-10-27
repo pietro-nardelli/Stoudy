@@ -1,10 +1,9 @@
 <?php
 include 'functions/minutiOreGiorni.php';
 //Per stampare i riassunti dal più recente al più vecchio...
-$valueIDArray = array_reverse($valueIDArray);
+rsort($valueIDArray);
 
-
-$pageLength = 6;
+$pageLength = 5;
 if (isset($_GET['next'])) {
     $first = $_GET['next'];
 }
@@ -18,6 +17,7 @@ if (sizeof($valueIDArray) - $first < $pageLength ) {
 else {
     $last = $first+$pageLength;
 }
+
 
 for ($key = $first; $key < $last ; $key++) { 
     $valueID = $valueIDArray[$key];

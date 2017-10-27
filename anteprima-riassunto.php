@@ -34,11 +34,11 @@ include("default-code/caricamento-tags-xml.php");
 					if (!empty ($_SESSION['descrizioneRiassunto'])) {
 						echo "<div style='margin-left: 5px;'>".nl2br($_SESSION['descrizioneRiassunto'])."</div>";
 						?> 
-						<br /><br />
+						<br />
 						<?php
 					}
 					?>
-					<embed src="<?=$_SESSION['linkDocumentoRiassunto']; ?>" width="100%" height="1132px" type='application/pdf'>
+					<embed src="<?=$_SESSION['linkDocumentoRiassunto']; ?>" width="100%" height="600px" type='application/pdf'>
 					<br /><br />
 					<table id="tabellaTagEstratti">
 						<tr><th colspan="2">Controllo tag</th></tr>

@@ -6,7 +6,7 @@ if (!empty ($descrizioneRiassuntoText[$IDGet])) {
     <?php
 }
 ?>
-<embed src="<?= $linkDocumentoRiassuntoText[$IDGet] ?>" width="100%" height="1132px" type='application/pdf'>
+<embed src="<?= $linkDocumentoRiassuntoText[$IDGet] ?>" width="100%" height="600px" type='application/pdf'>
 <br /><br />
 <div id="informazioniRiassunto">
     <div>
@@ -43,7 +43,11 @@ if (!empty ($descrizioneRiassuntoText[$IDGet])) {
     <table id="tabellaTagEstratti">
         <tr><th colspan="2">Tag ed estratti</th></tr>
         <?php
+        
         foreach ($tagsRiassunto[$IDGet] as $l => $value) {
+            $nomeTagRiassunto = $tagsRiassunto[$IDGet]->item($l);
+            $nomeTagRiassuntoText[$l] = $nomeTagRiassunto->textContent;
+            
             for ($k=0; $k < $tags->length; $k++) {	
                 //Confrontiamo ogni tag inserito con quelli già presenti in tags.xml
                 if (strcasecmp ($nomeTagRiassuntoText[$l], $nomeTagText[$k]) == 0 && !empty($estrattoTagText[$k])) {

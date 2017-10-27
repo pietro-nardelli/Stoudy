@@ -156,13 +156,13 @@ include("default-code/caricamento-revisioni-xml.php");
 							?>
 							<form action="home-admin.php" method="POST">
 								<tr>
-									<td><a id='tagAnteprima' href='#'><?= $nomeTagRevisioneText[$i] ?></a></td>
-									<td><?= $estrattoTagText[$j] ?></td>
-									<td>
-										<textarea rows="2" name="modificaEstratto"><?= $modificaEstrattoText[$i] ?></textarea>
+									<td style="width: 10%"><a id='tagAnteprima' href='#'><?= $nomeTagRevisioneText[$i] ?></a></td>
+									<td style="width: 40%"><?= $estrattoTagText[$j] ?></td>
+									<td style="width: 40%">
+										<textarea rows="10" name="modificaEstratto"><?= $modificaEstrattoText[$i] ?></textarea>
 										<input type="hidden" name="nomeTag" value="<?= $nomeTagRevisioneText[$i] ?>">
 									</td>
-									<td style="width: 120px;">
+									<td>
 										<input type="submit" name="modificaEstrattoAdmin" value="Modifica" />
 										<input type="submit" name="annullaEstrattoAdmin" value="Annulla" />
 									</td>				

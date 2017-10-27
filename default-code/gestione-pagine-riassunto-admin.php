@@ -26,7 +26,7 @@ for ($key = $first; $key < $last ; $key++) {
         echo "<a id='tagRiassuntoTrovato' href='#'>".$nomeTagRiassuntoText[$j]."</a>";
     }
     echo "<br/>";
-    echo  "(".$emailStudenteLista[$valueID]->length." segnalazioni)<br/>";
+    echo  "<div style='margin-top: 5px'>(Segnalazioni: ".$emailStudenteLista[$valueID]->length.")</div>";
     echo "<hr />";
 }
 $totPagine =  ceil ( (sizeof($valueIDArray) / $pageLength));

@@ -120,7 +120,7 @@ include("default-code/info-studente.php");
 			}
 			?>
 
-			<input type="text" name="oggettoStudio" placeholder="Pagine? Capitoli? Paragrafi?"/> <br />	
+			<input type="text" name="oggettoStudio" placeholder="Cosa vuoi monitorare?"/> <br />	
 
 			<input type="submit" name="back" value="Indietro" />	
 			<input type="submit" name="submit" value="Continua" />

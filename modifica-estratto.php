@@ -59,13 +59,14 @@ for ($k=0; $k < $tags->length; $k++) {
 				<form action="<?php $_SERVER["PHP_SELF"] ?>" method="POST">
 				<?php
 					if (!empty($estrattoTagText[$trovatoEsatto])){ 
+						var_dump ($_POST['modificaEstratto']);
 						?>
-						<textarea rows="2" name="modificaEstratto"><?php echo $estrattoTagText[$trovatoEsatto]; ?> <?php if (isset($_POST['modificaEstratto'])){ echo $_POST['modificaEstratto']; } ?></textarea><br /><br />
+						<textarea rows="5" name="modificaEstratto"><?php if (!isset($_POST['submit'])) { echo $estrattoTagText[$trovatoEsatto]; } else if (isset($_POST['submit'])){ echo $_POST['modificaEstratto']; } else if (isset($_SESSION['modificaEstratto'])){ echo $_SESSION['modificaEstratto']; } ?></textarea><br /><br />
 					<?php 
 					}
 					else {
 						?>
-						<textarea rows="2" name="modificaEstratto" placeholder=" Inserisci un estratto (descrizione) al tag selezionato. Non può essere più lunga di 500 caratteri."><?php if (isset($_POST['modificaEstratto'])){ echo $_POST['modificaEstratto']; } ?></textarea><br /><br />
+						<textarea rows="5" name="modificaEstratto" placeholder=" Inserisci un estratto (descrizione) al tag selezionato. Non può essere più lunga di 500 caratteri."><?php if (isset($_POST['modificaEstratto'])){ echo $_POST['modificaEstratto']; } else if (isset($_SESSION['modificaEstratto'])){ echo $_SESSION['modificaEstratto']; } ?></textarea><br /><br />
 						<?php
 					}
 					?>
