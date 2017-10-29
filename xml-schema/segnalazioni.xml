@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<segnalazioni xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="segnalazioni.xsd"/>
+<segnalazioni xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="segnalazioni.xsd"><segnalazione><riassuntoID>6</riassuntoID><emailAdmin>admin1@gmail.com</emailAdmin><emailStudente>studente1@gmail.com</emailStudente></segnalazione></segnalazioni>

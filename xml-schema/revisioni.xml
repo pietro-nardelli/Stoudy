@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<revisioni xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="revisioni.xsd"/>
+<revisioni xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="revisioni.xsd"><revisione><nomeTag>ingegneria-del-software</nomeTag><emailAdmin>admin1@gmail.com</emailAdmin><modificaEstratto>Per ingegneria del software (software engineering in inglese) si intende quella disciplina che si occupa dei processi produttivi e delle metodologie di sviluppo finalizzate alla realizzazione di sistemi software.</modificaEstratto><emailStudente>studente1@gmail.com</emailStudente></revisione></revisioni>
