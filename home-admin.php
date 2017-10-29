@@ -101,7 +101,7 @@ include("default-code/caricamento-revisioni-xml.php");
 				
 				$reputationDaModificare = 2;
 				$emailStudente = $emailStudenteRevisioneText[$i];
-				include ('default-code/modificaReputation.php');
+				include ('default-code/modifica-reputation.php');
 				$path = dirname(__FILE__)."/xml-schema/studenti.xml"; 
 				$doc->save($path);
 

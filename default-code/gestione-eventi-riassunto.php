@@ -138,7 +138,7 @@ if ($riassuntoProprio) {
                             //Aggiungiamo 1 alla reputation dell'autore
                             $reputationDaModificare = -1-$numeroPreferiti;
                             $emailStudente = $emailStudenteRiassuntoText[$IDGet];
-                            include ('default-code/modificaReputation.php');
+                            include ('default-code/modifica-reputation.php');
 
 
                             $path = dirname(__FILE__)."/../xml-schema/studenti.xml"; //Troviamo un percorso assoluto al file xml di riferimento
@@ -171,7 +171,7 @@ if (isset($_GET['preferito']) && !$riassuntoProprio) {
         //Aggiungiamo 1 alla reputation dell'autore
         $reputationDaModificare = 1;
         $emailStudente = $emailStudenteRiassuntoText[$IDGet];
-        include ('default-code/modificaReputation.php');
+        include ('default-code/modifica-reputation.php');
 
         $newRiassuntoIDPreferito = $doc->createElement("riassuntoIDPreferito", $IDGet);
         $riassuntiPreferitiElement->insertBefore($newRiassuntoIDPreferito);					
@@ -196,7 +196,7 @@ if (isset($_GET['preferito']) && !$riassuntoProprio) {
         //Aggiungiamo 1 alla reputation dell'autore
         $reputationDaModificare = -1;
         $emailStudente = $emailStudenteRiassuntoText[$IDGet];
-        include ('default-code/modificaReputation.php');
+        include ('default-code/modifica-reputation.php');
 
         $path = dirname(__FILE__)."/../xml-schema/studenti.xml"; //Troviamo un percorso assoluto al file xml di riferimento
         $doc->save($path); //Sovrascriviamolo 

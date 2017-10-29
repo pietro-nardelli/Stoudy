@@ -133,7 +133,7 @@ include("default-code/caricamento-tags-xml.php");
 				if (!strcasecmp ($_SESSION['condivisioneRiassunto'], "pubblico")) {
 					$reputationDaModificare = 1;
 					$emailStudente = $_SESSION['email'];
-					include ('default-code/modificaReputation.php');
+					include ('default-code/modifica-reputation.php');
 				}
 				
 

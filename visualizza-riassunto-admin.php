@@ -49,7 +49,7 @@ foreach ($IDRiassuntoLista as $count => $id) {
 
                 $reputationDaModificare = -1-$numeroPreferiti;
                 $emailStudente = $emailStudenteRiassuntoText[$IDGet];
-                include ('default-code/modificaReputation.php');
+                include ('default-code/modifica-reputation.php');
                 $path = dirname(__FILE__)."/xml-schema/studenti.xml"; 
                 $doc->save($path);
 

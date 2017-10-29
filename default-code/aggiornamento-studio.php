@@ -39,13 +39,13 @@ for ($k=0; $k < $materie->length; $k++) {
 			if ( $valoreStudiatoOggiText[$k] >= $valoreDaStudiarePrec) { 
 				$reputationDaModificare = 3;
 				$emailStudente = $_SESSION['email'];
-				include ('default-code/modificaReputation.php');
+				include ('default-code/modifica-reputation.php');
 			}
 			//Se abbiamo studiato qualcosa ma non tutto il necessario
 			else if ($valoreStudiatoOggiText[$k] != 0) {
 				$reputationDaModificare = 1;
 				$emailStudente = $_SESSION['email'];
-				include ('default-code/modificaReputation.php');
+				include ('default-code/modifica-reputation.php');
 			}
 			
 
