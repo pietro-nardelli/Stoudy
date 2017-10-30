@@ -1,7 +1,7 @@
 <?php
 if (!empty ($descrizioneRiassuntoText[$IDGet])) {
-    echo "<div style='margin-left: 5px;'>".nl2br($descrizioneRiassuntoText[$IDGet])."</div>";
-    ?> 
+    ?>
+    <div style='margin-left: 5px;'><?= nl2br($descrizioneRiassuntoText[$IDGet]) ?></div>
     <br />
     <?php
 }

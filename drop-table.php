@@ -45,8 +45,7 @@ if (!mysqli_query($connection, $sql2)) {
 	<?php
 	exit();
 	}			
-
-echo "Eliminazione tabelle...completato!";
 ?>
+<div>Eliminazione tabelle...completato!</div>
 </body>
 </html>

@@ -2,7 +2,8 @@
 //Se abbiamo premuto sul pulsante submit, aggiorniamo ciò che si trova in valoreStudiatoOggi e data
 //e allo stesso tempo carichiamo il file xml aggiornato in tempo reale.
 //Ovviamente solo se è un valore numerico > 0.
-
+//Dato che questo codice è stato incluso in info-studente e info-studente è un codice incluso in tutti gli altri script,
+//per aggiornare lo studio bisogna controllare che ci troviamo nella home-studente
 if (basename($_SERVER['PHP_SELF']) == "home-studente.php") {
 	if (isset($_GET['valoreStudiatoOggiForm']) && is_numeric($_GET['valoreStudiatoOggiForm']) && $_GET['valoreStudiatoOggiForm'] >= 0) {		 
 		$valoreStudiatoOggiForm = trim($_GET['valoreStudiatoOggiForm']);

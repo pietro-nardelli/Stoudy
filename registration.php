@@ -78,17 +78,23 @@
 				$queryResult = mysqli_query($connection, $sql);
 
 				if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-					echo '<p style="color: red;">Indirizzo email non valido!</p>';
+					?>
+					<p style="color: red;">Indirizzo email non valido!</p>
+					<?php
 				}
 
 				else if ($queryResult && mysqli_num_rows($queryResult) ) { //Se l'indirizzo email è già presente nel database
-					echo '<p style="color: red;">Indirizzo email già registrato!</p>';
+					?>
+					<p style="color: red;">Indirizzo email già registrato!</p>
+					<?php
 				}
 				else { //Altrimenti possiamo aggiungerlo al database senza problemi
 					$sql = "INSERT INTO studenti (email, password) VALUES ('".$email."', '".$password."');";
 					$queryResult = mysqli_query($connection, $sql);
 					if (!$queryResult) {
-						echo '<p style="color: red;">Problemi con la registrazione, per favore riprovare più tardi.!</p>';
+						?>
+						<p style="color: red;">Problemi con la registrazione, per favore riprovare più tardi.!</p>
+						<?php
 					}
 					else { //Possiamo aggiungere lo studente nel file xml di riferimento
 					
@@ -144,7 +150,9 @@
 				}
 			}	
 			else {	//Se alcuni campi non sono stati compilati...
-				echo '<p style="color: red;">E necessario compilare tutti i campi.</p>';
+				?>
+				<p style="color: red;">E necessario compilare tutti i campi.</p>
+				<?php
 			} 
 		}
 		?>

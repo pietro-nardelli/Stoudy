@@ -46,7 +46,7 @@ include("default-code/info-studente.php");
 				<form id ="aggiungiValoreStudio" action="<?php $_SERVER["PHP_SELF"] ?>" method="get">
 					<input type="text" name="valoreStudiatoOggiForm" placeholder="<?php echo "Quante/i ".$oggettoStudioText[$k]." hai fatto oggi?"; ?>"/>		
 					<!-- Il valore di indexMateria è l'indice della materia che abbiamo trovato con il for su tutto l'array-->
-					<input type="hidden" name="indexMateria" value="<?php echo $k;?>" />
+					<input type="hidden" name="indexMateria" value="<?= $k ?>" />
 					<input type="image" name="submit" src="images/iconAggiungiValoreStudio.png" alt="Submit Form" />
 				</form>
 				<a href="aggiungi-riassunto.php?nomeMateria=<?= $nomeMateriaText[$k] ?>" id="aggiungiRiassuntoPlanned">	
@@ -96,7 +96,7 @@ include("default-code/info-studente.php");
 		<?php
 	}
 	
-	include("default-code/help.php");
+	include("default-code/help.html");
 	?>
 </div>
 

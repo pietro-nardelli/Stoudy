@@ -110,7 +110,9 @@ include("default-code/info-studente.php");
 					header("Location: aggiungi-materia.php");
 				}
 				else { //Se qualche campo non è stato compilato...
-					echo '<p style="color: red;">Compilare tutti i campi.</p>';
+					?>
+					<p style="color: red;">Compilare tutti i campi.</p>
+					<?php
 				}
 			}
 			if (isset($_POST['back'])) { //Se abbiamo premuto back, torna al primissimo caso
@@ -147,14 +149,14 @@ include("default-code/info-studente.php");
 					}
 					else {
 						unset($_SESSION['valoreDaStudiare']);
-						echo '<p style="color: red;">Valore da studiare deve essere un n° maggiore di 0.</p>';
+						?>
+						<p style="color: red;">Valore da studiare deve essere un n° maggiore di 0.</p>
+						<?php
 					}
 				}
 				if ($_POST['dataScadenza']) {
-					//Re-check
-					$dateTime = DateTime::createFromFormat('Y-m-d', $_POST['dataScadenza']);
-					$errors = DateTime::getLastErrors();
-					$now = new DateTime();
+					$dateTime = date_create_from_format('Y-m-d', $_POST['dataScadenza']);
+					$errors = date_get_last_errors();
 					$oggi = date('Y-m-d'); //Questo serve per la funzione giorniDisponibili()
 					
 
@@ -163,7 +165,9 @@ include("default-code/info-studente.php");
 					}
 					else {
 						unset($_SESSION['dataScadenza']);
-						echo '<p style="color: red;">La data non è stata compilata correttamente.</p>';
+						?>
+						<p style="color: red;">La data non è stata compilata correttamente.</p>
+						<?php
 					}
 				}
 				
@@ -173,7 +177,9 @@ include("default-code/info-studente.php");
 					}
 					else {
 						unset($_SESSION['nGiorniRipasso']);
-						echo '<p style="color: red;">Giorni di ripasso deve essere un n >= 0.</p>';
+						?>
+						<p style="color: red;">Giorni di ripasso deve essere un n >= 0.</p>
+						<?php
 					}
 				}
 				else { //Se non è stato inserito nulla, allora il valore è 0
@@ -186,7 +192,9 @@ include("default-code/info-studente.php");
 					}
 					else {
 						unset($_SESSION['valoreStudiato']);
-						echo '<p style="color: red;">Valore studiato deve essere un n° maggiore di 0.</p>';
+						?>
+						<p style="color: red;">Valore studiato deve essere un n° maggiore di 0.</p>
+						<?php
 					}
 				}
 				else { //Se non è stato inserito nulla, allora il valore è 0
@@ -196,7 +204,9 @@ include("default-code/info-studente.php");
 				//Questo if serve per far apparire solo una volta l'errore corrispondente
 				//N.B. Per DATE inserendo isset c'è errore.
 				if (!isset($_POST['valoreDaStudiare']) || empty($_POST['dataScadenza']) ) { 
-					echo '<p style="color: red;">Compilare tutti i campi obbligatori.</p>';
+					?>
+					<p style="color: red;">Compilare tutti i campi obbligatori.</p>
+					<?php
 				}
 				else { //Se tutte le variabili sono presenti...
 					$dataScadenza = $dateTime->format('Y-m-d'); //Trasformiamo dataScadenza nel formato corretto per la funzione
@@ -207,7 +217,9 @@ include("default-code/info-studente.php");
 						unset($_SESSION['dataScadenza']);
 						unset($_SESSION['nGiorniRipasso']);
 						unset($_SESSION['valoreStudiato']);
-						echo '<p style="color: red;">Ops, non hai abbastanza giorni per studiare.</p>';
+						?>
+						<p style="color: red;">Ops, non hai abbastanza giorni per studiare.</p>
+						<?php
 					}
 
 					//Inoltre non si può inserire un valoreStudiato > valoreDaStudiare
@@ -216,7 +228,9 @@ include("default-code/info-studente.php");
 						unset($_SESSION['dataScadenza']);
 						unset($_SESSION['nGiorniRipasso']);
 						unset($_SESSION['valoreStudiato']);
-						echo '<p style="color: red;">Il valore studiato non può essere maggiore del totale da studiare!</p>';
+						?>
+						<p style="color: red;">Il valore studiato non può essere maggiore del totale da studiare!</p>
+						<?php
 					}
 				}
 				

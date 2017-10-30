@@ -105,7 +105,9 @@ $materiaTrovata = false;
 				}
 				//... e massimo 5 tag
 				if ($t > 4) {
-					echo '<p style="color: red;">Hai inserito troppi tag. Massimo 5.</p>';
+					?>
+					<p style="color: red;">Hai inserito troppi tag. Massimo 5.</p>
+					<?php
 					$errore = 1;
 				}
 				//Riassunto pubblico o privato
@@ -128,7 +130,7 @@ $materiaTrovata = false;
 						$_SESSION['condivisioneRiassunto'] = $_POST['condivisioneRiassuntoForm'];
 						$_SESSION['tagsRiassuntoNuovo'] = $tagsRiassuntoNuovo; //Questa è una variabile session che gestisce l'array dei tags
 						$_SESSION['anteprimaRiassunto'] = 1000;
-						header("Location: anteprima-riassunto.php?nomeMateria=".$_GET['nomeMateria'].""); //Ricarichiamo la pagina
+						header("Location: anteprima-riassunto.php?nomeMateria=".$_GET['nomeMateria']."");
 						exit();
 					}
 				}

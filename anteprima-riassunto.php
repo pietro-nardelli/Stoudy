@@ -27,13 +27,13 @@ include("default-code/caricamento-tags-xml.php");
 			?>
 			<div id="visualizzaRiassunto">
 				<div id="nomeMateria">
-					<b><?=$_SESSION['titoloRiassunto']?></b>
+					<b><?= $_SESSION['titoloRiassunto'] ?></b>
 				</div>
 				<div>
 					<?php
 					if (!empty ($_SESSION['descrizioneRiassunto'])) {
-						echo "<div style='margin-left: 5px;'>".nl2br($_SESSION['descrizioneRiassunto'])."</div>";
-						?> 
+						?>
+						<div style='margin-left: 5px;'><?= nl2br($_SESSION['descrizioneRiassunto']) ?></div> 
 						<br />
 						<?php
 					}

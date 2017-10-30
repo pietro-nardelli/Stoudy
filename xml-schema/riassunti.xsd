@@ -2,6 +2,7 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
 	<!-- definition of simple element -->
+	<xsd:element name="ID" type="xsd:nonNegativeInteger" />
 	<xsd:element name="titolo" type="xsd:string" />
 	<xsd:element name="emailStudente" type="xsd:string" />
 	<xsd:element name="data" type="xsd:date" />
@@ -30,12 +31,6 @@
 
 
 	<!-- definition of complex elements -->
-	<xsd:element name="ID">
-		<xsd:simpleType>
-			<xsd:restriction base="xsd:nonNegativeInteger" />
-		</xsd:simpleType>
-	</xsd:element>
-
 	<xsd:element name="tags">
 		<xsd:complexType>
 			<xsd:sequence>

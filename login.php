@@ -95,11 +95,15 @@
 					exit();
 				}
 				else { //Altrimenti abbiamo sbagliato qualcosa nel login
-						echo '<p style="color: red;">Email o password non validi</p>';
+						?>
+						<p style="color: red;">Email o password non validi</p>
+						<?php
 					}
 				}	
 			else {	//Se alcuni campi non sono stati compilati...
-				echo '<p style="color: red;">E necessario compilare tutti i campi.</p>';
+				?>
+				<p style="color: red;">E necessario compilare tutti i campi.</p>
+				<?php
 			} 
 		}
 

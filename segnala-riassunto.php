@@ -113,7 +113,16 @@ for ($i=0; $i < $segnalazioni->length; $i++) {
 
         $path4 = dirname(__FILE__)."/xml-schema/segnalazioni.xml"; //Troviamo un percorso assoluto al file xml di riferimento
         $doc4->save($path4); //Sovrascriviamolo
-        echo "E' stata emessa una segnalazione per quel riassunto";
+        ?>
+        <div id='message'>
+            <img src="images/iconMessage.png">
+            <div>
+                <strong>Grazie per aver segnalato il riassunto.<br /> Un admin se ne occuperà nel più breve tempo possibile.</strong>
+                <br />
+                Ti stiamo reindirizzando...
+            </div>
+        </div>
+        <?php
         header("refresh:3; url=visualizza-riassunto.php?IDRiassunto=".$_GET['IDRiassunto']."");
         exit();
     }

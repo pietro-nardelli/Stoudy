@@ -20,8 +20,6 @@ include('default-code/info-studente.php');
 	for ($k=0; $k < $materie->length; $k++) {	
 		$materia = $materie->item($k);
 		if (strcasecmp($_GET['nomeMateria'] , $nomeMateriaText[$k]) == 0) {
-			$trovato = true;
-			$materia = $studente->getElementsByTagName('materia')->item($k);
 			$materia->parentNode->removeChild($materia); //Serve perchè altrimenti da errore!
 			$path = dirname(__FILE__)."/xml-schema/studenti.xml"; //Troviamo un percorso assoluto al file xml di riferimento
 			$doc->save($path); //Sovrascriviamolo 
@@ -38,11 +36,12 @@ include('default-code/info-studente.php');
 			</div>
 			<?php
 			header("refresh:3; url=home-studente.php");
+			exit();
 		}
 	}
-	if (!$trovato) {
-		header('Location: home-studente.php');
-	} 
+
+	header('Location: home-studente.php');
+	exit();
 ?>
 </div>
 
