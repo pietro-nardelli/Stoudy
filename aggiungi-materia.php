@@ -160,8 +160,10 @@ include("default-code/info-studente.php");
 					$oggi = date('Y-m-d'); //Questo serve per la funzione giorniDisponibili()
 					
 
-					if (empty($errors['warning_count'])) {
+					if (empty($errors['warning_count']) && $dateTime != false) {
 						$_SESSION['dataScadenza'] = $_POST['dataScadenza'];
+						//Trasformiamo dataScadenza nel formato corretto per la funzione giorniDisponibili()										
+						$dataScadenza = $dateTime->format('Y-m-d'); 
 					}
 					else {
 						unset($_SESSION['dataScadenza']);
@@ -187,7 +189,7 @@ include("default-code/info-studente.php");
 				}
 
 				if ($_POST['valoreStudiato']) {
-					if (is_numeric ($_POST['nGiorniRipasso']) && $_POST['valoreStudiato'] >= 0) {
+					if (is_numeric ($_POST['valoreStudiato']) && $_POST['valoreStudiato'] >= 0) {
 						$_SESSION['valoreStudiato'] = $_POST['valoreStudiato'];
 					}
 					else {
@@ -209,17 +211,17 @@ include("default-code/info-studente.php");
 					<?php
 				}
 				else { //Se tutte le variabili sono presenti...
-					$dataScadenza = $dateTime->format('Y-m-d'); //Trasformiamo dataScadenza nel formato corretto per la funzione
-
 					//Se non ci sono abbastanza giorni disponibili, compresi i giorni di ripasso...
-					if (giorniDisponibili($oggi,$dataScadenza, $_POST['nGiorniRipasso']) <= 0) {
-						unset($_SESSION['valoreDaStudiare']);
-						unset($_SESSION['dataScadenza']);
-						unset($_SESSION['nGiorniRipasso']);
-						unset($_SESSION['valoreStudiato']);
-						?>
-						<p style="color: red;">Ops, non hai abbastanza giorni per studiare.</p>
-						<?php
+					if (isset($dataScadenza)) {
+						if (giorniDisponibili($oggi,$dataScadenza, $_POST['nGiorniRipasso']) <= 0) {
+							unset($_SESSION['valoreDaStudiare']);
+							unset($_SESSION['dataScadenza']);
+							unset($_SESSION['nGiorniRipasso']);
+							unset($_SESSION['valoreStudiato']);
+							?>
+							<p style="color: red;">Ops, non hai abbastanza giorni per studiare.</p>
+							<?php
+						}
 					}
 
 					//Inoltre non si può inserire un valoreStudiato > valoreDaStudiare
