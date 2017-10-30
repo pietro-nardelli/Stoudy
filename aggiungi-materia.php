@@ -212,7 +212,7 @@ include("default-code/info-studente.php");
 				}
 				else { //Se tutte le variabili sono presenti...
 					//Se non ci sono abbastanza giorni disponibili, compresi i giorni di ripasso...
-					if (isset($dataScadenza)) {
+					if ($dateTime != false) {
 						if (giorniDisponibili($oggi,$dataScadenza, $_POST['nGiorniRipasso']) <= 0) {
 							unset($_SESSION['valoreDaStudiare']);
 							unset($_SESSION['dataScadenza']);
