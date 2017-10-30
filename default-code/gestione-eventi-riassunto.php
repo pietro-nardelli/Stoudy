@@ -79,7 +79,9 @@ if (!$riassuntoProprio) {
             }
         }
         else { //Se si hanno abbastanza coin per visualizzarlo, visualizziamolo e aggiungiamolo ai riassunti visti.
-            $coins->nodeValue = $coins->textContent -1; //Togliamo un coin
+            if ($diffHours > 24) {
+                $coins->nodeValue = $coins->textContent -1; //Togliamo un coin
+            }
 
             $newRiassuntoIDVisualizzato = $doc->createElement("riassuntoIDVisualizzato", $IDGet);
             $riassuntiVisualizzatiElement->insertBefore($newRiassuntoIDVisualizzato);		
