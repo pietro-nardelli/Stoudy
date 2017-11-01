@@ -18,23 +18,21 @@ if (basename($_SERVER['PHP_SELF']) == "home-studente.php") {
 		$path = dirname(__FILE__)."/../xml-schema/studenti.xml"; //Troviamo un percorso assoluto al file xml di riferimento
 		$doc->save($path); //Sovrascriviamolo
 		
-		//Va fatto un refresh con il meta perchè abbiamo già mandato l'html in output in precedenza.
-		?> <meta http-equiv="refresh" content="0;URL='home-studente.php'"><?php
+		header("Location: home-studente.php");
 		exit();
 	}
 }
+
 //Se la data in cui l'ultima volta è stato inserito lo studio e la data attuale sono diverse
 //allora aggiorna il valoreStudiato (aggiornamento dopo la mezzanotte). Inoltre
 //azzera il valoreStudiatoOggi
 for ($k=0; $k < $materie->length; $k++) {
 	if ($statusText[$k] == 'planned') { //Si deve controllare in primis se è planned altrimenti errori
 		if (strcmp($dataStudiatoOggi[$k]->textContent, date("Y-m-d")) != 0){
-
 			//I valori che andremo ad inizializzare sono da riferisci alla data in cui è stato inserito il valore di studio
 			//Quindi andremo ad aggiornare correttamente se lo studente in quella data ha studiato tutto ciò che doveva studiare, o meno
 			$giorniDisponibili = giorniDisponibili ($dataStudiatoOggiText[$k], $dataScadenzaText[$k], $nGiorniRipassoText[$k]);
 			$valoreDaStudiarePrec = valoreDaStudiareOggi($giorniDisponibili, $valoreDaStudiareText[$k], $valoreStudiatoText[$k]);
-
 
 			//Se abbiamo studiato piu del dovuto o il necessario
 			if ( $valoreStudiatoOggiText[$k] >= $valoreDaStudiarePrec) { 
@@ -48,22 +46,20 @@ for ($k=0; $k < $materie->length; $k++) {
 				$emailStudente = $_SESSION['email'];
 				include ('default-code/modifica-reputation.php');
 			}
-			
+
 
 			$valoreStudiato[$k]->nodeValue = $valoreStudiatoText[$k] + $valoreStudiatoOggiText[$k];
 			$valoreStudiatoOggi[$k]->nodeValue = 0;
 			$dataStudiatoOggi[$k] = $valoreStudiatoOggi[$k]->nextSibling;
 			$dataStudiatoOggi[$k]->nodeValue = date ("Y-m-d");
 
-
-
+			
 			$path = dirname(__FILE__)."/../xml-schema/studenti.xml"; //Troviamo un percorso assoluto al file xml di riferimento
 			$doc->save($path); //Sovrascriviamolo
-
-			//Va fatto un refresh con il meta perchè abbiamo già mandato l'html in output in precedenza.
-			?> <meta http-equiv="refresh" content="0;URL='home-studente.php'"><?php
+			header("Location: home-studente.php");
 			exit();
 		}
 	}
 }
+
 ?>

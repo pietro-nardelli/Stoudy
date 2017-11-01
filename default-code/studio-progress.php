@@ -18,11 +18,11 @@ $outputBarraInf = $percentualeParziale."% (".$valoreStudiatoOggiText[$k]."/".$va
 //dobbiamo trasformarla in una materia non pianificata.
 if ($giorniDisponibili <= 0) {
     $materia->setAttribute('status','unplanned');
-    $path = dirname(__FILE__)."/../xml-schema/studenti.xml"; //Troviamo un percorso assoluto al file xml di riferimento
+    $path = dirname(__FILE__)."xml-schema/studenti.xml"; //Troviamo un percorso assoluto al file xml di riferimento
     $doc->save($path); //Sovrascriviamolo
 
     ?>
-    <meta http-equiv="refresh" content="0;URL='home-studente.php'">
+    <meta http-equiv="refresh" content="0;URL=home-studente.php">
     <?php
     exit();
 }

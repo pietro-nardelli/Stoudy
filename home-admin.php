@@ -61,10 +61,6 @@ include("default-code/caricamento-revisioni-xml.php");
 		}		
 		?>
 		<div id="riassuntoTrovato">
-			<div id="risultatoRicercaAlto">
-				<b><?= $_SESSION['email'] ?>: </b>dovresti analizzare <b><?= sizeof($valueIDArray) ?> riassunti</b> 
-			</div>
-			<hr />
 			<?php
 			include("default-code/gestione-pagine-riassunto-admin.php");
 			?>
@@ -74,7 +70,7 @@ include("default-code/caricamento-revisioni-xml.php");
 	else { //Se non è stato assegnato alcun riassunto...
 		?>
 		<div id="riassuntoTrovato">
-			<div id="risultatoRicercaAlto"><b>Non ci sono riassunti da analizzare!</div>
+			<div id="risultatoRicercaAlto">Non ci sono riassunti da analizzare.</div>
 		</div>
 		<?php
 	}
@@ -140,37 +136,47 @@ include("default-code/caricamento-revisioni-xml.php");
 
 	?>
 	<div id="riassuntoTrovato">
-		<table id="tabellaTagDescrizioniAdmin">
 			<?php
+			$countRevisioni = 0; //serve per sapere se ci sono revisioni o meno.
 			for ($i=0; $i < $revisioni->length; $i++) {
 				//Se il tag è già presente nelle revisioni allora non può essere revisionato nuovamente
 				foreach($nomeTagText as $j=>$value) {
 					if ( strcasecmp ($_SESSION['email'], $emailAdminRevisioneText[$i]) == 0 ) {
 						if (strcasecmp($value, $nomeTagRevisioneText[$i]) == 0) {
+							$countRevisioni++; 
 							?>
 							<form action="home-admin.php" method="POST">
-								<tr>
-									<td style="width: 100%; text-align: center; padding: 10px;" colspan="3"><a id='tagAnteprima' href='#'><?= $nomeTagRevisioneText[$i] ?></a></td>
-								</tr>
-								<tr>
-									<td style="width: 45%"><?= $descrizioneTagText[$j] ?></td>
-									<td style="width: 45%">
-										<textarea name="modificaDescrizione"><?= $modificaDescrizioneText[$i] ?></textarea>
-										<input type="hidden" name="nomeTag" value="<?= $nomeTagRevisioneText[$i] ?>">
-									</td>
-									<td>
-										<input type="submit" name="modificaDescrizioneAdmin" value="Conferma modifica" />
-										<input type="submit" name="annullaDescrizioneAdmin" value="Annulla" />
-									</td>				
-								</tr>
+								<table id="tabellaTagDescrizioniAdmin">
+									<tr>
+										<td style="width: 100%; text-align: center; padding: 10px;" colspan="3"><a id='tagAnteprima' href='#'><?= $nomeTagRevisioneText[$i] ?></a></td>
+									</tr>
+									<tr>
+										<td style="width: 45%"><?= $descrizioneTagText[$j] ?></td>
+										<td style="width: 45%">
+											<textarea name="modificaDescrizione"><?= $modificaDescrizioneText[$i] ?></textarea>
+											<input type="hidden" name="nomeTag" value="<?= $nomeTagRevisioneText[$i] ?>">
+										</td>
+										<td>
+											<input type="submit" name="modificaDescrizioneAdmin" value="Conferma modifica" />
+											<input type="submit" name="annullaDescrizioneAdmin" value="Annulla" />
+										</td>				
+									</tr>
+								</table>
 							</form>
 							<?php
 						}
 					}
 				}
 			}
+			if ($countRevisioni == 0) {
+				?>
+				<div id="risultatoRicercaAlto">
+					Non ci sono descrizioni da revisionare. 
+				</div>
+				<?php
+			}
 		?>
-		</table>
+		
 	</div>
 </div>
 

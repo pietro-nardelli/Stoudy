@@ -757,7 +757,7 @@ input[name="annullaDescrizioneAdmin"]:focus {
 
 
 /*zebra-striped tables: https://www.w3schools.com/css/css_table.asp */
-tr:nth-child(odd){background-color: #f2f2f2}
+tr:nth-child(odd){ background-color: #f2f2f2; }
 
 
 #pulsantiAnteprima {

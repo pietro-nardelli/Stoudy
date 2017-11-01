@@ -12,7 +12,6 @@
 	</style>	
 </head>
 <body>
-
 <?php 
 include 'functions/valoreDaStudiareOggi.php';
 include 'functions/percentualeColori.php';
@@ -21,8 +20,7 @@ include("default-code/info-studente.php");
 
 ?>
 <div id="main">
-
-	<?php 
+	<?php
 	//Dobbiamo ciclare affinchè si possano scorrere tutte le materie presente negli array creati in precedenza
 	foreach($materie as $k=>$v) { 
 		//Se la materia è PLANNED, allora visualizza il piano di studi

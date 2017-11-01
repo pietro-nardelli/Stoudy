@@ -30,6 +30,9 @@ $materiaTrovata = false;
 
 <div id="main">
 <?php
+	//Bisogna fare l'unset di questa sessione altrimenti ci potrebbero essere problemi!
+	unset ($_SESSION['aggiungiDescrizione']); 
+
 	//E' l'unico modo per bloccare l'errore rispetto alla grandezza del file caricato!
 	if ($_SERVER['REQUEST_METHOD'] == 'POST' && count($_POST) < 1 ) {
 		$_SESSION['error'] = true;

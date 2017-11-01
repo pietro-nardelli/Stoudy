@@ -138,7 +138,7 @@ include("default-code/caricamento-tags-xml.php");
 				//$lastIDRiassunto proviene da caricamento-riassunti-xml.php ed è l'ultimo IDRiassunto presente (o che lo è stato)
 				//(visto che abbiamo sempre aggiunto e non è possibile che non siano in ordine di grandezza)...
 				$newID = $lastIDRiassunto +1;
-				/*
+
 				$newRiassunto = $doc3->createElement("riassunto");
 				$newIDRiassunto = $doc3->createElement("ID", $newID );		
 				$newTitoloRiassunto = $doc3->createElement("titolo", $_SESSION['titoloRiassunto']);
@@ -194,7 +194,7 @@ include("default-code/caricamento-tags-xml.php");
 				$path = dirname(__FILE__)."/xml-schema/studenti.xml"; 
 				$doc->save($path);
 				////////////////
-*/
+
 				//AGGIORNIAMO IL FILE TAGS.XML
 				for ($k=0; $k < $tags->length; $k++) {
 					$tag = $tags->item($k);						
@@ -242,11 +242,9 @@ include("default-code/caricamento-tags-xml.php");
 				unset($_SESSION['condivisioneRiassunto']);
 				unset($_SESSION['tagsRiassuntoNuovo']); //Questa è una variabile session che gestisce l'array dei tags
 				unset($_SESSION['aggiungiRiassunto']); //Bisogna fare unset dopo aver aggiornato il DOM
-				unset($_SESSION['aggiungiRiassunto']);
+				unset($_SESSION['aggiungiDescrizione']);
 				unset($_SESSION['anteprimaRiassunto']);
-				/*
 				header('Location: visualizza-riassunto.php?IDRiassunto='.$newID);
-				*/
 				exit();
 			} 
 			else if ($_GET['conferma'] == 0) { //Se conferma c'è ma è diversa da 1 (ovvero 0)

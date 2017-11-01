@@ -26,8 +26,7 @@ if (strcmp($dataUltimoAccessoText, date("Y-m-d")) != 0){
     $path = dirname(__FILE__)."/../xml-schema/studenti.xml"; 
     $doc->save($path);
 
-    //Va fatto un refresh con il meta perchè abbiamo già mandato l'html in output in precedenza.
-    ?> <meta http-equiv="refresh" content="0;URL='<?= $_SERVER['PHP_SELF'] ?>'"><?php
+    header("Location: home-studente.php");
     exit();
 }
 ?>
