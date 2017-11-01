@@ -69,7 +69,7 @@ if (!empty($_SESSION['tagRicercato'])) {
         <div id='message'>
             <img src="images/iconMessage.png">
             <div>
-                <strong>Problemi nel revisionare l'estratto.</strong>
+                <strong>Problemi nel revisionare l'descrizione.</strong>
                 <br />
                 Per favore riprovare più tardi.
                 <br />
@@ -86,7 +86,7 @@ else {	//Se alcuni campi non sono stati compilati...
     <div id='message'>
         <img src="images/iconMessage.png">
         <div>
-            <strong>Impossibile revisionare l'estratto.</strong>
+            <strong>Impossibile revisionare l'descrizione.</strong>
         </div>
     </div>
     
@@ -103,13 +103,13 @@ for ($i=0; $i < $revisioni->length; $i++) {
         <div id='message'>
             <img src="images/iconMessage.png">
             <div>
-                <strong>Mi dispiace ma è stata già emessa una revisione da un altro studente per quell'estratto.</strong>
+                <strong>Mi dispiace ma è stata già emessa una revisione da un altro studente per quell'descrizione.</strong>
                 <br />
                 Ti stiamo reindirizzando...
             </div>
         </div>
         <?php
-        header("refresh:3; url=modifica-estratto.php?tagRicercato=".$_SESSION['tagRicercato']."");
+        header("refresh:3; url=modifica-descrizione.php?tagRicercato=".$_SESSION['tagRicercato']."");
         exit();
     }
 }
@@ -117,13 +117,13 @@ for ($i=0; $i < $revisioni->length; $i++) {
 //Nel caso in cui non sia stato trovato nulla e abbiamo ciclato per tutte le revisioni...
 $newRevisione = $doc5->createElement("revisione");
 $newNomeTagRevisione = $doc5->createElement("nomeTag", $_SESSION['tagRicercato']);
-$newModificaEstratto = $doc5->createElement("modificaEstratto", $_SESSION['modificaEstratto']);
+$newModificaDescrizione = $doc5->createElement("modificaDescrizione", $_SESSION['modificaDescrizione']);
 $newEmailAdminRevisione = $doc5->createElement("emailAdmin", $admins[$indexAdmin]);
 $newEmailStudenteRevisione = $doc5->createElement("emailStudente", $_SESSION['email']);
             
 $newRevisione->appendChild($newNomeTagRevisione);
 $newRevisione->appendChild($newEmailAdminRevisione);	
-$newRevisione->appendChild($newModificaEstratto);	
+$newRevisione->appendChild($newModificaDescrizione);	
 $newRevisione->appendChild($newEmailStudenteRevisione);	
    
 $root5->appendChild($newRevisione);
@@ -135,14 +135,14 @@ $doc5->save($path5); //Sovrascriviamolo
 <div id='message'>
     <img src="images/iconMessage.png">
     <div>
-        <strong>E' stata emessa una revisione per quell'estratto.</strong>
+        <strong>E' stata emessa una revisione per quell'descrizione.</strong>
         <br />
         Ti stiamo reindirizzando...
     </div>
 </div>
 <?php
 header("refresh:3; url=cerca-riassunti.php?tagRicercato=".$_SESSION['tagRicercato']."");
-unset($_SESSION['modificaEstratto']);
+unset($_SESSION['modificaDescrizione']);
 unset($_SESSION['tagRicercato']);
 exit();
 ?>

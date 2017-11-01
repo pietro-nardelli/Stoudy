@@ -84,7 +84,7 @@ include("default-code/caricamento-revisioni-xml.php");
 
 
 	//Abbiamo premuto modifica, andiamo ad eliminarlo da revisioni...
-	if (isset($_POST['modificaEstrattoAdmin'])) {
+	if (isset($_POST['modificaDescrizioneAdmin'])) {
 		for ($i=0; $i < $revisioni->length; $i++) {
 			$revisione= $revisioni->item($i);
 			if (!strcasecmp($_POST['nomeTag'], $nomeTagRevisioneText[$i])) {
@@ -115,7 +115,7 @@ include("default-code/caricamento-revisioni-xml.php");
 		for ($j= 0; $j < $tags->length; $j++) {
 			$tag= $tags->item($j);
 			if (!strcasecmp ($_POST['nomeTag'], $nomeTagText[$j])) {
-				$estrattoTag[$j]->nodeValue = $_POST['modificaEstratto'];
+				$descrizioneTag[$j]->nodeValue = $_POST['modificaDescrizione'];
 				$path2 = dirname(__FILE__)."/xml-schema/tags.xml"; //Troviamo un percorso assoluto al file xml di riferimento
 				$doc2->save($path2); //Sovrascriviamolo
 			}
@@ -125,7 +125,7 @@ include("default-code/caricamento-revisioni-xml.php");
 		exit();
 	}
 	//Abbiamo premuto annulla, andiamo ad eliminarlo da revisioni.
-	if (isset($_POST['annullaEstrattoAdmin'])) {
+	if (isset($_POST['annullaDescrizioneAdmin'])) {
 		for ($i=0; $i < $revisioni->length; $i++) {
 			$revisione= $revisioni->item($i);
 			if (!strcasecmp($_POST['nomeTag'], $nomeTagRevisioneText[$i])) {
@@ -140,13 +140,7 @@ include("default-code/caricamento-revisioni-xml.php");
 
 	?>
 	<div id="riassuntoTrovato">
-		<table id="tabellaTagEstrattiAdmin">
-			<tr>
-				<th>Tag</th>
-				<th>Old estratto</th>
-				<th>New estratto</th>
-				<th></th>
-			</tr>
+		<table id="tabellaTagDescrizioniAdmin">
 			<?php
 			for ($i=0; $i < $revisioni->length; $i++) {
 				//Se il tag è già presente nelle revisioni allora non può essere revisionato nuovamente
@@ -156,15 +150,17 @@ include("default-code/caricamento-revisioni-xml.php");
 							?>
 							<form action="home-admin.php" method="POST">
 								<tr>
-									<td style="width: 10%"><a id='tagAnteprima' href='#'><?= $nomeTagRevisioneText[$i] ?></a></td>
-									<td style="width: 40%"><?= $estrattoTagText[$j] ?></td>
-									<td style="width: 40%">
-										<textarea rows="10" name="modificaEstratto"><?= $modificaEstrattoText[$i] ?></textarea>
+									<td style="width: 100%; text-align: center; padding: 10px;" colspan="3"><a id='tagAnteprima' href='#'><?= $nomeTagRevisioneText[$i] ?></a></td>
+								</tr>
+								<tr>
+									<td style="width: 45%"><?= $descrizioneTagText[$j] ?></td>
+									<td style="width: 45%">
+										<textarea name="modificaDescrizione"><?= $modificaDescrizioneText[$i] ?></textarea>
 										<input type="hidden" name="nomeTag" value="<?= $nomeTagRevisioneText[$i] ?>">
 									</td>
 									<td>
-										<input type="submit" name="modificaEstrattoAdmin" value="Modifica" />
-										<input type="submit" name="annullaEstrattoAdmin" value="Annulla" />
+										<input type="submit" name="modificaDescrizioneAdmin" value="Conferma modifica" />
+										<input type="submit" name="annullaDescrizioneAdmin" value="Annulla" />
 									</td>				
 								</tr>
 							</form>

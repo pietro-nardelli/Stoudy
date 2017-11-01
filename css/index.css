@@ -12,14 +12,14 @@
 	}
 	
 @font-face { 
-	font-family: 'rawengulk';
-	src: url('font/rawengulk.ttf') format('truetype');
+	font-family: rawengulk;
+	src: url('../font/rawengulk.ttf') format('truetype');
 }	
 
 @font-face { 
-	font-family: 'rawengulk';
-	src: url('font/rawengulkBold.ttf') format('truetype');
-	font-weight:bold;
+	font-family: rawengulk;
+	src: url('../font/rawengulkBold.ttf') format('truetype');
+	font-weight: bold;
 }	
 
 

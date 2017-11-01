@@ -3,7 +3,7 @@
 
 	<!-- definition of simple element -->
 	<xsd:element name="nomeTag" type="xsd:string" />
-    <xsd:element name="modificaEstratto" type="xsd:string" />
+    <xsd:element name="modificaDescrizione" type="xsd:string" />
 	<xsd:element name="emailAdmin" type="xsd:string" />
 	<xsd:element name="emailStudente" type="xsd:string" />
 
@@ -15,7 +15,7 @@
 			<xsd:sequence>
 				<xsd:element ref="nomeTag" />
 				<xsd:element ref="emailAdmin" />
-                <xsd:element ref="modificaEstratto" />
+                <xsd:element ref="modificaDescrizione" />
                 <xsd:element ref="emailStudente" />
 			</xsd:sequence>
 		</xsd:complexType>

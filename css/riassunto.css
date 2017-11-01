@@ -8,12 +8,12 @@ body {
 
 @font-face { 
 	font-family: 'rawengulk';
-	src: url('font/rawengulk.ttf') format('truetype');
+	src: url('../font/rawengulk.ttf') format('truetype');
 }	
 
 @font-face { 
 	font-family: 'rawengulk';
-	src: url('font/rawengulkBold.ttf') format('truetype');
+	src: url('../font/rawengulkBold.ttf') format('truetype');
 	font-weight:bold;
 }	
 
@@ -371,33 +371,35 @@ input[name="tagsRiassuntoForm"] {
 }
 
 /* HOME-ADMIN */
-#tabellaTagEstrattiAdmin {
+#tabellaTagDescrizioniAdmin {
 	position: relative;
 	margin-top: 10px;
 	width: 99%;
 	border-collapse: collapse;
 }
 
-#tabellaTagEstrattiAdmin th {
-	text-align: left;
-}
 
-#tabellaTagEstrattiAdmin tr td {
-	text-align: left;
-}
-
-#tabellaTagEstrattiAdmin textarea {
+#tabellaTagDescrizioniAdmin tr td + td{
 	position: relative;
-	width: 90%;
+	text-align: left;
+	height: 150px;
+	padding: 10px;
 }
 
-input[name="modificaEstrattoAdmin"] {
+#tabellaTagDescrizioniAdmin textarea {
+	position: relative;
+	height: 100%;
+	resize: vertical;
+}
+
+input[name="modificaDescrizioneAdmin"] {
 	position: relative;
 	padding: 5px 9px;
 	margin-top:-5px;
+	white-space: normal;
 	margin-bottom: 5px;
 	margin-right: 15px;
-	width: 100px;
+	width: 99%;
 
 	font-family: rawengulk, Helvetica, Arial;
 	font-size: 1em;
@@ -405,6 +407,7 @@ input[name="modificaEstrattoAdmin"] {
 	color: white;
 	border: none;
 	background-color: rgb(41,151,293);
+
 	-webkit-border-radius: 2px;
 	-moz-border-radius: 2px;
 	border-radius: 2px;
@@ -414,17 +417,17 @@ input[name="modificaEstrattoAdmin"] {
 }
 
 
-input[name="modificaEstrattoAdmin"]:hover,
-input[name="modificaEstrattoAdmin"]:focus {
+input[name="modificaDescrizioneAdmin"]:hover,
+input[name="modificaDescrizioneAdmin"]:focus {
 	background-color: rgba(41,151,293, 0.80);
 	}
 
-input[name="annullaEstrattoAdmin"] {
+input[name="annullaDescrizioneAdmin"] {
 	position: relative;
 	padding: 5px 9px;
 	margin-top:-5px;
 	margin-bottom: 5px;
-	width: 100px;
+	width: 99%;
 
 	font-family: rawengulk, Helvetica, Arial;
 	font-size: 1em;
@@ -441,8 +444,8 @@ input[name="annullaEstrattoAdmin"] {
 }
 
 
-input[name="annullaEstrattoAdmin"]:hover,
-input[name="annullaEstrattoAdmin"]:focus {
+input[name="annullaDescrizioneAdmin"]:hover,
+input[name="annullaDescrizioneAdmin"]:focus {
 	background-color: rgba(255, 0, 0, 0.7);
 	}
 
@@ -470,7 +473,7 @@ input[name="annullaEstrattoAdmin"]:focus {
 	padding: 5px;
 }
 
-#estratto{
+#descrizione{
 	position: relative;
 	font-size: 0.9em;
 	color: black;
@@ -478,7 +481,7 @@ input[name="annullaEstrattoAdmin"]:focus {
 	width: 99%;
 }
 
-#estratto a {
+#descrizione a {
 	position: relative;
 	font-size: 0.8em;
 	color: black;
@@ -616,7 +619,7 @@ input[name="annullaEstrattoAdmin"]:focus {
 /* DA QUI IN POI MODIFICA ESTRATTO */
 
 /*Possiede lo stesso stile di riassuntoTrovato*/
-#modificaEstratto {
+#modificaDescrizione {
 	position: relative;
 	width: 800px;
 	margin-left: 50%;
@@ -632,25 +635,26 @@ input[name="annullaEstrattoAdmin"]:focus {
 	box-shadow:  2px 2px 10px 2px rgb(182, 182, 182);
 }	
 
-#modificaEstratto textarea {
+#modificaDescrizione textarea {
 	position: relative;
 	width: 99%;
 	font-family: rawengulk, Helvetica, Arial;
 	font-size: 0.9em;
 	line-height: 1.5em;
+	resize: vertical;
 		
 	-webkit-border-radius: 2px;
 	-moz-border-radius: 2px;
 	border-radius: 2px;
 }
 
-#modificaEstratto textArea:hover,
-#modificaEstratto textArea:focus { /*passandoci sopra si illuminano*/
+#modificaDescrizione textArea:hover,
+#modificaDescrizione textArea:focus { /*passandoci sopra si illuminano*/
 	border-color: rgba(41,151,293, 0.8);
 	}	
 
 
-#modificaEstratto input[type="submit"] {
+#modificaDescrizione input[type="submit"] {
 	position: relative;
 	padding: 10px 18px;
 	margin-top:-5px;
@@ -675,8 +679,8 @@ input[name="annullaEstrattoAdmin"]:focus {
 }
 
 
-#modificaEstratto input[type="submit"]:hover,
-#modificaEstratto input[type="submit"]:focus {
+#modificaDescrizione input[type="submit"]:hover,
+#modificaDescrizione input[type="submit"]:focus {
 	background-color: rgba(41,151,293, 0.80);
 	}
 
@@ -718,7 +722,7 @@ input[name="annullaEstrattoAdmin"]:focus {
 	box-shadow:  2px 2px 10px 2px rgb(182, 182, 182);
 }
 
-#tabellaTagEstratti {
+#tabellaTagDescrizioni {
 	position: relative;
 	margin-top: 10px;
 	left: -49%;
@@ -727,30 +731,40 @@ input[name="annullaEstrattoAdmin"]:focus {
 	border-collapse: collapse;
 }
 
-#tabellaTagEstratti th {
+#tabellaTagDescrizioni th {
 	text-align: center;
 }
 
-#tabellaTagEstratti tr td {
+#tabellaTagDescrizioni tr td {
+	position: relative;
 	text-align: left;
+	height: 75px;
+	padding: 5px;
 }
 
-#tabellaTagEstratti tr td + td { /*selezioniamo il fratello di tr td*/
+#tabellaTagDescrizioni textarea {
+	position: relative;
+	height: 100%;
+	resize: vertical;
+}
+
+#tabellaTagDescrizioni tr td + td { /*selezioniamo il fratello di tr td*/
 	position:relative;
 	text-align: left;
 	width: 100%;
 	padding-top: 5px;
 }
 
+
 /*zebra-striped tables: https://www.w3schools.com/css/css_table.asp */
 tr:nth-child(odd){background-color: #f2f2f2}
 
 
 #pulsantiAnteprima {
-	width: 340px; 
+	width: 350px; 
 	position:relative; 
 	margin-left: 50%; 
-	left: -170px; 
+	left: -175px; 
 	padding-top: 15px;
 	padding-bottom: 15px;
 }
@@ -791,7 +805,7 @@ tr:nth-child(odd){background-color: #f2f2f2}
 	position: relative;
 	padding: 10px 18px;
 	margin-top: 15px;
-	width: 160px;
+	width: 200px;
 	text-align: center;
 	white-space: nowrap;
 	text-decoration: none;

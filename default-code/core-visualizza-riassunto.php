@@ -40,8 +40,8 @@ if (!empty ($descrizioneRiassuntoText[$IDGet])) {
         Il riassunto ha <b><?= $visualizzazioniRiassuntoText[$IDGet] ?> visualizzazioni</b>
         e <b><?= $numeroPreferiti ?> preferiti</b>.
     </div>
-    <table id="tabellaTagEstratti">
-        <tr><th colspan="2">Tag ed estratti</th></tr>
+    <table id="tabellaTagDescrizioni">
+        <tr><th colspan="2">Tag e descrizioni</th></tr>
         <?php
         
         foreach ($tagsRiassunto[$IDGet] as $l => $value) {
@@ -50,10 +50,10 @@ if (!empty ($descrizioneRiassuntoText[$IDGet])) {
             
             for ($k=0; $k < $tags->length; $k++) {	
                 //Confrontiamo ogni tag inserito con quelli già presenti in tags.xml
-                if (strcasecmp ($nomeTagRiassuntoText[$l], $nomeTagText[$k]) == 0 && !empty($estrattoTagText[$k])) {
+                if (strcasecmp ($nomeTagRiassuntoText[$l], $nomeTagText[$k]) == 0 && !empty($descrizioneTagText[$k])) {
                     $indiceTrovato[$l] = -1;
                     ?>
-                    <tr><td><a id='tagAnteprima' href='cerca-riassunti.php?tagRicercato=<?= $nomeTagRiassuntoText[$l] ?>'><?= $nomeTagRiassuntoText[$l] ?></a></td><td><?= $estrattoTagText[$k] ?></td></tr>
+                    <tr><td><a id='tagAnteprima' href='cerca-riassunti.php?tagRicercato=<?= $nomeTagRiassuntoText[$l] ?>'><?= $nomeTagRiassuntoText[$l] ?></a></td><td><?= $descrizioneTagText[$k] ?></td></tr>
                     <?php
                     break; //Usiamo il break perchè tanto abbiamo trovato ciò che cercavamo nel nostro for annidato
                 }
@@ -62,11 +62,11 @@ if (!empty ($descrizioneRiassuntoText[$IDGet])) {
         //Confrontiamo ogni tag inserito con quelli già presenti in tags.xml: caso in cui tag non è presente.
         foreach ($tagsRiassunto[$IDGet] as $p => $value) {
             for ($k=0; $k < $tags->length; $k++) {	
-                $estrattoTagText[$k] = $estrattoTag[$k]->textContent;
+                $descrizioneTagText[$k] = $descrizioneTag[$k]->textContent;
                 //Dobbiamo allora semplicemente creare un tag nuovo
                 if (empty($indiceTrovato[$p]) ||  $indiceTrovato[$p] != -1) {
                     ?>
-                    <tr><td><a id='tagAnteprima' href='cerca-riassunti.php?tagRicercato=<?= $nomeTagRiassuntoText[$p] ?>'><?= $nomeTagRiassuntoText[$p] ?></a></td><td><i>estratto mancante...</i></td></tr>
+                    <tr><td><a id='tagAnteprima' href='cerca-riassunti.php?tagRicercato=<?= $nomeTagRiassuntoText[$p] ?>'><?= $nomeTagRiassuntoText[$p] ?></a></td><td><i>descrizione mancante...</i></td></tr>
                     <?php
                     break; //Usiamo il break perchè tanto abbiamo trovato ciò che cercavamo nel nostro for annidato
                 }

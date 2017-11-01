@@ -27,7 +27,7 @@ for ($k=0; $k < $tags->length; $k++) {
 	if (!empty ($_GET['tagRicercato'])) {
 		if (stripos($nomeTagText[$k], $_GET['tagRicercato']) !== false) {
 			if (strcasecmp($nomeTagText[$k], $_GET['tagRicercato']) == 0) { //Controlliamo se il tag cercato è ESATTAMENTE un tag
-				$trovatoEsatto = $k; //Associamo alla flag l'indice del tag presente in lista così lo usiamo dopo per mostrare l'estratto
+				$trovatoEsatto = $k; //Associamo alla flag l'indice del tag presente in lista così lo usiamo dopo per mostrare l'descrizione
 			}
 			$riassuntoIDTrovatoLista = $tag->getElementsByTagName('riassuntoID');
 
@@ -79,15 +79,15 @@ for ($i=0; $i < $revisioni->length; $i++) {
 		?>
 		<div id="riassuntoTrovato">
 			<?php 
-			//Caso in cui il testo cercato è un tag ESATTO: mostriamo l'estratto (all'indice $trovatoEsatto) e il relativo pulsante
+			//Caso in cui il testo cercato è un tag ESATTO: mostriamo l'descrizione (all'indice $trovatoEsatto) e il relativo pulsante
 			if ($trovatoEsatto != -1) { ?>
 				<div id="risultatoRicercaAlto">
 					Risultati per aver cercato <a id="tagRiassuntoTrovato" href="#"><?php echo $_GET['tagRicercato'];?></a>
 				</div>
-				<div id="estratto">
-					<?php echo $estrattoTagText[$trovatoEsatto];
+				<div id="descrizione">
+					<?php echo $descrizioneTagText[$trovatoEsatto];
 					if (!$editImpossibile) {
-						echo " <a href='modifica-estratto.php?tagRicercato=".urlencode($_GET['tagRicercato'])."'>modifica estratto</a>";
+						echo " <a href='modifica-descrizione.php?tagRicercato=".urlencode($_GET['tagRicercato'])."'>modifica descrizione</a>";
 					}
 					?>
 				</div>

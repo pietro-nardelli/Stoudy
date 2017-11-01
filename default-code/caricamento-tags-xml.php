@@ -11,8 +11,8 @@ $xmlString2 = "";
 		$tag = $tags->item($k); 
 		$nomeTag[$k] = $tag->firstChild; 
 		$nomeTagText[$k] = $nomeTag[$k]->textContent;
-		$estrattoTag[$k] = $nomeTag[$k]->nextSibling;
-		$estrattoTagText[$k] = $estrattoTag[$k]->textContent;
+		$descrizioneTag[$k] = $nomeTag[$k]->nextSibling;
+		$descrizioneTagText[$k] = $descrizioneTag[$k]->textContent;
 		//$riassuntoIDLista = $tag->getElementsByTagName('riassuntoID');
     }
 ?>

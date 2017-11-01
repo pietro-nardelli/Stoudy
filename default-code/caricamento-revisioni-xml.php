@@ -16,10 +16,10 @@ for ($i=0; $i < $revisioni->length; $i++) {
     $emailAdminRevisione[$i] = $nomeTagRevisione[$i]->nextSibling;
     $emailAdminRevisioneText[$i] = $emailAdminRevisione[$i]->textContent;
     
-    $modificaEstratto[$i] = $emailAdminRevisione[$i]->nextSibling;
-    $modificaEstrattoText[$i] = $modificaEstratto[$i]->textContent;
+    $modificaDescrizione[$i] = $emailAdminRevisione[$i]->nextSibling;
+    $modificaDescrizioneText[$i] = $modificaDescrizione[$i]->textContent;
 
-    $emailStudenteRevisione[$i] = $modificaEstratto[$i]->nextSibling;
+    $emailStudenteRevisione[$i] = $modificaDescrizione[$i]->nextSibling;
     $emailStudenteRevisioneText[$i] = $emailStudenteRevisione[$i]->textContent;
 }
 /***/
