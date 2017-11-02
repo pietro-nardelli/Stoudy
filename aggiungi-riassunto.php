@@ -12,22 +12,18 @@
 	</style>	
 </head>
 <body>
-
 <script>
 	function setfilename(val) {
 		var fileName = val.substr(val.lastIndexOf("\\")+1, val.length);
 		document.getElementById("uploadFile").innerHTML = fileName;
 	}
 </script>
-
-
 <?php 
 error_reporting(0);
 include 'functions/upload.php';
 include("default-code/info-studente.php");
 $materiaTrovata = false;
 ?>
-
 <div id="main">
 <?php
 	//Bisogna fare l'unset di questa sessione altrimenti ci potrebbero essere problemi!

@@ -87,7 +87,13 @@ for ($i=0; $i < $revisioni->length; $i++) {
 				<div id="descrizione">
 					<?php echo $descrizioneTagText[$trovatoEsatto];
 					if (!$editImpossibile) {
-						echo " <a href='modifica-descrizione.php?tagRicercato=".urlencode($_GET['tagRicercato'])."'>modifica descrizione</a>";
+						echo "<br /><a href='modifica-descrizione.php?tagRicercato=".urlencode($_GET['tagRicercato'])."'>modifica descrizione</a>";
+					}
+					else {
+						?>
+						<br />
+						<a href="#">Descrizione in corso di modifica</a>
+						<?php
 					}
 					?>
 				</div>
