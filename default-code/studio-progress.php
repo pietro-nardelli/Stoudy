@@ -15,9 +15,7 @@ if ($giorniDisponibili <= 0) {
     $path = dirname(__FILE__)."/../xml-schema/studenti.xml"; //Troviamo un percorso assoluto al file xml di riferimento
     $doc->save($path); //Sovrascriviamolo
 
-    ?>
-    <meta http-equiv="refresh" content="0;URL=home-studente.php">
-    <?php
+    header("Location: home-studente.php");
     exit();
 }
 

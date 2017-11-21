@@ -22,7 +22,8 @@ include("default-code/info-studente.php");
 <div id="main">
 	<?php
 	//Dobbiamo ciclare affinchè si possano scorrere tutte le materie presente negli array creati in precedenza
-	foreach($materie as $k=>$v) { 
+	foreach($materie as $k=>$v) {
+		$materia = $materie->item($k); 
 		//Se la materia è PLANNED, allora visualizza il piano di studi
 		if ($statusText[$k] == 'planned') {
 			include('default-code/studio-progress.php');
